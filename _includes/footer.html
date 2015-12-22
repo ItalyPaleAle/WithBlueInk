@@ -42,8 +42,19 @@
                         </a>
                     </li>
                     {% endif %}
+                    {% if site.linkedin_username %}
+                    <li>
+                        <a href="https://linkedin.com/in/{{ site.linkedin_username }}">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    {% endif %}
                 </ul>
-                <p class="copyright text-muted">Copyright &copy; {{ site.title }} {{ site.time | date: '%Y' }}</p>
+                <p class="copyright text-muted">Copyright © {{ site.time | date: '%Y' }} Alessandro Segala.<br />
+                Unless otherwise noted, all blog posts, photos, graphics, presentations and other media are published under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution</a> license. Unless otherwise noted, all code snippets are available under the <a rel="license" href="https://spdx.org/licenses/Unlicense.html">Unlicense</a>.</p>
             </div>
         </div>
     </div>
