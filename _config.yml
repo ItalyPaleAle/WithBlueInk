@@ -16,12 +16,13 @@ gems:
   - "jekyll-redirect-from"
 markdown: kramdown
 highlighter: pygments
-permalink: pretty
+permalink: "/:year/:month/:day/:title.html"
 paginate: 5
 exclude: 
   - "less"
   - "node_modules"
   - "Gruntfile.js"
   - "package.json"
+  - "utils"
   - "README.md"
   - "LICENSE.md"
