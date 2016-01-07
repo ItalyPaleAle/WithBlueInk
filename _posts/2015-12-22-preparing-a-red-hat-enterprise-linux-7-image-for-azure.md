@@ -26,11 +26,11 @@ Download the binary ISO distribution of Red Hat Enterprise Linux 7 from the offi
 >
 > If you already have a VM running that needs to be moved to Azure, skip this step. However, you need to make sure that:
 >
-> - The network is configured to use DHCP. If your VM has a statically-assigned IP, revert back to DHCP.
-> - Ensure that you do not have a swap partition in the VHD file. On Azure, the OS disk is backed by Azure Blob Storage, which operates over the network and it's not ideal for swap volumes. In the image preparation section below you can use the WALinuxAgent to create a swap volume in the ephemeral resource disk directly attached to the VM.
+> - The network (interface "eth0") is configured to use DHCP. If your VM has a statically-assigned IP, revert back to DHCP.
+> - Ensure that you do not have a swap partition in the VHD file. On Azure, the OS disk is backed by Azure Blob Storage, which functions over the network and is not ideal for swap volumes. In the image preparation section below you can use the WALinuxAgent to create a swap volume in the ephemeral resource disk which directly attached to the VM.
 > - If you're using a custom kernel, ensure that the Linux Integration Services are installed. In the case of a custom kernel, it's also recommended to use a recent version (3.8+).
 
-From within VirtualBox, create a new Virtual Machine, configured for Linux and Red Hat (64 bit).
+From within VirtualBox, create a new Virtual Machine, configured for Linux and Red Hat (64 bit). Ensure that you allocate at least 2048 MB of memory (4096 MB recommended) to your VM while it's running locally, as we will not be using swap in the VirtualBox environment (however, the OS will be able to use a swap volume when running on Azure).
 
 ![VirtualBox: create a new Linux Red Hat (64 bit) VM](/assets/vbox-create-1.png)
 
@@ -40,7 +40,7 @@ In the next step, create a hard drive and choose "VHD (Virtual Hard Disk)" as ty
 
 Once the VM is created, start it and connect the ISO image for RHEL 7 as optical disk, then boot from it.
 
-> **Tip**: by default, VirtualBox configures the networking adapter of the VM in NAT mode. If you want to connect to your VM via SSH, you'll need to change it to Bridged mode (or go through complicated NAT setups).
+> **Tip**: by default, VirtualBox configures the networking adapter of the VM in NAT mode. If you want to connect to your VM via SSH, you'll need to change it to Bridged mode (or go through complicate NAT setups).
 
 When the bootloader appears, choose the Install option:
 
