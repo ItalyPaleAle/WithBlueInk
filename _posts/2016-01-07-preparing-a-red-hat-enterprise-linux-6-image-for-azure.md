@@ -99,39 +99,37 @@ Press "Next", then sit back and relax for a few minutes while Anaconda prepares 
 
 Log in to the virtual machine as user "root". You can administer your Virtual Machine by either typing directly into the terminal in the VirtualBox window, or by using SSH (using a client like PuTTY on Windows, or OpenSSH on the Mac OSX/Linux console). While both methods will work, using SSH is generally more convenient, allowing operations such as copy/paste.
 
-> **Tip**: You can get the IP of the Virtual Machine in the local network (to connect via SSH) from the console (after logging in as "root") by executing `ip addr` (look for the value under "inet" in the first ethernet link - "enp0s3" in the example):
+> **Tip**: You can get the IP of the Virtual Machine in the local network (to connect via SSH) from the console (after logging in as "root") by executing `ip addr` (look for the value under "inet" in the first ethernet link - "eth0" in the example):
 >
 >     $ ip addr
 >     1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN
 >         link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
 >         inet 127.0.0.1/8 scope host lo
->            valid_lft forever preferred_lft forever
 >         inet6 ::1/128 scope host
 >            valid_lft forever preferred_lft forever
->     2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
->         link/ether 08:00:27:ea:36:56 brd ff:ff:ff:ff:ff:ff
->         inet 10.92.14.51/22 brd 10.92.15.255 scope global dynamic enp0s3
->            valid_lft 10794sec preferred_lft 10794sec
->         inet6 2001:4898:4070:1016:a00:27ff:feea:3656/64 scope global noprefixroute dynamic
->            valid_lft 2591983sec preferred_lft 604783sec
->         inet6 fe80::a00:27ff:feea:3656/64 scope link
+>     2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP qlen 1000
+>         link/ether 08:00:27:89:c2:98 brd ff:ff:ff:ff:ff:ff
+>         inet 10.92.12.52/22 brd 10.92.15.255 scope global eth0
+>         inet6 2001:4898:4070:1016:a00:27ff:fe89:c298/64 scope global dynamic
+>            valid_lft 2591996sec preferred_lft 604796sec
+>         inet6 fe80::a00:27ff:fe89:c298/64 scope link
 >            valid_lft forever preferred_lft forever
 
-To start, register your Red Hat subscription to enable installing packages from RHEL repositories:
+To start, register your Red Hat subscription (if necessary) to enable installing packages from RHEL repositories:
 
     $ subscription-manager register --auto-attach
 
 The command will ask for your credentials interactively and will register your instance with the Red Hat Network.
 
-The next step requires modifying the Grub bootloader configuration to work with Azure. Open the file `/etc/default/grub` and modify the value for `GRUB_CMDLINE_LINUX` to look like:
+The next step requires modifying the Grub bootloader configuration to work with Azure. Open the file `/boot/grub/menu.lst` and ensure that the default kernel includes the following paramters:
 
-    GRUB_CMDLINE_LINUX="rootdelay=300 console=ttyS0 earlyprintk=ttyS0"
+    rootdelay=300 console=ttyS0 earlyprintk=ttyS0 numa=off
 
-This will ensure that the boot log will be sent to serial port, so it can be captured by the Azure Portal and used for debugging. You may also add the `crashkernel=auto` option to the list, however that will reduce the available memory by 128MB or more for the VM, which can be a problem especially with small instances.
+From the same list of paramters, it's also recommended to **remove** the following (if present):
 
-Once you've applied all the changes, rebuild the Grub configuration with:
+    rhgb quiet
 
-    $ grub2-mkconfig -o /boot/grub2/grub.cfg
+This will ensure that the boot log will be sent to serial port, so it can be captured by the Azure Portal and used for debugging. You may also add the `crashkernel=auto` option to the list, however that will reduce the available memory by 128MB or more for the VM, which can be a problem especially with small instances. NUMA has to be disabled because of a bug with the kernel used by RHEL 6.
 
 With the new Grub configuration in place, you can install OS updates. It's important to wait until the bootloader has been re-configured, so if the kernel is updated, the bootloader settings are applied to the new kernel automatically:
 
@@ -140,11 +138,21 @@ With the new Grub configuration in place, you can install OS updates. It's impor
     # Reboot the VM to use the new kernel
     $ reboot now
 
-Set a generic hostname, for example "localhost.localdomain" using:
+After the system is up to date, we need to configure the networking. As NetworkManager on RHEL 6 conflicts with the Azure Linux Agent, if it's installed you need to remove it with:
 
-    $ hostnamectl set-hostname localhost.localdomain
+    # If yum responds with an error, then NetworkManager was already uninstalled and it's safe to continue.
+    $ yum remove NetworkManager
 
-To finish setting up the networking components, we need to ensure that network interfaces are correctly configured. While running on VirtualBox, the VM is given one network adapter called "enp0s3" by default. However, on Azure the virtual network adapter appears as "eth0" instead, and RHEL will not use it automatically unless we create a configuration file for it. Thus, create a file named ` /etc/sysconfig/network-scripts/ifcfg-eth0` with the following content:
+During the installation procedure, we set up the network service to start automatically at boot. If you did not check the appropriate box, you can make sure of this by running:
+
+    $ chkconfig network on
+
+Edit the file `/etc/sysconfig/network` and check that networking is enabled and that a generic hostname is set, for example:
+
+    NETWORKING=yes
+    HOSTNAME=localhost.localdomain
+
+Edit the configuration file for the "eth0" interface, located at ` /etc/sysconfig/network-scripts/ifcfg-eth0`, so it contains:
 
     TYPE="Ethernet"
     BOOTPROTO="dhcp"
@@ -156,6 +164,13 @@ To finish setting up the networking components, we need to ensure that network i
     NAME="eth0"
     DEVICE="eth0"
     ONBOOT="yes"
+
+In the last step for the networking configuration, we need to move (or remove completely) the udev rules to generate static networking, as they may cause problems in Azure/Hyper-V:
+
+    # Move certain udev rules to a backup folder /var/lib/waagent
+    $ mkdir -m 0700 /var/lib/waagent
+    $ mv -v /lib/udev/rules.d/75-persistent-net-generator.rules /var/lib/waagent/
+    $ mv -v /etc/udev/rules.d/70-persistent-net.rules /var/lib/waagent/
 
 As the Azure infrastructure is built on top of Hyper-V, we will also need to reconfigure the initramfs, adding a few modules that are not enabled by default when installing RHEL 7 on VirtualBox (or any other hypervisor but Hyper-V). In the file `/etc/dracut.conf`, uncomment the `add_drivers` line and modify it to include `hv_vmbus`, `hv_netvsc` and `hv_storvsc`; it should look like:
 
@@ -175,11 +190,11 @@ Then rebuild the initramfs with:
 The next step is about installing the Azure VM Agent for Linux:
 
     # The WALinuxAgent package is available from the EPEL repositories: let's enable them
-    $ curl -l -O https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-    $ rpm -ivh epel-release-latest-7.noarch.rpm
+    $ curl -l -O https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+    $ rpm -ivh epel-release-latest-6.noarch.rpm
     
     # Install WALinuxAgent (and enable it at boot)
-    $ yum install WALinuxAgent
+    $ yum install -y WALinuxAgent
     $ chkconfig waagent on
 
 (Optional, but recommended) After the WALinuxAgent is installed, we can also configure it to set up swap space in the ephemeral resource disk that each Azure VM is assigned. Using that volume for swap is generally a good option as it's directly attached to the physical host. Edit the file `/etc/waagent.conf` to set the following parameters:
@@ -189,6 +204,10 @@ The next step is about installing the Azure VM Agent for Linux:
     ResourceDisk.MountPoint=/mnt/tmp
     ResourceDisk.EnableSwap=y
     ResourceDisk.SwapSizeMB=2048 # Swap size in MB; modify it as needed
+
+In the configuration file for the SSH daemon `/etc/ssh/sshd_config`, ensure that the "ClientAliveInterval" option is uncommented and is set to 180:
+
+    ClientAliveInterval 180
 
 Unregister the Red Hat subscription (if necessary):
 
