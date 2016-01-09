@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      "Preparing a Red Hat Enterprise Linux 6 image for Azure"
-subtitle:   "A step-by-step guide"
-date:       2016-01-07 18:00:00
+title:      "Create a RHEL 6 image for Microsoft Azure"
+subtitle:   "Step-by-step instructions, using VirtualBox"
+date:       2016-01-09 01:00:00
 author:     "Alessandro Segala"
 header-img: "img/redhat7.jpg"
 ---

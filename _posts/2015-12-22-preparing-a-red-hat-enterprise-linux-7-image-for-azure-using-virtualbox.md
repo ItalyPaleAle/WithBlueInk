@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Preparing a Red Hat Enterprise Linux 7 image for Azure"
+title:      "Preparing a Red Hat Enterprise Linux 7 image for Azure using VirtualBox"
 subtitle:   "A step-by-step guide"
 date:       2015-12-22 18:00:00
 author:     "Alessandro Segala"
