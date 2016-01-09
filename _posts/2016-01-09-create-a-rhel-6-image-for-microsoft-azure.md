@@ -7,7 +7,7 @@ author:     "Alessandro Segala"
 header-img: "img/redhat7.jpg"
 ---
 
-After writing about how to [prepare a RHEL 7 image]({% post_url 2015-12-22-preparing-a-red-hat-enterprise-linux-7-image-for-azure %}) for deploying to Azure, this second article in the series will cover the procedure for RHEL 6. These instructions have been written for RHEL 6.7, which is the minimum version recommended in the 6 branch.
+After writing about how to [prepare a RHEL 7 image]({% post_url 2015-12-22-preparing-a-red-hat-enterprise-linux-7-image-for-azure-using-virtualbox %}) for deploying to Azure, this second article in the series will cover the procedure for RHEL 6. These instructions have been written for RHEL 6.7, which is the minimum version recommended in the 6 branch.
 
 We'll be again using [VirtualBox](https://www.virtualbox.org/) on our laptop to create a preconfigured VHD image of RHEL 6.7. As before, the choice of VirtualBox comes from the fact that it's a free (open source) and lightweight hypervisor, which is fully cross-platform (for Windows, Mac OSX, Linux, Solaris, BSD, etc) and natively supports disks in VHD format.
 
