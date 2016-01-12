@@ -5,6 +5,7 @@ subtitle:   "A step-by-step guide"
 date:       2015-12-22 18:00:00
 author:     "Alessandro Segala"
 header-img: "img/redhat7.jpg"
+comments:   yes
 ---
 
 In November 2015, Microsoft and Red Hat [announced](http://blogs.microsoft.com/blog/2015/11/04/microsoft-and-red-hat-partner-to-deliver-more-flexibility-and-choice/) a partnership to officially support Red Hat Enterprise Linux running inside Virtual Machines in Azure. Customers are now able to create their own RHEL image and upload it to Azure, bringing their own license.
