@@ -8,7 +8,7 @@ url: "http://withblue.ink"
 twitter_username: EgoAleSum
 github_username:  EgoAleSum
 linkedin_username: alessandrosegala
-#facebook_username:  IronSummitMedia
+analytics: true
 
 # Build settings
 gems: 

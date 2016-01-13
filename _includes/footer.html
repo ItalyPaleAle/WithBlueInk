@@ -61,6 +61,10 @@
     </div>
 </footer>
 
+{% if site.analytics %}
+  {% include google_analytics.html %}
+{% endif %}
+
 <!-- jQuery -->
 <script src="{{ "/js/jquery.min.js " | prepend: site.baseurl }}"></script>
 
