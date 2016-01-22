@@ -73,3 +73,27 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="{{ "/js/clean-blog.min.js " | prepend: site.baseurl }}"></script>
+
+<!-- Custom Fonts -->
+ <!-- Pygments Github CSS -->
+<script>
+;+function(){
+    var css = [
+        '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css',
+        '//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic',
+        '//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800',
+        '{{ "/css/syntax.min.css" | prepend: site.baseurl }}'
+    ]
+    var cb = function() {
+        for(i in css) {
+            var l = document.createElement('link'); l.rel = 'stylesheet';
+            l.href = css[i];
+            var h = document.getElementsByTagName('head')[0]; h.parentNode.insertBefore(l, h);
+        }
+    };
+    var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
+    if (raf) raf(cb);
+    else window.addEventListener('load', cb);
+}()
+</script>
+
