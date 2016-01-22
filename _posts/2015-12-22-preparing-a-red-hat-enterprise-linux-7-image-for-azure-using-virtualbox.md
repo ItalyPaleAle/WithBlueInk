@@ -27,8 +27,8 @@ Download the binary ISO distribution of Red Hat Enterprise Linux 7 from the offi
 >
 > If you already have a VM running that needs to be moved to Azure, skip this step. However, you need to make sure that:
 >
-> - The network (interface "eth0") is configured to use DHCP. If your VM has a statically-assigned IP, revert back to DHCP.
-> - Ensure that you do not have a swap partition in the VHD file. On Azure, the OS disk is backed by Azure Blob Storage, which functions over the network and is not ideal for swap volumes. In the image preparation section below you can use the WALinuxAgent to create a swap volume in the ephemeral resource disk which directly attached to the VM.
+> - The network (always named "eth0", even with consistent naming enabled on RHEL 7) is configured to use DHCP. If your VM has a statically-assigned IP, revert back to DHCP.
+> - Ensure that you do not have a swap partition in the VHD file. On Azure, the OS disk is backed by Azure Blob Storage, which operates over the network and is not ideal for swap volumes. In the image preparation section below you can use the WALinuxAgent to create a swap space in the ephemeral resource disk which directly attached to the VM.
 > - If you're using a custom kernel, ensure that the Linux Integration Services are installed. In the case of a custom kernel, it's also recommended to use a recent version (3.8+).
 
 From within VirtualBox, create a new Virtual Machine, configured for Linux and Red Hat (64 bit). Ensure that you allocate at least 2048 MB of memory (4096 MB recommended) to your VM while it's running locally, as we will not be using swap in the VirtualBox environment (however, the OS will be able to use a swap volume when running on Azure).
@@ -39,11 +39,9 @@ In the next step, create a hard drive and choose "VHD (Virtual Hard Disk)" as ty
 
 ![VirtualBox: create a VHD disk](/assets/vbox-create-2.png)
 
-Once the VM is created, start it and connect the ISO image for RHEL 7 as optical disk, then boot from it.
-
 > **Tip**: by default, VirtualBox configures the networking adapter of the VM in NAT mode. If you want to connect to your VM via SSH, you'll need to change it to Bridged mode (or go through complicate NAT setups).
 
-When the bootloader appears, choose the Install option:
+Once the VM is created, start it and connect the ISO image for RHEL 7.2 as optical disk. When the bootloader appears, choose the Install option:
 
 ![Install RHEL 7.2: start the installer from the bootloader](/assets/rhel72-install-1.png)
 
@@ -84,7 +82,7 @@ At this point, let the installation of the OS start. Make sure you set a passwor
 
 ## Prepare the image
 
-Log in to the virtual machine as user "root". You can administer your Virtual Machine by either typing directly into the terminal in the VirtualBox window, or by using SSH (using a client like PuTTY on Windows, or OpenSSH on the Mac OSX/Linux console). While both methods will work, using SSH is generally more convenient, allowing operations such as copy/paste.
+Log in to the virtual machine as user "root". You can administer your Virtual Machine by either typing directly into the terminal in the VirtualBox window, or by using SSH (using a client like PuTTY on Windows, or OpenSSH on the Mac OSX/Linux console). While both methods will equally work, using SSH is generally more convenient because it allows operations such as copy/paste.
 
 > **Tip**: You can get the IP of the Virtual Machine in the local network (to connect via SSH) from the console (after logging in as "root") by executing `ip addr` (look for the value under "inet" in the first ethernet link - "enp0s3" in the example):
 >
@@ -173,7 +171,7 @@ The next step is about installing the Azure VM Agent for Linux:
 
     ResourceDisk.Format=y
     ResourceDisk.Filesystem=ext4
-    ResourceDisk.MountPoint=/mnt/tmp
+    ResourceDisk.MountPoint=/mnt/tmp # Mount point for the local ephemeral volume
     ResourceDisk.EnableSwap=y
     ResourceDisk.SwapSizeMB=2048 # Swap size in MB; modify it as needed
 
@@ -189,7 +187,7 @@ Lastly, we'll finish preparing the image by de-provisioning it with "waagent". T
 
 > **Tip**: it's a good idea to create a snapshot of your VM with VirtualBox before de-provisioning it!
 
-At this point, we can start closing down the VM: log out and then remove the bash history with:
+At this point, we can start closing down the VM: remove the bash history and then log out with:
 
     $ export HISTSIZE=0
     $ logout

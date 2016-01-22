@@ -10,7 +10,7 @@ comments:   yes
 
 After writing about how to [prepare a RHEL 7 image]({% post_url 2015-12-22-preparing-a-red-hat-enterprise-linux-7-image-for-azure-using-virtualbox %}) for deploying to Azure, this second article in the series will cover the procedure for RHEL 6. These instructions have been written for RHEL 6.7, which is the minimum version recommended in the 6 branch.
 
-We'll be again using [VirtualBox](https://www.virtualbox.org/) on our laptop to create a preconfigured VHD image of RHEL 6.7. As before, the choice of VirtualBox comes from the fact that it's a free (open source) and lightweight hypervisor, which is fully cross-platform (for Windows, Mac OSX, Linux, Solaris, BSD, etc) and natively supports disks in VHD format.
+We'll be again using [VirtualBox](https://www.virtualbox.org/) on our laptop to create a preconfigured VHD image of RHEL 6.7. As in the previous case, the choice of VirtualBox comes from the fact that it's a free (open source) and lightweight hypervisor, which is fully cross-platform (for Windows, Mac OSX, Linux, Solaris, BSD, etc) and natively supports disks in VHD format used by Hyper-V and Azure.
 
 
 ## Install from ISO
@@ -24,28 +24,26 @@ From the official website, download the binary DVD of Red Hat Enterprise Linux, 
 >
 > - The network (interface "eth0") is configured to use DHCP. If your VM has a statically-assigned IP, revert back to DHCP.
 > - As NetworkManager on RHEL 6 conflicts with the WALinuxAgent, ensure that it's not installed.
-> - Ensure that you do not have a swap partition in the VHD file. On Azure, the OS disk is backed by Azure Blob Storage, which functions over the network and is not ideal for swap volumes. In the image preparation section below you can use the WALinuxAgent to create a swap volume in the ephemeral resource disk which directly attached to the VM.
+> - Ensure that you do not have a swap partition in the VHD file. On Azure, the OS disk is backed by Azure Blob Storage, which operates over the network and is not ideal for swap volumes. In the image preparation section below you can use the WALinuxAgent to create a swap space in the ephemeral resource disk which directly attached to the VM.
 > - If you're using a custom kernel, ensure that the Linux Integration Services are installed. In the case of a custom kernel, it's also recommended to use a recent version (3.8+).
 
 From within VirtualBox, create a new Virtual Machine, configured for Linux and Red Hat (64 bit). Ensure that you allocate at least 2048 MB of memory (4096 MB recommended) to your VM while it's running locally, as we will not be using swap in the VirtualBox environment (however, the OS will be able to use a swap volume when running on Azure).
 
 ![VirtualBox: create a new Linux Red Hat (64 bit) VM](/assets/vbox-create-1.png)
 
-In the next step, create a hard drive and choose "VHD (Virtual Hard Disk)" as type, so it's compatible with Azure.
+In the next step, create a hard drive and choose "VHD (Virtual Hard Disk)" as type, so it's compatible with Azure out-of-the-box.
 
 ![VirtualBox: create a VHD disk](/assets/vbox-create-2.png)
 
-Once the VM is created, start it and connect the ISO image for RHEL 6.7 as optical disk, then boot from it.
-
 > **Tip**: by default, VirtualBox configures the networking adapter of the VM in NAT mode. If you want to connect to your VM via SSH, you'll need to change it to Bridged mode (or go through complicate NAT setups).
 
-When the bootloader appears, choose the Install option:
+Once the VM is created, start it and connect the ISO image for RHEL 6.7 as optical disk. When the bootloader appears, choose the Install option:
 
 ![Install RHEL 6.7: start the installer from the bootloader](/assets/rhel67-install-1.png)
 
-You will be asked to verify the installation media (optional), then the Anaconda installer of Red Hat will appear. Select the language you wish to use for your OS, and then the keyboard layout.
+You will be asked to verify the installation media (optional), then the Anaconda installer will appear. Select the language you wish to use for your OS, and then the keyboard layout.
 
-In the next step, tell the installer to use "Basic Storage Devices".
+In the next step, when asked about storage device type, tell the installer to use "Basic Storage Devices".
 
 ![Install RHEL 6.7: choose storage device type](/assets/rhel67-install-2.png)
 
@@ -55,11 +53,11 @@ The installer will then ask you to configure the network. Ensure that the hostna
 
 ![Install RHEL 6.7: set hostname](/assets/rhel67-install-3.png)
 
-Select the first network interface ("System eth0"), then press "Edit...". On the next screen, ensure that "Connect automatically" and "Available to all users" are both enabled, then in the "IPv4 Settings" verify that DHCP is enabled.
+Select the first network interface ("System eth0"), then press "Edit...". On the next screen, ensure that "Connect automatically" and "Available to all users" are both enabled, then in  "IPv4 Settings" verify that DHCP is enabled.
 
 ![Install RHEL 6.7: network configuration](/assets/rhel67-install-4.png)
 
-In the next section, select a timezone. You're free to choose any value you want, however I would suggest considering "Etc/UTC" for a server. Press "Next", then choose a password for the root user.
+In the next section, select a timezone. You're welcome to choose any value you want, however I would suggest considering "Etc/UTC" for a server VM. Press "Next", then choose a password for the root user.
 
 Anaconda will then ask you to choose how to configure partitioning. The default layout for RHEL 6.7 is not really suitable for us, for two reasons: it creates a swap partition and uses LVM. As such, select the "Create custom layout" option, then press "Next".
 
@@ -77,7 +75,7 @@ Create the first partition, for the "/boot" mount point. It should be of type ex
 
 ![Install RHEL 6.7: create partition for /boot](/assets/rhel67-install-8.png)
 
-Press "Create" again and add another "Standard partition". This time, use "/" as mount point (the root filesystem), choose type ext4 and in "Additional size options" select "Fill to maximum allowable size".
+Press "Create" again and add another "Standard partition". This time use "/" as mount point (the root filesystem), choose type ext4 and in "Additional size options" select "Fill to maximum allowable size".
 
 ![Install RHEL 6.7: create root partition](/assets/rhel67-install-9.png)
 
@@ -89,7 +87,7 @@ The installer will ask you in the next step where to save the bootloader; leave 
 
 ![Install RHEL 6.7: bootloader installation](/assets/rhel67-install-11.png)
 
-In the last step, choose what kind of installation you want. In this case, we'll be creating a "Minimal" install, which will provide us with only the packages strictly necessary for the OS to work, so we can add any required package later on. You're free to choose any other installation kind, however.
+In the last step, choose what kind of installation you want. In this case we'll be creating a "Minimal" install, which will provide us with only the packages strictly necessary for the OS to work so we can add any required application and service later on. You're welcome to choose any other installation kind, however.
 
 ![Install RHEL 6.7: choose installation kind](/assets/rhel67-install-12.png)
 
@@ -98,7 +96,7 @@ Press "Next", then sit back and relax for a few minutes while Anaconda prepares 
 
 ## Prepare the image
 
-Log in to the virtual machine as user "root". You can administer your Virtual Machine by either typing directly into the terminal in the VirtualBox window, or by using SSH (using a client like PuTTY on Windows, or OpenSSH on the Mac OSX/Linux console). While both methods will work, using SSH is generally more convenient, allowing operations such as copy/paste.
+Log in to the virtual machine as user "root". You can administer your Virtual Machine by either typing directly into the terminal in the VirtualBox window, or by using SSH (using a client like PuTTY on Windows, or OpenSSH on the Mac OSX/Linux console). While both methods will equally work, using SSH is generally more convenient because it allows operations such as copy/paste.
 
 > **Tip**: You can get the IP of the Virtual Machine in the local network (to connect via SSH) from the console (after logging in as "root") by executing `ip addr` (look for the value under "inet" in the first ethernet link - "eth0" in the example):
 >
@@ -144,7 +142,7 @@ After the system is up to date, we need to configure the networking. As NetworkM
     # If yum responds with an error, then NetworkManager was already uninstalled and it's safe to continue.
     $ yum remove NetworkManager
 
-During the installation procedure, we set up the network service to start automatically at boot. If you did not check the appropriate box, you can make sure of this by running:
+During the installation procedure, we set up the network service to start automatically at boot. You can make sure of this by running:
 
     $ chkconfig network on
 
@@ -173,7 +171,7 @@ In the last step for the networking configuration, we need to move (or remove co
     $ mv -v /lib/udev/rules.d/75-persistent-net-generator.rules /var/lib/waagent/
     $ mv -v /etc/udev/rules.d/70-persistent-net.rules /var/lib/waagent/
 
-As the Azure infrastructure is built on top of Hyper-V, we will also need to reconfigure the initramfs, adding a few modules that are not enabled by default when installing RHEL 7 on VirtualBox (or any other hypervisor but Hyper-V). In the file `/etc/dracut.conf`, uncomment the `add_drivers` line and modify it to include `hv_vmbus`, `hv_netvsc` and `hv_storvsc`; it should look like:
+As the Azure infrastructure is built on top of Hyper-V, we will also need to reconfigure the initramfs, adding a few modules that are not enabled by default when installing RHEL on VirtualBox (or any other hypervisor but Hyper-V). In the file `/etc/dracut.conf`, uncomment the `add_drivers` line and modify it to include `hv_vmbus`, `hv_netvsc` and `hv_storvsc`; it should look like:
 
     add_drivers+="hv_vmbus hv_netvsc hv_storvsc"
 
@@ -202,7 +200,7 @@ The next step is about installing the Azure VM Agent for Linux:
 
     ResourceDisk.Format=y
     ResourceDisk.Filesystem=ext4
-    ResourceDisk.MountPoint=/mnt/tmp
+    ResourceDisk.MountPoint=/mnt/tmp # Mount point for the local ephemeral volume
     ResourceDisk.EnableSwap=y
     ResourceDisk.SwapSizeMB=2048 # Swap size in MB; modify it as needed
 
@@ -222,7 +220,7 @@ Lastly, we'll finish preparing the image by de-provisioning it with "waagent". T
 
 > **Tip**: it's a good idea to create a snapshot of your VM with VirtualBox before de-provisioning it!
 
-At this point, we can start closing down the VM: log out and then remove the bash history with:
+At this point, we can start closing down the VM: remove the bash history and then log out with:
 
     $ export HISTSIZE=0
     $ logout
