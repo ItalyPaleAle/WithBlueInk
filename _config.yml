@@ -14,6 +14,7 @@ analytics: true
 gems: 
   - "jekyll-paginate"
   - "jekyll-redirect-from"
+  - "jekyll-sitemap"
 markdown: kramdown
 highlighter: pygments
 permalink: "/:year/:month/:day/:title.html"
