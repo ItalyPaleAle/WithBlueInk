@@ -27,3 +27,5 @@ exclude:
   - "utils"
   - "README.md"
   - "LICENSE.md"
+  - "Gemfile"
+  - "Gemfile.lock"
