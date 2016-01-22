@@ -1,4 +1,4 @@
-/* to make lines scroll instead of wrap */
+/*! to make lines scroll instead of wrap */
 /* from http://stackoverflow.com/a/23393920 */
 
 .highlight pre code * {
@@ -14,7 +14,7 @@
 }
 
 
-/*
+/*!
  * GitHub style for Pygments syntax highlighter, for use with Jekyll
  * Courtesy of GitHub.com
  */

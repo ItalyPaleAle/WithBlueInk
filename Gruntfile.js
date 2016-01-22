@@ -9,6 +9,12 @@ module.exports = function(grunt) {
                 dest: 'js/<%= pkg.name %>.min.js'
             }
         },
+        cssmin: {
+          syntax: {
+              src: 'css/syntax.css',
+              dest: 'css/syntax.min.css'
+          }  
+        },
         less: {
             expanded: {
                 options: {
@@ -65,10 +71,11 @@ module.exports = function(grunt) {
     // Load the plugins.
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-banner');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task(s).
-    grunt.registerTask('default', ['uglify', 'less', 'usebanner']);
+    grunt.registerTask('default', ['uglify', 'cssmin', 'less', 'usebanner']);
 
 };
