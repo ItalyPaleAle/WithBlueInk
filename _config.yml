@@ -27,5 +27,6 @@ exclude:
   - "utils"
   - "README.md"
   - "LICENSE.md"
+  - "assets-source"
   - "Gemfile"
   - "Gemfile.lock"
