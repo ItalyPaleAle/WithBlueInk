@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "Galera cluster, MariaDB, CoreOS and Docker (Part 1)"
-subtitle:   "Get your multi-master MySQL-like cluster painless"
+subtitle:   "Get your multi-master, MySQL-like cluster, pain free"
 date:       2016-03-09 23:35:00
 author:     "Alessandro Segala"
 header-img: "img/containers.jpg"
