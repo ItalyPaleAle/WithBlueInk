@@ -4,7 +4,7 @@ title:      "Galera cluster, MariaDB, CoreOS and Docker (Part 1)"
 subtitle:   "Get your multi-master MySQL-like cluster painless"
 date:       2016-03-09 14:30:00
 author:     "Alessandro Segala"
-header-img: "img/redhat6.jpg"
+header-img: "img/containers.jpg"
 comments:   yes
 ---
 
@@ -214,4 +214,4 @@ Once you're connected using the MySQL CLI, you can execute SQL statements. For e
 *PS: About overlay networks.* Starting from Docker 1.9, a new feature was added to allow cross-host isolated networking. By using overlay networks, it's not necessary to expose the ports used by Galera for replication, and you don't need a DNS server in the infrastructure too. As such, in the first iterations of this article I was actually testing overlay networks; however, that did not work. For some unknown reason (a bug?), SST with an overlay network made the first node become completely irresponsive and the database crashed. Previous versions of this post on the git repository still show the code used, and I'm open for any comment.
 
 
-<small>*Cover photo by Ricardo Liberato ([Flickr](https://www.flickr.com/photos/liberato/133104512/in/photolist-cLcko-hBPa95-abJqxH-fP1XP-fP1XR-2Ubk9Y-bvuSf5-5GxTDU-uVRTu-81FgS1-c7Km4u-6SUjwf-bLgooP-4ZUUC4-4eP3F3-5vUpF-pUtcnk-eDiHY6-4eK9F2-4eJMDg-5vp6ri-dGfKFh-4eNXdj-4eK9kB-4eJXdk-eDiLeV-4eTebm-4eTeRG-fP2Y5-4eP4Qh-4eP3e5-4eK4or-4eNYdC-4eNMQ7-4eJZDc-4eK22i-4eP2xw-4eNWfA-4eJVvx-4eJS7K-4eNS5G-4eNVNA-4eJM3K-4eJKQt-4eJTKc-4eJZU2-4eJH8F-4eJWPg-4eJHQD-4eNJkA)) released under Creative Commons BY-SA*</small>
+<small>*Cover photo by Rafael Edwards ([Flickr](https://www.flickr.com/photos/rafa2010/15353313381/in/photolist-poHKaF-frZLn-8WrP2L-seswjC-fa91Di-4fsVgK-bPT3Tv-fa8Y5M-9va4X1-4fwSUA-Gadgr-4tL91Y-rtYTH8-c9oTiN-b6eF7v-dyXEnF-8jnVdm-aYqgh-aYqgo-aYqgB-esVtg5-k6NoT-4Rtnhv-Lkro7-sJXo9s-aYqfZ-s61xsm-e565pj-8Vof66-dBwGMX-bhvrV4-gstz6-aYqgZ-cZiGr-8cQcJs-dCEKTL-3bvxLV-7tecRV-a55BNX-bCjuKC-Rxh2G-b5YXVt-bRecDM-PzKg9-4mD8xu-e7HHXV-6egeNk-8PgyLQ-5wUsYz-sqBpt3)) released under Creative Commons BY-NC*</small>

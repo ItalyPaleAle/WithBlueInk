@@ -1,7 +1,6 @@
-# A sample Gemfile
 source "https://rubygems.org"
 
-gem "jekyll", "~>3.0"
+gem "jekyll", "~>3.1"
 
 group :jekyll_plugins do
   gem "jekyll-paginate"
