@@ -2,7 +2,7 @@
 layout:     post
 title:      "Automation for MariaDB/Galera Cluster setup (Part 2)"
 subtitle:   "Scripts and templates for easy deployments on Azure and other clouds"
-date:       2016-05-11 23:35:00
+date:       2016-05-12 19:02:00
 author:     "Alessandro Segala"
 header-img: "img/containers2.jpg"
 comments:   yes
@@ -10,24 +10,28 @@ comments:   yes
 
 *This is the second post in the series. The [first part]({% post_url 2016-03-09-galera-cluster-mariadb-coreos-and-docker-part-1 %}) explained the ideas behind the project and the research done, while now we're focusing on the practice.*
 
-This article contains deployment scripts and templates for deploying a MariaDB and Galera Cluster database, with 3-5 nodes running on CoreOS. In addition to the sample code, I'm also publishing a web-based [generator app](https://github.com/EgoAleSum/mariadb-cluster) as open source code on GitHub, that can be used to simplify the creation of the startup scripts.
+This article contains deployment scripts and templates for deploying a MariaDB and Galera Cluster database, with 3-5 nodes running on CoreOS. In addition to the sample code, I'm also publishing a web-based [generator app](https://github.com/EgoAleSum/mariadb-cluster) as open source code on GitHub that can be used to simplify the creation of the startup scripts.
 
-There are essentially two parts in the code published. The first one is the **Cloud Config file**, which takes care of configuring the cluster *inside* each CoreOS node. This part is indepndent of the environment used, as the same code can be used on any public cloud (Azure, AWS, Google, etc) and even in private clouds.
+All the sample scripts and templates, as well as the "generator" app are published freely on GitHub on **[EgoAleSum/mariadb-cluster](https://github.com/EgoAleSum/mariadb-cluster)** and are released under the terms of the "Unlicense" (essentially, public domain).
 
-The second part is specific to users wanting to deploy the cluster on Azure, and it provides an **Azure Resource Manager (ARM) template**. This is a single JSON document that describes the entire infrastructure (virtual machines, load balancers, endpoints, etc) and that can be deployed on Azure in a few click. If the Cloud Config file is used "inside" each node, this instead is used for the surrounding infrastructure. The ARM template created with the generator app includes the Cloud Config file to setup the virtual machines, so it's essentially a full-featured solution for users on Azure.
+[![Scripts and templates and the generator app are on GitHub](/assets/mariadb-github.png)](https://github.com/EgoAleSum/mariadb-cluster)
+
+There are essentially two parts in this project. The first one is the **Cloud Config file**, which takes care of configuring the cluster *inside* each CoreOS node. This part is independent of the environment used, as the same file can be used on any public cloud (Azure, AWS, Google, etc) and even in private clouds.
+
+The second part is specific to users wanting to deploy the cluster on Azure, and it provides an **Azure Resource Manager (ARM) template**. This is a single JSON document that describes the entire infrastructure (virtual machines, load balancers, endpoints, etc) and that can be deployed on Azure in a few click. While the Cloud Config file is used "inside" each node, this is instead used for the surrounding infrastructure. The ARM template created with the generator app includes the Cloud Config file to set up all virtual machines, so it's essentially an all-around solution for users of the Azure cloud.
 
 ## Systemd units
 
-Systemd is the (sometimes controversial) replacement of SysV Init that ships with almost all modern Linux distributions. On CoreOS, it's one of the most common ways to orchestrate containers; in particular, in our case Sytemd takes care of: pulling the latest version of the MariaDB official image from the Docker Hub, launching the container as daemon, and restarting failed containers.
+Systemd is the replacement of the old SysV Init that ships with almost all modern Linux distributions. On CoreOS, it's one of the most common ways to manage containers; in particular, in our case Sytemd takes care of: pulling the latest version of the MariaDB official image from the Docker Hub, launching the container as daemon, and restarting failed containers.
 
-There are two key Systemd units:
+There are two key Systemd units in this project:
 
-- `docker-mariadb-galera` ([unit file](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.service) and [bash script](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.sh)): This unit spins up the Docker containers, following all the procedure explained in the first part of this blog post. On the initial bootstrap, when the database is created, the first node launches immediately and starts up the cluster. All the other nodes wait for the first one to be initialized, using etcd2 for the semaphore.
-- `docker-mariadb-waiter` ([unit file](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.service) and [bash script](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.sh)): This unit is necessary for the initial database cluster bootstrap. It checks if the first node has completed the initialization, and then updates the status of the semaphore in etcd2 so the other nodes can connect to the cluster.
+- *docker-mariadb-galera* ([unit file](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.service) and [bash script](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.sh)): This unit spins up the Docker containers, following all the procedure explained in the first part of this blog post. On the initial bootstrap, when the database is created, the first node launches immediately and starts up the cluster. All the other nodes have to wait for the first one to be initialized (using etcd2 for the semaphore).
+- *docker-mariadb-waiter* ([unit file](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.service) and [bash script](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.sh)): This unit is necessary for the initial database cluster bootstrap. It waits for the first node to complete the initialization, and then updates the status of the semaphore in etcd2 so the other machines can launch the MariaDB conainer and connect them to the cluster.
 
 ## Cloud Config
 
-The Cloud Config file is a declarative YAML document that is standard on CoreOS for node initialization. The [official CoreOS documentation](https://coreos.com/os/docs/latest/cloud-config.html) is a good place to check out if you want to become more familiar with this technology.
+The Cloud Config file is a declarative YAML document that is standard on CoreOS for node initialization; the [official OS documentation](https://coreos.com/os/docs/latest/cloud-config.html) is a good article to check out if you want to become more familiar with this technology.
 
 You can generate a custom `cloud-config.yaml` for this MariaDB and Galera Cluster setup using the web-based [generator app](https://github.com/EgoAleSum/mariadb-cluster) on the GitHub repository. Clone the repository locally, then open the `generator.html` file with any modern browser (Edge, Chrome, Firefox, Safari) and choose "Only cloud-config.yaml" as operation mode.
 
@@ -35,11 +39,11 @@ You can generate a custom `cloud-config.yaml` for this MariaDB and Galera Cluste
 
 The resulting Cloud Config file will:
 
-- Enable [etcd2](https://coreos.com/etcd/) and request a new "discovery URL" for you from the public discovery service.
+- Enable [etcd2](https://coreos.com/etcd/) (with a new "discovery URL" requested for you by the generator app)
 - Enable [automatic updates](https://coreos.com/using-coreos/updates/) for CoreOS
-- Install the required Systemd units presented above to have the cluster start up, copying bash scripts and configuration files
+- Install the required Systemd units presented above to have the MariaDB cluster start up, copying all the required bash scripts and configuration files
 
-The generated file will look like (with the full contents of the scripts stripped for clarity):
+The generated file will look similar to this (the full contents of the scripts have stripped for clarity in this post; you can find links to the code on GitHub below):
 
 ````yaml
 #cloud-config
@@ -102,7 +106,7 @@ Linked files:<br />
 A few notes about using the generated Cloud Config file:
 
 1. The Cloud Config file generated is meant to be used with CoreOS 899+; it has not been tested with any other Linux distribution, and it's likely not to work.
-2. With these scripts, you can deploy up to 5 nodes in the cluster, and your nodes must be named `mariadb-node-0`, `mariadb-node-1`, etc, until `mariadb-node-4`. All VMs in the cluster must be able to connect to each other using those names, so you need to ensure that a naming resolution service exists in your infrastructure. Indeed, in the current version, the MariaDB configuration file has hardcoded the hostnames of the VMs; this design choice may change in the future, however.
+2. With these scripts, you can deploy up to 5 nodes in the cluster, and your nodes must be named `mariadb-node-0`, `mariadb-node-1`, etc, until `mariadb-node-4`. All VMs in the cluster must be able to connect to each other using those names, so you need to ensure that a naming resolution service exists in your infrastructure. Indeed, in the current version, the MariaDB configuration file has hardcoded the hostnames of the VMs; however this design choice may change in the future.
 3. It's strongly advised to use an odd number of nodes to avoid the risk of "split-brain conditions" (please see the [official Galera documentation](http://galeracluster.com/documentation-webpages/weightedquorum.html)).
 4. The default password for the `root` user in the database is **`my-secret-pw`**; it's recommended to change it as soon as possible.
 
@@ -133,7 +137,7 @@ On the Microsoft Azure platform, the JSON template is deploying the following:
 1. A Virtual Network named after the Resource Group (not in the diagram) with address space `10.0.0.0/16`.
 2. A subnet `10.0.1.0/24` named `mariadb-subnet`.
 3. An Azure Internal Load Balancer for the MySQL endpoints (port `3306`). The Internal Load Balancer has always the address `10.0.1.4` and no public IP.
-4. The 3 or 5 nodes running the application. All VMs are named `mariadb-node-N` (where N is a number between 0 and 4), with addresses automatically assigned by DHCP (generally, the first one to deploy obtains `10.0.1.5`, and the others follow in sequence). Nodes do not have a public IP, and Network Security Group rules allow traffic to only port 3306 (MySQL) and 22 (SSH), and only from within the Virtual Network. All VMs are also deployed in an Availability Set, in order to achieve high availability.
+4. The 3 or 5 nodes running the application. All VMs are named `mariadb-node-N` (where N is a number between 0 and 4), with addresses automatically assigned by DHCP (generally, the first one to deploy obtains `10.0.1.5`, and the others follow in sequence). Nodes do not have a public IP, and Network Security Group rules allow traffic only to ports 3306 (MySQL) and 22 (SSH), and only from within the Virtual Network. All VMs are also deployed in an Availability Set, in order to achieve high availability.
 
 Your application can connect to the MariaDB Galera Cluster on the IP `10.0.1.4` (Internal Load Balancer) on port 3306. Using Network Security Group rules, connections to the database are allowed only from within the Virtual Network. Connecting to the cluster using the IP of the Internal Load Balancer is recommended because it handles failover automatically; however, it's still possible to connect to individual nodes directly, for example for debug purposes. In case you need to administer the VMs using SSH, you can do so by connecting to each instance on port 22, from another machine inside the Virtual Network, and authenticating using the public key method.
 
@@ -142,6 +146,8 @@ The default password for the `root` user in the database is **`my-secret-pw`**; 
 ````sql
 SET PASSWORD FOR 'root'@'%' = PASSWORD('newpass');
 ````
+
+> **Note:** when in "Cloud Config mode", the generated YAML file is slightly different than the one generated in "Azure Resource Manager template" mode. In the latter case, a few more units and scripts are added to attach and format data disks attached to the Azure Virtual Machines.
 
 ## Notes on parameters for the generator
 
@@ -164,4 +170,4 @@ Your public key will be located in `~/.ssh/id_rsa.pub`.
 Windows users can generate compatible keys using PuTTYgen, as shown in [this article](https://winscp.net/eng/docs/ui_puttygen). Please make sure you select "SSH-2 RSA" as type, and use 4096 bits as size for best security.
 
 
-<small>*Cover photo by Rafael Edwards ([Flickr](https://www.flickr.com/photos/rafa2010/15353313381/in/photolist-poHKaF-frZLn-8WrP2L-seswjC-fa91Di-4fsVgK-bPT3Tv-fa8Y5M-9va4X1-4fwSUA-Gadgr-4tL91Y-rtYTH8-c9oTiN-b6eF7v-dyXEnF-8jnVdm-aYqgh-aYqgo-aYqgB-esVtg5-k6NoT-4Rtnhv-Lkro7-sJXo9s-aYqfZ-s61xsm-e565pj-8Vof66-dBwGMX-bhvrV4-gstz6-aYqgZ-cZiGr-8cQcJs-dCEKTL-3bvxLV-7tecRV-a55BNX-bCjuKC-Rxh2G-b5YXVt-bRecDM-PzKg9-4mD8xu-e7HHXV-6egeNk-8PgyLQ-5wUsYz-sqBpt3)) released under Creative Commons BY-NC*</small>
+<small>*Cover photo by Melusina Parkin ([Flickr](https://www.flickr.com/photos/melusina_parkin/16208470772/in/photolist-qGhDEC-25UdfU-25PMVn-Rxh2G-6Uj3j8-eNutSK-4LHfnq-dMZgPL-7jzUwD-cdb7h5-6D3Sg8-aYqhj-pSXgsU-8xCLKF-8hyBn8-9ex7RB-sqBpt3-6ekpmA-nn4WkB-fAfqL7-6ekpSj-9xUQEc-6ekpDY-Rxhv1-65kKF2-8cQcJs-6ekpqj-b5YXVt-34p94v-putRP-qF8aJK-7tecRV-7jDM7E-Rzuvg-Rxhcq-8PgyLQ-5maqht-ru1A6R-wLX8-kZ2e3-dz1if-dCEKTL-6ekpeG-6fAYMT-4SC2rh-6ekpNh-6ekpuh-aXMmY-ww5cy-6ekpHm)) released under Creative Commons BY-NC-SA*</small>
