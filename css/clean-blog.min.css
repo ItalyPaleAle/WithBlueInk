@@ -13,7 +13,7 @@ p {
   line-height: 1.5;
   margin: 30px 0;
 }
-p a {
+a {
   text-decoration: underline;
 }
 h1,
@@ -63,6 +63,9 @@ hr.small {
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 1px;
+}
+.navbar-custom a {
+  text-decoration: none;
 }
 @media only screen and (min-width: 768px) {
   .navbar-custom {
@@ -213,6 +216,7 @@ hr.small {
   }
 }
 .post-preview > a {
+  text-decoration: none;
   color: #404040;
 }
 .post-preview > a:hover,
