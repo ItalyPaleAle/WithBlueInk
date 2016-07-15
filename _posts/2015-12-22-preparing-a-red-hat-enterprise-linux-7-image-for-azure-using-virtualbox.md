@@ -195,4 +195,4 @@ At this point, we can start closing down the VM: remove the bash history and the
 Eventually, turn off the VM from the VirtualBox interface, sending an ACPI shut down command. As soon as the VM stops, its VHD file is in a consistent state and ready to be uploaded to Azure!
 
 
-<small>*Cover photo by Todd Petit ([Flickr](https://www.flickr.com/photos/starmist1/1099428901/in/photolist-2F9RUH-aoqnAh-7Wewrd-qrUBkk-qRV8Vz-uYWVYX-gFd15B-4MHGUg-a764hz-76Twu9-auYGNZ-4AnCTR-fjJxrP-8fn3b8-c9q1mC-amwuVv-dxKWAS-3xeype-pKKjd5-7Kzvvs-79xWYt-ec4sjF-bCHPM7-8RnViN-3xZtsc-4YVBzE-h2wUKF-4jbGZs-aELiJ7-B2Uj5Z-f4bR6h-a3eJFm-aasuiZ-ddm9vN-dtnSJ6-z31ef-6wo44g-dp2iaa-3xuKA-4taG2Q-jJDPuz-3v74U1-D1rLoE-9MHb5Y-fBUwkJ-6raCMJ-6n19tw-j6294z-8eFXFu-fNjaxh)) released under Creative Commons BY*</small>
+<small>*Cover photo by Todd Petit ([Flickr](https://flic.kr/p/2F9RUH)) released under Creative Commons BY*</small>

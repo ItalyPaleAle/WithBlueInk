@@ -170,4 +170,4 @@ Your public key will be located in `~/.ssh/id_rsa.pub`.
 Windows users can generate compatible keys using PuTTYgen, as shown in [this article](https://winscp.net/eng/docs/ui_puttygen). Please make sure you select "SSH-2 RSA" as type, and use 4096 bits as size for best security.
 
 
-<small>*Cover photo by Melusina Parkin ([Flickr](https://www.flickr.com/photos/melusina_parkin/16208470772/in/photolist-qGhDEC-25UdfU-25PMVn-Rxh2G-6Uj3j8-eNutSK-4LHfnq-dMZgPL-7jzUwD-cdb7h5-6D3Sg8-aYqhj-pSXgsU-8xCLKF-8hyBn8-9ex7RB-sqBpt3-6ekpmA-nn4WkB-fAfqL7-6ekpSj-9xUQEc-6ekpDY-Rxhv1-65kKF2-8cQcJs-6ekpqj-b5YXVt-34p94v-putRP-qF8aJK-7tecRV-7jDM7E-Rzuvg-Rxhcq-8PgyLQ-5maqht-ru1A6R-wLX8-kZ2e3-dz1if-dCEKTL-6ekpeG-6fAYMT-4SC2rh-6ekpNh-6ekpuh-aXMmY-ww5cy-6ekpHm)) released under Creative Commons BY-NC-SA*</small>
+<small>*Cover photo by Melusina Parkin ([Flickr](https://flic.kr/p/qGhDEC)) released under Creative Commons BY-NC-SA*</small>
