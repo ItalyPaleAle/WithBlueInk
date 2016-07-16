@@ -18,7 +18,7 @@ gems:
 markdown: kramdown
 highlighter: pygments
 permalink: "/:year/:month/:day/:title.html"
-paginate: 5
+paginate: 10
 exclude: 
   - "less"
   - "node_modules"
