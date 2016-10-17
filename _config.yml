@@ -23,6 +23,7 @@ paginate: 10
 exclude: 
   - "less"
   - "node_modules"
+  - "Makefile"
   - "Gruntfile.js"
   - "package.json"
   - "utils"
