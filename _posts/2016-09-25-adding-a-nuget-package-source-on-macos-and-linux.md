@@ -36,7 +36,7 @@ For example, here is my `NuGet.Config` with the public MyGet feed enabled:
 ```` 
 
 
-### 17 October 2016 - Update
+### 21 October 2016 - Update
 As Toby Henderson pointed out in the comments section below, you can also add a `NuGet.Config` file locally in the **root folder of your project**; the syntax is the same as in the example above. Using a local file lets you check it into source control (e.g. git), so other contributors to the project do not have to modify their environment, and as such is a much better approach for adding project-specific package sources.
 
 <small>*Cover photo by Rob Deutscher ([Flickr](https://flic.kr/p/dsFGzL)) released under Creative Commons BY*</small>
