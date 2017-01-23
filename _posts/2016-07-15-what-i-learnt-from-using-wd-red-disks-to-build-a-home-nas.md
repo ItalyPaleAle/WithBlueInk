@@ -114,7 +114,7 @@ You can download hd-idle from [Sourceforge](http://hd-idle.sourceforge.net/). Sa
 
     [Service]
     Type=simple
-    Restart=Always
+    Restart=always
     RestartSec=10
     
     ExecStartPre=-/usr/bin/killall hd-idle
