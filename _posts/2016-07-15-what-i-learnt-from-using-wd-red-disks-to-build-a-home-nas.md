@@ -124,7 +124,9 @@ You can download hd-idle from [Sourceforge](http://hd-idle.sourceforge.net/). Sa
     # 1200 seconds (20 minutes) for sdb
     # 0 (no spin-down) for other disks
     # See documentation at http://hd-idle.sourceforge.net/
-    ExecStart=/usr/local/sbin/hd-idle -i 0 -a sda -i 1800 -a sdb -i 1200 
+    # Note the "-d" flag to ensure that hd-idle remains in foreground 
+    # and can be managed by systemd
+    ExecStart=/usr/local/sbin/hd-idle -d -i 0 -a sda -i 1800 -a sdb -i 1200 
     
     ExecStop=/usr/bin/killall hd-idle
 
