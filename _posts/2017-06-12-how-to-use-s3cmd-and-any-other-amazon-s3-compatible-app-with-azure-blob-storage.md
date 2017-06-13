@@ -1,14 +1,15 @@
 ---
 layout:     post
-title:      "How to use any Amazon S3-compatible app with Azure Blob Storage"
+title:      "How to use s3cmd and any other Amazon S3-compatible app with Azure Blob Storage"
 subtitle:   "A world of apps and tools finally working with Azure Storage, in just 5 minutes!"
 date:       2017-06-12 22:14:00
 author:     "Alessandro Segala"
 header-img: "img/minio.jpg"
 comments:   yes
+published: false
 ---
 
-In the cloud storage world, it's not a secret that the Amazon S3 APIs are considered the *de facto* standard. Countless third-party and open source apps, libraries and tools are built to take advantage of S3.
+In the cloud storage world, it's not a secret that the Amazon S3 APIs are considered the *de facto* standard. Countless third-party and open source apps, libraries and tools are built to take advantage of S3, including very popular tools like [s3cmd](http://s3tools.org/s3cmd).
 
 Azure provides excellent object storage too with **Azure Blob Storage**, which offers unmatched durability, virtually infinite capacity and multiple tiers of storage. Prices are equal to — when not lower than — Amazon's offerings too! However, because Azure Blob Storage was developed before the world decided to "standardize" on the S3 APIs, the two use different interfaces, and so most applications and libraries designed to work with Amazon S3 do not support Azure.
 
@@ -70,7 +71,7 @@ $ az storage account show-connection-string \
 }
 ````
 
-The Account Key is at the end of the connectionString parameter, and it's a base64-encoded string. Take note of that, as we'll need it in the next step.
+The Account Key is at the end of the connectionString parameter, and it's a base64-encoded string. Take note of that, as we'll need it in the next steps.
 
 It's now time to deploy Minio to the **Web App on Linux**. First, we need to create an App Service Plan, which represents the managed VM(s) that will serve our app; after that, we're creating a Web App inside it. We're picking a "B1" (Basic 1) tier, which should be enough to run our lightweight Minio app; note also the `--is-linux` flag, to create a Linux-based Web App. As in the case of the storage account, the name of the Web App (`aleminio` in the example below) has to be globally unique too.
 
@@ -99,7 +100,7 @@ On the last step, let's **run Minio on the Web App**. First, we need to pass the
 ````bash
 # Environmental variables
 # The value for MINIO_ACCESS_KEY is the name of the Storage Account
-# Fill MINIO_SECRET_KEY with the Storage Account Access Key instead
+# Fill MINIO_SECRET_KEY with the Storage Account Key instead
 $ az webapp config appsettings set \
     --settings "MINIO_ACCESS_KEY=aleminiostorage" "MINIO_SECRET_KEY=rOduFZr22jJ+..." "PORT=9000" \
     --name "aleminio" \
@@ -129,7 +130,51 @@ Configure your **client apps/libraries** with the following settings:
 
 - S3 endpoint: `https://webappname.azurewebsites.net`, replacing *webappname* with the name of your Web App (and note the use of https)
 - Access Key: the name of your Azure Blob Storage Account; in the example above, *aleminiostorage*
-- Secret Key: the Access Key of your Azure Blob Storage Account
+- Secret Key: the Account Key of your Azure Blob Storage Account
+
+## s3cmd
+
+As an example, let's configure s3cmd to use our own Minio server.
+
+Download the [s3cmd](http://s3tools.org/s3cmd) binary from the official site and extract it somewhere.
+
+Create then a file named `~/.s3cfg` to configure s3cmd:
+
+````conf
+# Setup endpoint: hostname of the Web App
+host_base = aleminio.azurewebsites.net
+host_bucket = aleminio.azurewebsites.net
+# Leave as default
+bucket_location = us-east-1
+use_https = True
+
+# Setup access keys
+# Access Key = Azure Storage Account name
+access_key =  aleminiostorage
+# Secret Key = Azure Storage Account Key
+secret_key = rOduFZr22jJ+...
+
+# Use S3 v4 signature APIs
+signature_v2 = False
+````
+
+You should be able to use s3cmd now! Some examples:
+
+````bash
+# Create a bucket
+$ ./s3cmd mb s3://testbucket
+Bucket 's3://testbucket/' created
+
+# List all buckets
+$ ./s3cmd ls s3://
+2017-06-12 19:58  s3://testbucket
+
+# Uplaod some files
+$ ./s3cmd put photos/* s3://testbucket
+````
+
+**TODO** Currently there's a bug with s3cmd that makes this fail. https://github.com/minio/minio/issues/4537
+
 
 Let me know in the comments how you plan to use Minio with Azure Blob Storage!
 
