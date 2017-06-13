@@ -64,7 +64,7 @@ A very popular application is **fail2ban**, a service that analyzes system logs 
 
 A simpler option is to leverage **iptables** and rate-limit the number of connections on the SSH port from the same IP. Unlike the fail2ban example above, this will count all the connections in the time frame, regardless of whether the authentication succeeded. There's a chance, thus, that admins that have to do multiple, repeated (and valid!) connections in a short amount of time may be locked out as well, but only for a few minutes.
 
-An example iptables configuration is below. In addition to allowing ports 80 and 443, this will enable connections to port 22, with a limit of 4 connections from the same IP in a 5-minute window. An IP attempting a 5th connection within 5 minutes will be banned for the next 5 minutes. On a CentOS or RHEL box, place this file in `/etc/syconfig/iptables` (on CentOS/RHEL 7, you may need to install the `iptables-service` package, and make sure you're not conflicting with firewalld):
+An example iptables configuration is below. In addition to allowing ports 80 and 443, this will enable connections to port 22, with a limit of 4 connections from the same IP in a 5-minute window. An IP attempting a 5th connection within 5 minutes will be banned for the next 5 minutes. On a CentOS or RHEL box, place this file in `/etc/syconfig/iptables` (on CentOS/RHEL 7, you may need to install the `iptables-services` package, and make sure you're not conflicting with firewalld):
 
 ````
 *filter
