@@ -7,6 +7,14 @@
 
     <title>{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
 
+    <!-- Social -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@egoalesum">
+    <meta name="twitter:creator" content="@egoalesum">
+    <meta name="twitter:title" content="{% if page.title %}{{ page.title }} | {{ site.title }}{% else %}{{ site.title }}{% endif %}">
+    <meta name="twitter:description" content="{% if page.subtitle %}{{ page.subtitle }}{% else %}{{ page.description }}{% endif %}">
+    <meta name="twitter:image" content="{{ prepend: site.url }}/{{ site.baseurl }}/{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}">
+
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
     
     <link rel="alternate" type="application/rss+xml" title="{{ site.title }} RSS" href="/feed.xml">
