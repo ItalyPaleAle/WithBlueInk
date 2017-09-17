@@ -12,7 +12,7 @@ linkedin_username: alessandrosegala
 analytics: true
 
 # Build settings
-gems: 
+plugins: 
   - "jekyll-paginate"
   - "jekyll-redirect-from"
   - "jekyll-sitemap"
@@ -26,6 +26,7 @@ exclude:
   - "Makefile"
   - "Gruntfile.js"
   - "package.json"
+  - "package-lock.json"
   - "utils"
   - "README.md"
   - "LICENSE.md"
