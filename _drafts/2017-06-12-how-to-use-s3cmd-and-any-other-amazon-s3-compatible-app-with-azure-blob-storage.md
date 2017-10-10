@@ -86,9 +86,10 @@ $ az appservice plan create \
     --resource-group "Minio" \
     --location "WestUS"
 
-# Create the Web App
+# Create the Web App configured with the minio/minio container
 $ az webapp create \
     --name "aleminio" \
+    --deployment-container-image-name "minio/minio" \
     --plan "MinioAppPlan" \
     --resource-group "Minio"
 ````
@@ -106,18 +107,7 @@ $ az webapp config appsettings set \
     --name "aleminio" \
     --resource-group "Minio"
 
-# Output
-{
-  "DOCKER_CUSTOM_IMAGE_NAME": "minio/minio",
-  "DOCKER_CUSTOM_IMAGE_RUN_COMMAND": "gateway azure",
-  "PORT": "9000"
-}
-
-# Custom container and startup command
-$ az webapp config container set \
-    --docker-custom-image-name "minio/minio" \
-    --name "aleminio" \
-    --resource-group "Minio"
+# Startup command
 $ az webapp config set \
     --startup-file "gateway azure" \
     --name "aleminio" \
