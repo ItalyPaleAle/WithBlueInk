@@ -223,7 +223,7 @@ In this example we'll be using the same Azure VM as before, with two data disks 
 
 Before turning on encryption, we need to generate a new key. In this example, we'll be using a keyfile stored on the OS disk – unencrypted. In a production environment this might not be acceptable, and you may want to leverage services such as [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/) to store your key instead. Execute the following commands to generate a new key and save it in `/root/data01.key` (and make a backup copy of it!).
 
-    $ dd if=/dev/random of=/root/data01.key bs=1024 count=512
+    $ openssl rand 512 > /root/data01.key
     $ chmod 0400 /root/data01.key
 
 > **Tip:** If the virtual machine supports the AES-NI extension we can leverage hardware-accelerated encryption by loading the proper kernel module. On Azure, most VMs are running on Intel CPUs that support AES-NI; only A-series VMs may sometimes run on AMD chips that do not have hardware acceleration for encryption. 
