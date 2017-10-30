@@ -2,11 +2,10 @@
 layout:     post
 title:      "How to use s3cmd and any other Amazon S3-compatible app with Azure Blob Storage"
 subtitle:   "A world of apps and tools finally working with Azure Storage, in just 5 minutes!"
-date:       2017-06-12 22:14:00
+date:       2017-10-29 21:44:00
 author:     "Alessandro Segala"
 header-img: "img/minio.jpg"
 comments:   yes
-published: false
 ---
 
 In the cloud storage world, it's not a secret that the Amazon S3 APIs are considered the *de facto* standard. Countless third-party and open source apps, libraries and tools are built to take advantage of S3, including very popular tools like [s3cmd](http://s3tools.org/s3cmd).
@@ -73,7 +72,7 @@ $ az storage account show-connection-string \
 
 The Account Key is at the end of the connectionString parameter, and it's a base64-encoded string. Take note of that, as we'll need it in the next steps.
 
-It's now time to deploy Minio to the **Web App on Linux**. First, we need to create an App Service Plan, which represents the managed VM(s) that will serve our app; after that, we're creating a Web App inside it. We're picking a "B1" (Basic 1) tier, which should be enough to run our lightweight Minio app; note also the `--is-linux` flag, to create a Linux-based Web App. As in the case of the storage account, the name of the Web App (`aleminio` in the example below) has to be globally unique too.
+It's now time to deploy Minio to the **Web App on Linux**. First, we need to create an App Service Plan, which represents the managed VM(s) that will serve our app; after that, we're creating a Web App inside it. We're picking a "B1" (Basic 1) tier, which should be enough to run our lightweight Minio app; note also the `--is-linux` flag, to create a Linux-based Web App. As in the case of the storage account, the name of the Web App (`aleminio` in the example below) has to be globally unique too. We're also configuring the Web App to run the `minio/minio` image from Docker Hub.
 
 > Note: Traffic between your Azure Web App and the Azure Storage Account is free of charge, for as long as the two are in the same Azure Region!
 
@@ -96,7 +95,7 @@ $ az webapp create \
 
 The Web App on Linux should now be up and running, at the URL *webappname*.azurewebsites.net - in my example, `https://aleminio.azurewebsites.net`.
 
-On the last step, let's **run Minio on the Web App**. First, we need to pass the configuration as environmental variables (as we did with the `-e` flag in the Docker run command above), then we will tell the Web App to use a custom container.
+On the last step, let's configure Minio on the Web App. First, we need to pass the configuration as environmental variables, similarly to what we did with the `-e` flag in the Docker run command above. We then need to tell the Web App what command to execute on the Docker container to start Minio in gateway mode.
 
 ````bash
 # Environmental variables
@@ -126,7 +125,9 @@ Configure your **client apps/libraries** with the following settings:
 
 As an example, let's configure s3cmd to use our own Minio server.
 
-Download the [s3cmd](http://s3tools.org/s3cmd) binary from the official site and extract it somewhere.
+Download the [s3cmd](https://github.com/s3tools/s3cmd/releases) binary from GitHub and extract it somewhere.
+
+> Note: make sure you're using s3cmd 2.0.1 or higher, as previous releases have issues with Minio as gateway to Azure Storage. Additionally, please make sure you're using Minio 2017-10-27 or higher.
 
 Create then a file named `~/.s3cfg` to configure s3cmd:
 
@@ -162,9 +163,6 @@ $ ./s3cmd ls s3://
 # Uplaod some files
 $ ./s3cmd put photos/* s3://testbucket
 ````
-
-**TODO** Currently there's a bug with s3cmd that makes this fail. https://github.com/minio/minio/issues/4537
-
 
 Let me know in the comments how you plan to use Minio with Azure Blob Storage!
 
