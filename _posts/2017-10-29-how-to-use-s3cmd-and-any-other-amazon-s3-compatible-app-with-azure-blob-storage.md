@@ -166,4 +166,4 @@ $ ./s3cmd put photos/* s3://testbucket
 
 Let me know in the comments how you plan to use Minio with Azure Blob Storage!
 
-<small>*Cover photo by Jacek Malinowski ([Unsplash](https://unsplash.com/@jaxek?utm_campaign=photographer-credit))*</small>
+<small>*Cover photo by Jacek Malinowski ([Unsplash](https://unsplash.com/@jaxek))*</small>
