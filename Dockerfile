@@ -30,4 +30,5 @@ FROM nginx:stable-alpine
 COPY --from=builder /build/_site /www
 
 # Copy Nginx configuration
+RUN rm /etc/nginx/conf.d/*
 COPY docker/withblueink.conf docker/ssl.conf docker/gzip.conf /etc/nginx/conf.d/
