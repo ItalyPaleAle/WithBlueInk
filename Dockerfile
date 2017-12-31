@@ -10,7 +10,7 @@ RUN apk add --no-cache ruby ruby-io-console ruby-irb ruby-json \
 
 # Copy the Gemfile first
 WORKDIR /build
-COPY Gemfile Gemfile.lock /build/
+COPY Gemfile /build/
 
 # Install packages with bundle
 RUN bundle install
