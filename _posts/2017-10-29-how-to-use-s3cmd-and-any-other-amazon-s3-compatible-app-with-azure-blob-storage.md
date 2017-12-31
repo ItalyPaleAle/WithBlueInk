@@ -8,7 +8,7 @@ header-img: "img/minio.jpg"
 comments:   yes
 ---
 
-In the cloud storage world, it's not a secret that the Amazon S3 APIs are considered the *de facto* standard. Countless third-party and open source apps, libraries and tools are built to take advantage of S3, including very popular tools like [s3cmd](http://s3tools.org/s3cmd).
+In the cloud storage world, it's not a secret that the Amazon S3 APIs are considered the *de facto* standard. Countless third-party and open source apps, libraries and tools are built to take advantage of S3, including very popular tools like [s3cmd](https://github.com/s3tools/s3cmd).
 
 Azure provides excellent object storage too with **Azure Blob Storage**, which offers unmatched durability, virtually infinite capacity and multiple tiers of storage. Prices are equal to — when not lower than — Amazon's offerings too! However, because Azure Blob Storage was developed before the world decided to "standardize" on the S3 APIs, the two use different interfaces, and so most applications and libraries designed to work with Amazon S3 do not support Azure.
 
