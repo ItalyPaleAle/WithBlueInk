@@ -5,6 +5,7 @@ package-lock.json
 .dockerignore
 .git
 .gitignore
+.vscode
 
 # Compiled site
 _site

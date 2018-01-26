@@ -15,6 +15,8 @@ dist:
 	jekyll clean
 	@echo "\033[0;1mBuilding...\033[0;0m"
 	JEKYLL_ENV=production jekyll build
+	# Fix an issue with the sitemap
+	sed -i 's/\/about/\/about.html/g' _site/sitemap.xml
 
 serve:
 	@echo "\033[0;1mBuilding for environment: \033[0;1;35mdevelopment\033[0;0m"

@@ -1,7 +1,7 @@
 ###
 ### Stage 1: builder
 ###
-FROM ruby:2.4-alpine AS builder
+FROM ruby:2.5-alpine AS builder
 
 # Install packages
 RUN apk add --no-cache ruby ruby-io-console ruby-irb ruby-json \
