@@ -5,15 +5,15 @@ FROM ruby:2.5-alpine AS builder
 
 # Install packages
 RUN apk add --no-cache ruby ruby-io-console ruby-irb ruby-json \
-    ruby-rake ruby-rdoc ruby-bundler ruby-dev \
+    ruby-rake ruby-rdoc ruby-dev \
     build-base libffi-dev libstdc++ tzdata ca-certificates
 
-# Copy the Gemfile first
+# Copy the Gemfile and Makefile first
 WORKDIR /build
-COPY Gemfile /build/
+COPY Gemfile Gemfile.lock Makefile /build/
 
 # Install packages with bundle
-RUN bundle install
+RUN make deps
 
 # Copy the site's content
 COPY . /build

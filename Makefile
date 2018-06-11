@@ -7,12 +7,12 @@ updatedeps: deps
 	bundle update
 
 clean:
-	jekyll clean
+	bundle exec jekyll clean
 
 dist:
 	@echo "\033[0;1mBuilding for environment: \033[0;1;32mproduction\033[0;0m"
 	@echo "\033[0;1mCleaning destination directory...\033[0;0m"
-	jekyll clean
+	bundle exec jekyll clean
 	@echo "\033[0;1mBuilding...\033[0;0m"
 	JEKYLL_ENV=production jekyll build
 	# Fix an issue with the sitemap
@@ -21,4 +21,4 @@ dist:
 serve:
 	@echo "\033[0;1mBuilding for environment: \033[0;1;35mdevelopment\033[0;0m"
 	@echo "\033[0;1mBuilding and starting web server...\033[0;0m"
-	JEKYLL_ENV=development jekyll serve --host=0.0.0.0
+	JEKYLL_ENV=development bundle exec jekyll serve --host=0.0.0.0
