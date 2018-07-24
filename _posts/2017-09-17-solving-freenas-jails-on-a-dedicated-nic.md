@@ -14,7 +14,7 @@ Recently I faced a situation in which I needed a jail to be connected to a dedic
 
 This document was tested against FreeNAS 11.0, using the "legacy" UI (not the experimental, Angular-based UI), but it should work also with FreeNAS 9.x.
 
-### My network topology
+## My network topology
 
 My network has the following topology:
 
@@ -25,7 +25,7 @@ My network has the following topology:
    - The FreeNAS host is in this VLAN, with IP `10.2.2.1`.
    - The gateway and DNS server for this VLAN is `10.2.0.1`.
 
-### 1. Make sure FreeNAS has an unused network interface
+## 1. Make sure FreeNAS has an unused network interface
 
 Whether it's a physical NIC or a virtual one, make sure it's connected and ready for FreeNAS to use.
 
@@ -33,7 +33,7 @@ In my case, I attached a new virtual NIC named *vmx2* to the FreeNAS VM, and pla
 
 It's important that you do **not** configure the new interface for FreeNAS to use. Since this is dedicated to the jail, we do not want any FreeNAS service to be bound to that, so do not enable it in the "Network / Interfaces" section of the FreeNAS web UI.
 
-### 2. Create a new jail
+## 2. Create a new jail
 
 Using the FreeNAS web interface, create a new FreeBSD jail in the usual way. Click on "Advanced mode", then configure the jail with:
 
@@ -43,7 +43,7 @@ Using the FreeNAS web interface, create a new FreeBSD jail in the usual way. Cli
 
 Once the jail is created, it will be started automatically, so stop it using the FreeNAS web UI (select the jail, then press on the red "semaphore" below the list).
 
-### 3. Configure the jail to use the secondary NIC
+## 3. Configure the jail to use the secondary NIC
 
 The next step requires connecting to the FreeNAS host via SSH, as root.
 
@@ -86,7 +86,7 @@ $ warden start MyJail
 
 **Important:** After changing the configuration of the jail by modifying the files directly via SSH, do not make changes to the jail using the FreeNAS web UI, or our networking setup will be overwritten!
 
-### 4. DNS configuration (Optional)
+## 4. DNS configuration (Optional)
 
 By default, the jail will inherit the DNS server of the FreeNAS host. If, like in my case, this is not accessible from the VLAN of the jail, we need to change the DNS configuraton too.
 

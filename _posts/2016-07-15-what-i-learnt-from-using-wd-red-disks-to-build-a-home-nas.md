@@ -20,18 +20,20 @@ Western Digital implemented in the WD Red the IntelliPark feature, the same one 
 
 The issue above has been patched in more recent units. However, as a consequence of this buggy firmware, on the two WD Red disks that I recycled from my previous NAS, the *Load Cycle Count* was quite high:
 
-    # New drive (2 month old - NASWare 3.0) - tweaked firmware
-    
-    $ smartctl -a /dev/sda | grep "^193"
-    193 Load_Cycle_Count        0x0032   200   200   000    Old_age   Always       -       387
-    
-    # Older drives (8 months old - NASWare 3.0) - un-tweaked firmware
-    
-    $ smartctl -a /dev/sdc | grep "^193"
-    193 Load_Cycle_Count        0x0032   198   198   000    Old_age   Always       -       7070
-    
-    $ smartctl -a /dev/sdd | grep "^193"
-    193 Load_Cycle_Count        0x0032   198   198   000    Old_age   Always       -       7086 
+````bash
+# New drive (2 month old - NASWare 3.0) - tweaked firmware
+
+$ smartctl -a /dev/sda | grep "^193"
+193 Load_Cycle_Count        0x0032   200   200   000    Old_age   Always       -       387
+
+# Older drives (8 months old - NASWare 3.0) - un-tweaked firmware
+
+$ smartctl -a /dev/sdc | grep "^193"
+193 Load_Cycle_Count        0x0032   198   198   000    Old_age   Always       -       7070
+
+$ smartctl -a /dev/sdd | grep "^193"
+193 Load_Cycle_Count        0x0032   198   198   000    Old_age   Always       -       7086 
+````
 
 A high LCC can shorten the lifespan of your drives. Even though WD [certifies](http://www.wdc.com/wdproducts/library/SpecSheet/ENG/2879-800002.pdf) drives in the Red series to last at least 600,000 load cycles (in controlled environments), consider that the disks above were used in a home NAS, where they spent approximately two-thirds of the time in standby.
 
@@ -43,63 +45,69 @@ As you can see from my data above, the newer drive shipped with a firmware alrea
 2. Open a command line window with administrator privileges, then navigate to the folder in which the utility was downloaded
 3. Execute one of the following commands:
 
-````
+````sh
 # Show help menu
-$ wd5741.exe -?
+wd5741.exe -?
 
 # List all drives
-$ wd5741.exe -D?
+wd5741.exe -D?
 
 # Update a specific drive (replace # with drive number)
-$ wd5741.exe -D#
+wd5741.exe -D#
 
 # Update all supported (and not already patched) drives:
-$ wd5741.exe -Dall
+wd5741.exe -Dall
 ````
 
 ### Fix your WD Red drives on Linux (64-bit)
 
 Execute the following commands to download the utility:
 
-    $ curl -L -o wd5741x64 http://download.wdc.com/sata/wd5741x64?v=2916
-    $ chmod +x ./wd5741x64
+````bash
+curl -L -o wd5741x64 http://download.wdc.com/sata/wd5741x64?v=2916
+chmod +x ./wd5741x64
+````
 
 Then use the following commands to update your drives:
 
-    # Show help menu
-    $ ./wd5741x64 -?
+````bash
+# Show help menu
+./wd5741x64 -?
     
-    # List all drives
-    $ ./wd5741x64 -D?
+# List all drives
+./wd5741x64 -D?
     
-    # Update a specific drive (replace # with drive number)
-    $ ./wd5741x64 -D#
+# Update a specific drive (replace # with drive number)
+./wd5741x64 -D#
     
-    # Update all supported (and not already patched) drives:
-    $ ./wd5741x64 -Dall
-
+# Update all supported (and not already patched) drives:
+./wd5741x64 -Dall
+````
 
 ### Fix your WD Red drives on Linux (32-bit)
 
 Execute the following commands to download the utility:
 
-    $ curl -L -o wd5741x32 http://download.wdc.com/sata/wd5741x32?v=2916
-    $ chmod +x ./wd5741x32
+````bash
+curl -L -o wd5741x32 http://download.wdc.com/sata/wd5741x32?v=2916
+chmod +x ./wd5741x32
+````
 
 Then use the following commands to update your drives:
 
-    # Show help menu
-    $ ./wd5741x32 -?
+````bash
+# Show help menu
+./wd5741x32 -?
     
-    # List all drives
-    $ ./wd5741x32 -D?
+# List all drives
+./wd5741x32 -D?
     
-    # Update a specific drive (replace # with drive number)
-    $ ./wd5741x32 -D#
+# Update a specific drive (replace # with drive number)
+./wd5741x32 -D#
     
-    # Update all supported (and not already patched) drives:
-    $ ./wd5741x32 -Dall
-
+# Update all supported (and not already patched) drives:
+./wd5741x32 -Dall
+````
 
 ## Second: get your WD Red drives to go in standby with hd-idle
 
@@ -109,37 +117,41 @@ On Linux, the traditional way to control disk standby (and power management) is 
 
 You can download hd-idle from [Sourceforge](http://hd-idle.sourceforge.net/). Sadly, as of writing not many Linux distributions offer it pre-packaged, so you will probably have to download the source code and then compile it (instructions are in the website linked). Once hd-idle is installed in `/usr/local/sbin` (default path when you do `make && sudo make install`), you can run it as a service. On CentOS 7, Ubuntu 15.04 and newer, and pretty much any other Linux distribution that uses systemd, you can create the following unit in `/etc/systemd/system/hd-idle.service` (be sure to tune the configuration for your disks, *sda* and *sdb* in the example!):
 
-    [Unit]
-    Description=hd-idle daemon
+````systemd
+[Unit]
+Description=hd-idle daemon
 
-    [Service]
-    Type=simple
-    Restart=always
-    RestartSec=10
-    
-    ExecStartPre=-/usr/bin/killall hd-idle
-    
-    # Set disk spin-down time to:
-    # 1800 seconds (30 minutes) for sda
-    # 1200 seconds (20 minutes) for sdb
-    # 0 (no spin-down) for other disks
-    # See documentation at http://hd-idle.sourceforge.net/
-    # Note the "-d" flag to ensure that hd-idle remains in foreground 
-    # and can be managed by systemd
-    ExecStart=/usr/local/sbin/hd-idle -d -i 0 -a sda -i 1800 -a sdb -i 1200 
-    
-    ExecStop=/usr/bin/killall hd-idle
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
 
-    [Install]
-    WantedBy=multi-user.target
+ExecStartPre=-/usr/bin/killall hd-idle
+
+# Set disk spin-down time to:
+# 1800 seconds (30 minutes) for sda
+# 1200 seconds (20 minutes) for sdb
+# 0 (no spin-down) for other disks
+# See documentation at http://hd-idle.sourceforge.net/
+# Note the "-d" flag to ensure that hd-idle remains in foreground 
+# and can be managed by systemd
+ExecStart=/usr/local/sbin/hd-idle -d -i 0 -a sda -i 1800 -a sdb -i 1200 
+
+ExecStop=/usr/bin/killall hd-idle
+
+[Install]
+WantedBy=multi-user.target
+````
 
 Save the file, then enable the service with:
 
-    # Enable at boot
-    $ systemctl enable hd-idle
+````bash
+# Enable at boot
+systemctl enable hd-idle
     
-    # Start the service
-    $ systemctl start hd-idle
+# Start the service
+systemctl start hd-idle
+````
 
 Your WD Red disks will then finally spin down, saving power.
 

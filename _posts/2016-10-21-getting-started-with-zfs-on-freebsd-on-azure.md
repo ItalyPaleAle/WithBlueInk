@@ -51,19 +51,23 @@ For the first configuration, we're following the simplest possible one, with the
 
 Open a terminal as superuser (*root*) and start the ZFS service:
 
-    # Enable starting of ZFS at boot
-    $ echo 'zfs_enable="YES"' >> /etc/rc.conf
+````bash
+# Enable starting of ZFS at boot
+echo 'zfs_enable="YES"' >> /etc/rc.conf
 
-    # Start the service
-    $ service zfs start
+# Start the service
+service zfs start
+````
 
 Create then the first ZFS pool (zpool) named `tank` on the two data disks (`/dev/da2` and `/dev/da3`):
 
-    $ zpool create tank /dev/da2 /dev/da3
+````bash
+zpool create tank /dev/da2 /dev/da3
+````
 
 ...and that's it! The command should complete almost instantly and you'll have your zpool `tank` created and configured to stripe across multiple disks. You can check the status with `zpool status`:
 
-````
+````bash
 $ zpool status
   pool: tank
  state: ONLINE
@@ -80,7 +84,7 @@ errors: No known data errors
 
 When creating the zpool `tank`, we also get a root dataset with the same name, which is automatically mounted at boot in `/tank` (no need to modify `/etc/fstab`). You can check that with the `zfs list` command:
 
-````
+````bash
 $ zfs list
 NAME   USED  AVAIL  REFER  MOUNTPOINT
 tank  68.5K  1.92T    19K  /tank
@@ -88,7 +92,7 @@ tank  68.5K  1.92T    19K  /tank
 
 Let's create a child dataset of `tank` to store our shared files, and then specifically two sub-datasets for documents and photos:
 
-````
+````bash
 $ zfs create tank/shared
 $ zfs create tank/shared/documents
 $ zfs create tank/shared/photos   
@@ -115,19 +119,22 @@ You can see that our datasets for documents and photos are automatically mounted
 
 ZFS datasets are highly configurable, and as mentioned before properties are inherited by child datasets by default (but each child can overwrite them). Properties can be set on datasets at any time, but it's recommended to set them during creation (use the `-o` switch on the `zpool create` command) or immediately after, before writing any data.
 
-    # Set properties while creating the pool
-    $ zpool create -o option=value dataset vdevs
+````bash
+# Set properties while creating the pool
+zpool create -o option=value dataset vdevs
 
-    # Example
-    $ zpool create -o compression=lz4 tank /dev/da2 /dev/da3
+# Example
+zpool create -o compression=lz4 tank /dev/da2 /dev/da3
 
-    $ zfs set option=value dataset
+# Setting options - command syntax
+zfs set option=value dataset
 
-    # Example
-    $ zfs set compression=lz4 tank/shared
+# Example
+zfs set compression=lz4 tank/shared
 
-    # Multiple properties can be combined
-    $ zfs set compression=lz4 atime=off tank/shared
+# Multiple properties can be combined
+zfs set compression=lz4 atime=off tank/shared
+````
 
 You can get a full list of configuration properties on the man page for the *zfs* command (`$ man zfs`); I'm going to list only a few interesting ones. 
 
@@ -138,14 +145,16 @@ You can get a full list of configuration properties on the man page for the *zfs
 
 Let's set some options for our datasets:
 
-    # Turn compression on on our "tank/shared" dataset, disable atime recording for performance
-    # and set a maximum size of 100 GB
-    $ zfs set compression=lz4 atime=off quota=100G tank/shared
+````bash
+# Turn compression on on our "tank/shared" dataset, disable atime recording for performance
+# and set a maximum size of 100 GB
+zfs set compression=lz4 atime=off quota=100G tank/shared
 
-    # As the "tank/shared/photos" dataset contains mostly JPEG files, which are already heavily
-    # compressed, there's no need for ZFS to spend time trying to reduce the file size even
-    # further, so let's overwrite the inherited property
-    $ zfs set compression=off tank/shared/photos
+# As the "tank/shared/photos" dataset contains mostly JPEG files, which are already heavily
+# compressed, there's no need for ZFS to spend time trying to reduce thefile size even
+# further, so let's overwrite the inherited property
+zfs set compression=off tank/shared/photos
+````
 
 One last option, **`deduplication`**, is one one of the most interesting features of ZFS, but it should be used with caution. Deduplication comes at a high cost, as it requires a lot of memory to store the deduplication table: it's recommended to have 5 GB of RAM for every 1 TB of data stored. Deduplication can help saving disk space when the data contains lots of duplicated blocks, for example when ZFS is used on a SAN for VM hard disks -  something that will never happen on Azure! In most scenarios users are much better off relying on compression (for example with lz4, which has barely any impact on the CPU) than enabling deduplication. In any case, if you want to understand more about deduplication and how to enable it on ZFS, I'd suggest reading [this blog post](https://blogs.oracle.com/bonwick/entry/zfs_dedup) on the Oracle website.
 
@@ -159,20 +168,26 @@ The L2ARC cache is used to store data that is read from the filesystem, and acts
 
 Enabling L2ARC on the local SSD (`/dev/da1`) is really easy. To start, we need to make sure that the Azure Agent (which is installed by default on FreeBSD images deployed from the Azure Marketplace) isn't mounting the temporary disk automatically: edit the file `/etc/waagent.conf` and set the following parameter to `n`:
 
-    ResourceDisk.Format=n
+````conf
+ResourceDisk.Format=n
+````
 
 Next, restart the Azure Agent (*waagent*) and then unmount the temporary disk if it's mounted:
 
-    $ service waagent restart
-    $ umount /dev/da1s1
+````bash
+service waagent restart
+umount /dev/da1s1
+````
 
 Lastly, add the `/dev/da1` geom as L2ARC for the `tank` zpool:
 
-    $ zpool add tank cache /dev/da1
+````bash
+zpool add tank cache /dev/da1
+````
 
 You can check the status with:
 
-````
+````bash
 $ zpool list -v
 NAME         SIZE  ALLOC   FREE  EXPANDSZ   FRAG    CAP  DEDUP  HEALTH  ALTROOT
 tank        1.98T   751M  1.98T         -     0%     0%  1.00x  ONLINE  -
@@ -196,11 +211,13 @@ You can use one or more disks for the SLOG, and ZFS will stripe across them. Alt
 
 When the disks are attached, attach them as log devices for the `tank` zpool with:
 
-    $ zpool add tank log /dev/da4 /dev/da5
+````bash
+zpool add tank log /dev/da4 /dev/da5
+````
 
 The results can be checked in the usual way:
 
-````
+````bash
 $ zpool list -v
 NAME         SIZE  ALLOC   FREE  EXPANDSZ   FRAG    CAP  DEDUP  HEALTH  ALTROOT
 tank        1.98T   751M  1.98T         -     0%     0%  1.00x  ONLINE  -
@@ -223,34 +240,38 @@ In this example we'll be using the same Azure VM as before, with two data disks 
 
 Before turning on encryption, we need to generate a new key. In this example, we'll be using a keyfile stored on the OS disk – unencrypted. In a production environment this might not be acceptable, and you may want to leverage services such as [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/) to store your key instead. Execute the following commands to generate a new key and save it in `/root/data01.key` (and make a backup copy of it!).
 
-    $ openssl rand 512 > /root/data01.key
-    $ chmod 0400 /root/data01.key
+````bash
+openssl rand 512 > /root/data01.key
+chmod 0400 /root/data01.key
+````
 
 > **Tip:** If the virtual machine supports the AES-NI extension we can leverage hardware-accelerated encryption by loading the proper kernel module. On Azure, most VMs are running on Intel CPUs that support AES-NI; only A-series VMs may sometimes run on AMD chips that do not have hardware acceleration for encryption. 
 >
->     # (If using A-series VMs)
->     # Check the CPU model and manufacturer; if not made by Intel, stop here
->     $ sysctl hw.model
->     # Example: "hw.model: Intel(R) Xeon(R) CPU E5-2673 v3 @ 2.40GHz"
+> ````bash
+> # (If using A-series VMs)
+> # Check the CPU model and manufacturer; if not made by Intel, stop here
+> sysctl hw.model
+> # Example: "hw.model: Intel(R) Xeon(R) CPU E5-2673 v3 @ 2.40GHz"
 >     
->     # If the CPU supports AES-NI instructions
->     $ kldload aesni
->     $ echo 'aesni_load="YES"' >> /boot/loader.conf
+> # If the CPU supports AES-NI instructions
+> kldload aesni
+> echo 'aesni_load="YES"' >> /boot/loader.conf
+> ````
 
 We're now ready to encrypt our disks:
 
-````
+````bash
 # Load the geli kernel module
-$ kldload geom_eli
-$ echo 'geom_eli_load="YES"' >> /boot/loader.conf
+kldload geom_eli
+echo 'geom_eli_load="YES"' >> /boot/loader.conf
 
 # Initialize the encrypted geli disks, using:
 # - 256-bit key
 # - AES-XTS
 # Use the key in /root/data01.key without a passphrase
 # Encrypt both /dev/da2 and /dev/da3
-$ geli init -l 256 -e "AES-XTS" -K /root/data01.key -P /dev/da2
-$ geli init -l 256 -e "AES-XTS" -K /root/data01.key -P /dev/da3
+geli init -l 256 -e "AES-XTS" -K /root/data01.key -P /dev/da2
+geli init -l 256 -e "AES-XTS" -K /root/data01.key -P /dev/da3
 
 # After geli is initialized, ensure you have a backup copy of these files:
 # /var/backups/da2.eli
@@ -258,18 +279,18 @@ $ geli init -l 256 -e "AES-XTS" -K /root/data01.key -P /dev/da3
 
 # Attach the providers (ie. disks) using the keyfile
 # These will create /dev/da[2,3].eli
-$ geli attach -k /root/data01.key -p /dev/da2
-$ geli attach -k /root/data01.key -p /dev/da3
+geli attach -k /root/data01.key -p /dev/da2
+geli attach -k /root/data01.key -p /dev/da3
 
 # Write some data in the encrypted devices
 # This is necessary or the zpool creation will fail
-$ dd if=/dev/random of=/dev/da2.eli bs=1m count=10
-$ dd if=/dev/random of=/dev/da3.eli bs=1m count=10 
+dd if=/dev/random of=/dev/da2.eli bs=1m count=10
+dd if=/dev/random of=/dev/da3.eli bs=1m count=10 
 ````
 
 Ensure the partition is decrypted automatically at boot, by adding the following lines to `/etc/rc.conf`:
 
-````
+````conf
 geli_devices="da2 da3"
 geli_da2_flags="-k /root/data01.key -p"
 geli_da3_flags="-k /root/data01.key -p"
@@ -277,7 +298,7 @@ geli_da3_flags="-k /root/data01.key -p"
 
 Finally, create a zpool named `tank` in the new encrypted volume:
 
-````
+````bash
 # Enable ZFS and start it at boot
 $ echo 'zfs_enable="YES"' >> /etc/rc.conf
 $ service zfs start

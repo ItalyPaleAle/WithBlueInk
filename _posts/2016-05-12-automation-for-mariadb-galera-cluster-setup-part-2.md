@@ -163,7 +163,9 @@ The generator app requires you to specify a SSH RSA public key.
 
 Linux and Mac users can use the built-in `ssh-keygen` command line utility, which is pre-installed in OSX and most Linux distributions. Execute the following command, and when prompted save to the default location (`~/.ssh/id_rsa`):
 
-    $ ssh-keygen -t rsa -b 4096
+````bash
+ssh-keygen -t rsa -b 4096
+````
 
 Your public key will be located in `~/.ssh/id_rsa.pub`.
 

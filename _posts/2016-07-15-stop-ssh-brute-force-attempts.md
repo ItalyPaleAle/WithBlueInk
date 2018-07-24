@@ -22,7 +22,9 @@ This is *A Good Idea™* regardless: disable password-based authentication and u
 
 If you don't have a public key already, you can generate one in seconds with OpenSSH, which is installed by default on Mac OSX and on most Linux distributions. Windows users can use PuTTYgen ([how-to](https://winscp.net/eng/docs/ui_puttygen)) or install OpenSSH for Windows (there are multiple ways; including an [official one](https://github.com/PowerShell/Win32-OpenSSH/wiki/Install-Win32-OpenSSH)). With OpenSSH, generating a public key is as easy as opening a terminal and executing:
 
-    $ ssh-keygen -t rsa -b 4096
+````bash
+ssh-keygen -t rsa -b 4096
+````
 
 You will be asked where to save your key; if this is your first key, it's probably best to the default location (`~/.ssh/id_rsa`). You will also be asked to type a password to encrypt the private key; while this is optional (you could simply leave the fields empty for no password), it's definitely recommended to set a strong password for your keys. When left unencrypted, an attacker that succeeded at stealing the private key from your laptop would have full access to all of your servers! 
 
@@ -30,8 +32,10 @@ ssh-keygen will generate a private key (`id_rsa` with the default naming) and a 
 
 Lastly, you need to configure sshd *on the server* to accept public keys only. This is easily done by editing the sshd configuration file (usually located on `/etc/ssh/sshd_config`, but it may change depending on the Linux distribution in use). Ensure the following settings:
 
-    PubkeyAuthentication yes
-    PasswordAuthentication no
+````conf
+PubkeyAuthentication yes
+PasswordAuthentication no
+````
 
 ### 2. Change the port used by the SSH daemon
 
@@ -39,22 +43,28 @@ In all honesty, the usefulness of this is debatable. It will help preventing un-
 
 For example, here's how to change the SSH port to 9022. Edit the sshd configuration file (location depends on the distribution; usually `/etc/ssh/sshd_config`) and change the "Port" setting:
 
-    Port 9022
+````conf
+Port 9022
+````
 
 Restart your SSH dameon with:
 
-    # For distributions using systemd
-    $ systemctl restart sshd
-    
-    # For other distributions
-    $ service sshd restart
-    $ /etc/init.d/sshd restart
+````bash
+# For distributions using systemd
+systemctl restart sshd
+
+# For other distributions
+service sshd restart
+/etc/init.d/sshd restart
+````
 
 > **Warning:** if you are performing this while connected to a remote server via SSH, there's a very high chance of locking yourself out the machine! Before changing the configuration file and restarting the SSH daemon, you should make sure that the new port for SSH (9022 in this example) is allowed in your firewalls, for example iptables or any other infrastructure-level firewall. 
 
 After changing the port, to connect to your servers you need to add the `-p` option, for example:
 
-    $ ssh user@amazing.host -p 9022
+````bash
+ssh user@amazing.host -p 9022
+````
 
 ### 3. Limit failed logins to SSH
 
@@ -66,7 +76,7 @@ A simpler option is to leverage **iptables** and rate-limit the number of connec
 
 An example iptables configuration is below. In addition to allowing ports 80 and 443, this will enable connections to port 22, with a limit of 4 connections from the same IP in a 5-minute window. An IP attempting a 5th connection within 5 minutes will be banned for the next 5 minutes. On a CentOS or RHEL box, place this file in `/etc/syconfig/iptables` (on CentOS/RHEL 7, you may need to install the `iptables-services` package, and make sure you're not conflicting with firewalld):
 
-````
+````text
 *filter
 :INPUT ACCEPT [0:0]
 :FORWARD ACCEPT [0:0]

@@ -36,19 +36,19 @@ To deploy Minio on an Azure Web App, follow these simple steps. You will need th
 If you haven't done it already, log in to Azure using the CLI with this command, then follow the instructions on the terminal to authenticate using the web browser:
 
 ````bash
-$ az login
+az login
 ````
 
 The first thing we need to do is to create a **Resource Group**, which is nothing but a logical grouping unit where all of our Azure resources are deployed:
 
 ````bash
-$ az group create --name "Minio" --location "WestUS"
+az group create --name "Minio" --location "WestUS"
 ````
 
 Next, we will create the actual **Blob Storage Account** in which our data will be stored; you can skip this if you already have a Storage Account that you want to use. There are multiple tiers of storage (hot vs cool), and multiple levels of redundancy (LRS, GRS, RA-GRS); for an explanation of the different options, I'm better off referring you to the [official documentation](https://docs.microsoft.com/en-us/azure/storage/storage-blob-storage-tiers). In this example, we're using a "Blob Storage Account" (a new kind of Storage Account that offers hot and cool storage, and lower rates for both), in LRS (Locally Redundant Storage: data is replicated 3 times within the same Azure datacenter) and "cool" tier (data is always online, but retrieval are charged a small fee per GB). Note that we're adding two recurring parameters for the Resource Group and location as well. The full list of options for the command below is in the [CLI reference](https://docs.microsoft.com/en-us/cli/azure/storage/account#create). Lastly, remember that the name of the storage account has to be *globally* unique.
 
 ````bash
-$ az storage account create \
+az storage account create \
     --name "aleminiostorage" \
     --kind BlobStorage \
     --sku Standard_LRS \
@@ -60,11 +60,14 @@ $ az storage account create \
 After the account is created, we need to get the **Account Key**:
 
 ````bash
-$ az storage account show-connection-string \
+az storage account show-connection-string \
     --name "aleminiostorage" \
     --resource-group "Minio"
+````
 
-# Output
+Output:
+
+````json
 {
   "connectionString": "DefaultEndpointsProtocol=https;EndpointSuffix=core.windows.net;AccountName=aleminiostorage;AccountKey=rOduFZr22jJ+..."
 }
@@ -78,7 +81,7 @@ It's now time to deploy Minio to the **Web App on Linux**. First, we need to cre
 
 ````bash
 # Create the App Service Plan
-$ az appservice plan create \
+az appservice plan create \
     --name "MinioAppPlan" \
     --is-linux \
     --sku B1 \
@@ -86,7 +89,7 @@ $ az appservice plan create \
     --location "WestUS"
 
 # Create the Web App configured with the minio/minio container
-$ az webapp create \
+az webapp create \
     --name "aleminio" \
     --deployment-container-image-name "minio/minio" \
     --plan "MinioAppPlan" \
@@ -101,13 +104,13 @@ On the last step, let's configure Minio on the Web App. First, we need to pass t
 # Environmental variables
 # The value for MINIO_ACCESS_KEY is the name of the Storage Account
 # Fill MINIO_SECRET_KEY with the Storage Account Key instead
-$ az webapp config appsettings set \
+az webapp config appsettings set \
     --settings "MINIO_ACCESS_KEY=aleminiostorage" "MINIO_SECRET_KEY=rOduFZr22jJ+..." "PORT=9000" \
     --name "aleminio" \
     --resource-group "Minio"
 
 # Startup command
-$ az webapp config set \
+az webapp config set \
     --startup-file "gateway azure" \
     --name "aleminio" \
     --resource-group "Minio"
