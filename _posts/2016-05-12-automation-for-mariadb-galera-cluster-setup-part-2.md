@@ -10,11 +10,11 @@ comments:   yes
 
 *This is the second post in the series. The [first part]({% post_url 2016-03-09-galera-cluster-mariadb-coreos-and-docker-part-1 %}) explained the ideas behind the project and the research done, while now we're focusing on the practice.*
 
-This article contains deployment scripts and templates for deploying a MariaDB and Galera Cluster database, with 3-5 nodes running on CoreOS. In addition to the sample code, I'm also publishing a web-based [generator app](https://github.com/EgoAleSum/mariadb-cluster) as open source code on GitHub that can be used to simplify the creation of the startup scripts.
+This article contains deployment scripts and templates for deploying a MariaDB and Galera Cluster database, with 3-5 nodes running on CoreOS. In addition to the sample code, I'm also publishing a web-based [generator app](https://github.com/ItalyPaleAle/mariadb-cluster) as open source code on GitHub that can be used to simplify the creation of the startup scripts.
 
-All the sample scripts and templates, as well as the "generator" app are published freely on GitHub on **[EgoAleSum/mariadb-cluster](https://github.com/EgoAleSum/mariadb-cluster)** and are released under the terms of the "Unlicense" (essentially, public domain).
+All the sample scripts and templates, as well as the "generator" app are published freely on GitHub on **[ItalyPaleAle/mariadb-cluster](https://github.com/ItalyPaleAle/mariadb-cluster)** and are released under the terms of the "Unlicense" (essentially, public domain).
 
-[![Scripts and templates and the generator app are on GitHub](/assets/mariadb-github.png)](https://github.com/EgoAleSum/mariadb-cluster)
+[![Scripts and templates and the generator app are on GitHub](/assets/mariadb-github.png)](https://github.com/ItalyPaleAle/mariadb-cluster)
 
 There are essentially two parts in this project. The first one is the **Cloud Config file**, which takes care of configuring the cluster *inside* each CoreOS node. This part is independent of the environment used, as the same file can be used on any public cloud (Azure, AWS, Google, etc) and even in private clouds.
 
@@ -26,14 +26,14 @@ Systemd is the replacement of the old SysV Init that ships with almost all moder
 
 There are two key Systemd units in this project:
 
-- *docker-mariadb-galera* ([unit file](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.service) and [bash script](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.sh)): This unit spins up the Docker containers, following all the procedure explained in the first part of this blog post. On the initial bootstrap, when the database is created, the first node launches immediately and starts up the cluster. All the other nodes have to wait for the first one to be initialized (using etcd2 for the semaphore).
-- *docker-mariadb-waiter* ([unit file](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.service) and [bash script](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.sh)): This unit is necessary for the initial database cluster bootstrap. It waits for the first node to complete the initialization, and then updates the status of the semaphore in etcd2 so the other machines can launch the MariaDB conainer and connect them to the cluster.
+- *docker-mariadb-galera* ([unit file](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.service) and [bash script](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.sh)): This unit spins up the Docker containers, following all the procedure explained in the first part of this blog post. On the initial bootstrap, when the database is created, the first node launches immediately and starts up the cluster. All the other nodes have to wait for the first one to be initialized (using etcd2 for the semaphore).
+- *docker-mariadb-waiter* ([unit file](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.service) and [bash script](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.sh)): This unit is necessary for the initial database cluster bootstrap. It waits for the first node to complete the initialization, and then updates the status of the semaphore in etcd2 so the other machines can launch the MariaDB conainer and connect them to the cluster.
 
 ## Cloud Config
 
 The Cloud Config file is a declarative YAML document that is standard on CoreOS for node initialization; the [official OS documentation](https://coreos.com/os/docs/latest/cloud-config.html) is a good article to check out if you want to become more familiar with this technology.
 
-You can generate a custom `cloud-config.yaml` for this MariaDB and Galera Cluster setup using the web-based [generator app](https://github.com/EgoAleSum/mariadb-cluster) on the GitHub repository. Clone the repository locally, then open the `generator.html` file with any modern browser (Edge, Chrome, Firefox, Safari) and choose "Only cloud-config.yaml" as operation mode.
+You can generate a custom `cloud-config.yaml` for this MariaDB and Galera Cluster setup using the web-based [generator app](https://github.com/ItalyPaleAle/mariadb-cluster) on the GitHub repository. Clone the repository locally, then open the `generator.html` file with any modern browser (Edge, Chrome, Firefox, Safari) and choose "Only cloud-config.yaml" as operation mode.
 
 ![Screenshot of generator app in "Only cloud-config" mode](/assets/mariadb-generator-cloudconfig.png)
 
@@ -95,13 +95,13 @@ write_files:
 ````
 
 Linked files:<br />
-[docker-mariadb-galera.service](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.service)<br />
-[docker-mariadb-galera.sh](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.sh)<br />
-[docker-mariadb-waiter.service](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.service)<br />
-[docker-mariadb-waiter.sh](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.sh)<br />
-[etcd-waiter.service](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/etcd-waiter.service)<br />
-[etcd-waiter.sh](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/etcd-waiter.sh)<br />
-[mysql_server.cnf](https://github.com/EgoAleSum/mariadb-cluster/blob/master/sources/cloud-config/mysql_server.cnf)
+[docker-mariadb-galera.service](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.service)<br />
+[docker-mariadb-galera.sh](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.sh)<br />
+[docker-mariadb-waiter.service](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.service)<br />
+[docker-mariadb-waiter.sh](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.sh)<br />
+[etcd-waiter.service](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/etcd-waiter.service)<br />
+[etcd-waiter.sh](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/etcd-waiter.sh)<br />
+[mysql_server.cnf](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/mysql_server.cnf)
 
 A few notes about using the generated Cloud Config file:
 
@@ -114,7 +114,7 @@ A few notes about using the generated Cloud Config file:
 
 When using the generator app in the "Azure Resource Manager template" mode, in addition to the Cloud Config file you will get also a JSON document describing your infrastructure.
 
-As in the previous case, clone the [GitHub repository](https://github.com/EgoAleSum/mariadb-cluster) locally, then open the `generator.html` file with any modern browser (Edge, Chrome, Firefox, Safari) and choose "Azure Resource Manager template" as operation mode.
+As in the previous case, clone the [GitHub repository](https://github.com/ItalyPaleAle/mariadb-cluster) locally, then open the `generator.html` file with any modern browser (Edge, Chrome, Firefox, Safari) and choose "Azure Resource Manager template" as operation mode.
 
 ![Screenshot of generator app in "Only Azure Resource Manager template" mode](/assets/mariadb-generator-arm.png)
 
