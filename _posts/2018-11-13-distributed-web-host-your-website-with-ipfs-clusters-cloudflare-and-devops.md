@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      "Distributed Web: host your website with IPFS clusters, CloudFlare, and DevOps"
+title:      "Distributed Web: host your website with IPFS clusters, Cloudflare, and DevOps"
 subtitle:   "Static website development for the \"Web 3.0\", and optional CI/CD with Azure DevOps"
 date:       2018-11-13 07:14:00
 author:     "Alessandro Segala"
@@ -10,11 +10,11 @@ comments:   yes
 
 IPFS (or, the _InterPlanetary File System_) is a peer-to-peer network designed to distribute content in a decentralized way. At present time, it appears to me that IPFS is one of the (very few) technologies that are part of the Distributed Web–or "Web 3.0"–that has reached a stage where it's mature and user-friendly enough to be adopted by broader audiences.
 
-A huge help in making IPFS more accessible comes from CloudFlare, which just two months ago announced it will offer a free [IPFS gateway](https://blog.cloudflare.com/distributed-web-gateway/) through their CDN. Thanks to that, we can get a custom sub-domain and point it to a website served via IPFS, and this is all transparent to our end users. Cool!
+A huge help in making IPFS more accessible comes from Cloudflare, which just two months ago announced it will offer a free [IPFS gateway](https://blog.cloudflare.com/distributed-web-gateway/) through their CDN. Thanks to that, we can get a custom sub-domain and point it to a website served via IPFS, and this is all transparent to our end users. Cool!
 
 With this article we're looking into one part of the Distributed Web, which is hosting static websites. These are web apps written in HTML and JavaScript (with optional use of React, Angular, Vue, Svelte… I could continue infinitely), that are not connected to any database and do not have any server-side processing. If this sounds a bit limiting, well, it is, but at the moment I don't believe developers and technologists have really figured out a mature, comprehensive and user-friendly way to build distributed backends. There are many projects attempting this (almost all of them based on some sort of blockchain technology), but a winner hasn't emerged. Regardless, with some creativity and relying on external APIs, you can still build very exciting things, even without backends.
 
-In the rest of this article, I'll show you **how to serve a complete static website using IPFS** (with HTML, JavaScript, CSS, images, etc), and making it **available via HTTPS on a custom domain thanks to CloudFlare**. I'll also show you how to optionally enable **full Continuous Integration and Continuous Delivery using Azure DevOps**. We will have high availability with three geo-distributed servers: it is as **production-ready** as it gets for now (for a the technology is too new to be really battle-tested).
+In the rest of this article, I'll show you **how to serve a complete static website using IPFS** (with HTML, JavaScript, CSS, images, etc), and making it **available via HTTPS on a custom domain thanks to Cloudflare**. I'll also show you how to optionally enable **full Continuous Integration and Continuous Delivery using Azure DevOps**. We will have high availability with three geo-distributed servers: it is as **production-ready** as it gets for now (for a the technology is too new to be really battle-tested).
 
 To continue this article, you should to be at least somewhat **familiar with the basics of IPFS**. There are countless of articles and tutorials showing how to get IPFS on your laptop, browse and publish files to the network; if you need a refresher, check out the [official guide](https://docs.ipfs.io/introduction/usage/). We'll also be using Docker extensively.
 
@@ -315,7 +315,7 @@ At this point we can test the web app. If you have the IPFS daemon installed and
 
     http://localhost:8080/ipfs/QmVWPaTVSKqZ28qAefQX3PYptjR3nJgiT5Pugz1pPYsqvz/
 
-Alternatively, you can use a gateway that shows IPFS over HTTP, like CloudFlare:
+Alternatively, you can use a gateway that shows IPFS over HTTP, like Cloudflare:
 
     https://cloudflare-ipfs.com/ipfs/QmVWPaTVSKqZ28qAefQX3PYptjR3nJgiT5Pugz1pPYsqvz/
 
@@ -358,23 +358,189 @@ After saving the new DNS records and waiting a few moments for changes to propag
     http://localhost:8080/ipns/ipfs-demo.withblueink.com
     https://cloudflare-ipfs.com/ipns/ipfs-demo.withblueink.com
 
-## Add a custom domain (with CloudFlare)
+## Add a custom domain (with Cloudflare)
 
-The very last step is about making our custom domain pointing to IPFS directly, so users don't need to type the address of a gateway (or even know they're using one!). Thanks to CloudFlare's new [Distributed Web Gateway](https://www.cloudflare.com/distributed-web-gateway/), this is very easy to do – and totally free!
+The very last step is about making our custom domain pointing to IPFS directly, so users don't need to type the address of a gateway (or even know they're using one!). Thanks to Cloudflare's new [Distributed Web Gateway](https://www.cloudflare.com/distributed-web-gateway/), this is very easy to do – and totally free!
 
-To enable using the CloudFlare IPFS gateway, you need to add 2 DNS records:
+To enable using the Cloudflare IPFS gateway, you need to add 2 DNS records:
 
 1. The first record is the DNSLink TXT record, which we've already added in the previous step. Nothing new to see here!
 2. You also need to add a CNAME for the subdomain you want so it points to `cloudflare-ipfs.com`. In my example, I'm going to create a CNAME record for `ipfs-demo.withblueink.com` pointing to `cloudflare-ipfs.com`.
 
 > Note: recall that CNAME records cannot be set on the root domain, but only a subdomain. That is: you can't create a CNAME record on `withblueink.com`, and you must use a subdomain (like `ipfs-demo.withblueink.com`).
 
-Last step: on the [CloudFlare Distributed Web Gateway](https://www.cloudflare.com/distributed-web-gateway/) page, click on the **Connect your website** button. You'll see a textbox at the bottom of the page; type your domain name there and submit the form: this will setup your domain in the CloudFlare gateway and generate the TLS certificates for your domain.
+Last step: on the [Cloudflare Distributed Web Gateway](https://www.cloudflare.com/distributed-web-gateway/) page, click on the **Connect your website** button. You'll see a textbox at the bottom of the page; type your domain name there and submit the form: this will setup your domain in the Cloudflare gateway and generate the TLS certificates for your domain.
 
-![Setting up the domain with CloudFlare Distributed Web Gateway](/assets/ipfs/cloudflare-setup.png)
+![Setting up the domain with Cloudflare Distributed Web Gateway](/assets/ipfs/cloudflare-setup.png)
 
 After a couple of minutes, your domain will be active, also with TLS, and you can browse your app on IPFS at the URL:
 
     https://ipfs-demo.withblueink.com
 
-![Web app served via CloudFlare gateway](/assets/ipfs/app-cloudflare.png)
+![Web app served via Cloudflare gateway](/assets/ipfs/app-cloudflare.png)
+
+## Continuous Integration and Continuous Delivery with Azure DevOps
+
+Let's make this even more fun and implement full CI/CD capabilities. We'll be using the **free [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/)** to automatically build our app and publish it to IPFS as soon as we make changes to the code.
+
+### Generate a new SSH key
+
+Before we dig into the creation of the pipeline, we need to create a SSH keypair so that Azure DevOps can connect to our VMs and publish our app on IPFS. On one of the nodes we created (in my case, I'm picking the one in the US, because my Azure DevOps account is in the US), connect via SSH and execute:
+
+````sh
+# First: Generate the new key
+ssh-keygen -t rsa -b 4096
+# Save the key in the default location (~/.ssh/id_rsa)
+# Do not add a passphrase to the key
+
+# Second: Append the public key to authorized_keys
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+````
+
+Copy then the contents of the private key (`~/.ssh/id_rsa`) somewhere. You might also want to delete the private key from the server.
+
+### Set up the Build pipeline
+
+To start, [login to Azure DevOps](https://dev.azure.com), and create an account if you don't have one already. You might also want to create a new project for this.
+
+Open your Azure DevOps project, and navigate to the Pipelines tab, then choose Builds. Click on the "New pipeline" button.
+
+![Create a new pipeline landing screen](/assets/ipfs/pipelines-new.png)
+
+Click on the "Use the visual designer" link.
+
+![Choose to use the visual designer](/assets/ipfs/pipelines-visual-designer.png)
+
+Select where your source code lives, and authorize the Azure DevOps app if necessary. You will then be able to select the repository and branch containing your code. In this demo, I'm using the same [rwieruch/minimal-react-webpack-babel-setup](https://github.com/rwieruch/minimal-react-webpack-babel-setup) repo from GitHub, and the master branch.
+
+> Note: the next few steps are specific to this application, which, you'll recall, is compiled using Webpack. Your application might require different steps, and might be built with other tools (e.g. Ruby and Jekyll).
+
+![Selecting a repo](/assets/ipfs/pipelines-repo-selection.png)
+
+In the next step, skip selecting a template and choose to start with an empty job.
+
+![Skipping templates](/assets/ipfs/pipelines-template.png)
+
+Click on the "+" icon next to "Agent job 1". Search for **Node Tool Installer**, then add the task.
+
+![Adding the NPM task](/assets/ipfs/pipelines-add-node-tool.png)
+
+Configure the task with:
+
+- Display name: `Use Node 10.x`
+- Version spec: `10.x`
+
+Add then a task of type **Bash Script** and configure it with:
+
+- Display name: `Bash Script`
+- Type: inline
+- Script: `npm install && npx webpack --mode production`
+
+Lastly, add a **Publish Build Artifacts** task (note: there are two with a similar name; don't pick the deprecated one). Configure this task as:
+
+- Display name: `Publish Artifact: drop`
+- Path to publish `dist` (this is the folder where Webpack puts the compiled files)
+- Artifacts publish location: `Azure Pipelines/TFS`
+
+Lastly, select the row called "Pipeline". Give your pipeline a name (e.g. `ipfs-demo-CI`) and select **Hosted Ubuntu 1604** as agent pool.
+
+![Select agent pool and save](/assets/ipfs/pipelines-pool-and-save.png)
+
+We now have the pipeline complete. Press "Save & Queue" to start a new build. After a few moments, it should be done building the app!
+
+![Succesful CI run](/assets/ipfs/pipelines-ci-done.png)
+
+### Create a Release pipeline
+
+After building, we need to deliver the code. For this, we'll be using the **Releases tab** under Pipelines. Open that, then click on the "New pipeline" button. Once again, do not pick a template, but instead click on "Start with an empty job".
+
+First thing, on the left side click on the blue area saying "Add an artifact".
+
+![First step is adding an artifact](/assets/ipfs/pipelines-release-new.png)
+
+Leaving source type as "Build", choose the Source (build pipeline) that generated the artifacts. This is the build pipeline we created a few moments ago.
+
+![Select artifacts](/assets/ipfs/pipelines-add-artifact.png)
+
+Click then on the Tasks tab, and choose "Stage 1".
+
+![Open stage 1 tasks](/assets/ipfs/pipelines-tasks-menu.png)
+
+Select the first Agent Job and change the Agent pool to use **Hosted Ubuntu 1604**. Then, click on the "+" symbol to add a new task.
+
+![Change pool for Agent Job](/assets/ipfs/pipelines-release-pool.png)
+
+Search for the task **Copy Files Over SSH** and add it. Before continuing, you'll see that you need to create a new "SSH service connection". Click on the "Manage" button next to it.
+
+In the new page that appears, click on the "New service connection" dropdown, and choose "SSH". Configure the connection with:
+
+- Connection name: any value you want, for example the name of the VM - in my case, `IPFS-US`
+- Host name: public IP of your VM
+- User name: the name of the user inside the VM
+- Password: leave empty
+- Private key: paste the private key you generated earlier
+
+![Configure the SSH connection](/assets/ipfs/pipelines-ssh-connection.png)
+
+Back to the previous tab, configure the Copy Files Over SSH task with:
+
+- Display name: `Copy files to staging via SSH`
+- SSH Service Connection: select the connection created a moment ago
+- Source folder: `$(System.DefaultWorkingDirectory)/_ipfs-demo-CI/drop` (the `ipfs-demo-CI` token is the name of the artifacts that you selected a few moments back)
+- Target folder: `/data/ipfs-staging/react` (any subfolder of `/data/ipfs-staging`)
+- Under Advanced, make sure that the following options are checked:
+  - Clean target folder
+  - Overwrite
+  - Fail if no files found to copy
+
+![Configure the SCP task](/assets/ipfs/pipelines-scp-task.png)
+
+Add a second task on the pipeline, of type **SSH**, that will pin the app to IPFS. Configure the task with:
+
+- Display name: `Pin files on IPFS`
+- SSH Service Connection: select the connection created a moment ago
+- Run: "inline script"
+- Inline script: copy the script below. Make sure that the path in the first command is the same as the "target folder" above (and remember that `/data/ipfs-staging` is mapped to `/staging` inside the container)
+
+````sh
+#!/bin/sh
+# Add files to IPFS
+HASH=$(sudo docker exec ipfs-node ipfs add -rQ /staging/react)
+# Pin files
+sudo docker exec ipfs-cluster ipfs-cluster-ctl pin add $HASH
+````
+
+![Configure the SSH task](/assets/ipfs/pipelines-ssh-task.png)
+
+> The task above is missing one step: **changing the TXT DNS record** so the Cloudflare gateway points to the new IPFS content id. How this can be accomplished depends a lot on your domain name registrar (or DNS nameserver), and if they provide any API. <br/>
+> In my specific case, I'm using Cloudflare also as a DNS nameserver, and I can modify the script above to also invoke the Cloudflare APIs. After getting the [API Key](https://support.cloudflare.com/hc/en-us/articles/200167836-Where-do-I-find-my-Cloudflare-API-key-) and the zone ID (in the CloudFlare portal, this is in the "Domain Summary" tab), I need to add this command at the end of the script (make sure "jq" is installed in the system):
+> 
+> ````sh
+> # Note: this updates an existing record; will fail if record doesn't already exist
+> 
+> # Cloudflare API KEY here
+> CLOUDFLARE_API_KEY="1234567890abcdef"
+> # Email address of the Cloudflare account
+> CLOUDFLARE_EMAIL=someone@example.com
+> # Zone id
+> ZONE_ID="1234567890abcdef"
+> # Name of the TXT record
+> DOMAIN=_dnslink.ipfs-demo.withblueink.com
+> 
+> RECORD_ID=$(curl -sS -X GET "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?type=TXT&name=$DOMAIN" \
+>      -H "Content-Type:application/json" \
+>      -H "X-Auth-Key:$CLOUDFLARE_API_KEY" \
+>      -H "X-Auth-Email:$CLOUDFLARE_EMAIL" \
+>          | jq -r '.result[0].id')
+> 
+> curl -sS -X PUT "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$RECORD_ID" \
+>      -H "Content-Type:application/json" \
+>      -H "X-Auth-Key:$CLOUDFLARE_API_KEY" \
+>      -H "X-Auth-Email:$CLOUDFLARE_EMAIL" \
+>      --data "{\"type\":\"TXT\",\"name\":\"$DOMAIN\",\"content\":\"dnslink=/ipfs/$HASH\",\"ttl\":120,\"priority\":10,\"proxied\":false}"
+> ````
+>
+
+Save the release pipeline, then click on the **Release** button and start a new release. Wait a few moments, and it's done!
+
+![Release complete](/assets/ipfs/pipelines-release-done.png)
