@@ -336,40 +336,45 @@ After making the change, the app's content address is now `QmakGEBp4HJZ6tkFydbyv
 
 ![Web app served via IPFS](/assets/ipfs/app-local.png)
 
-## Adding IPNS
+Note that the old content has not been removed, and it will be available for as long as there's at least one node serving it. You can unpin it from the pinset to have it (eventually) removed from our nodes, but that doesn't guarantee that other IPFS nodes in the world will stop seeding it. Instead, read the next session for how to use IPNS.
 
-Now that the app is live, we need to make it easier to access. A path like `/ipfs/QmakGEBp4HJZ6tkFydbyvF6bVvFThqfAwnQS6F4D7ie7hL` is not particularly memorable, and it will change every time you update your content. Since we'll be adding a full domain name with CloudFlare later, this step is optional, but it is useful if you want people to connect to your app using a locally-installed IPFS daemon (and they can help seeding the app too). IPNS is a sort of DNS for content on the IPFS network, and can make addressing content easier.
+## Bind to a domain name
 
-To publish to IPNS, we first need to generate a key. **On your laptop** with the IPFS daemon running do:
+Now that the app is live, we need to make it easier to access. A path like `/ipfs/QmakGEBp4HJZ6tkFydbyvF6bVvFThqfAwnQS6F4D7ie7hL` is not particularly memorable, and it will change every time you update your content. To fix both these issues, we'll be using the DNSLink feature.
 
-````sh
-# Name for the key
-KEY_NAME=react
+We'll need a domain name, and the ability to edit DNS records. We can simply add a TXT record named `_dnslink.domain.com`, with the value `dnslink=/ipfs/<content id>`. Then, users will be able to access your content on IPFS via `/ipns/domain.com` (note the IPNS prefix). You can use subdomains too.
 
-# Generate a new key
-ipfs key gen --type=rsa --size=4096 $KEY_NAME
-````
+I'm going to use `ipfs-demo.withblueink.com` as example. For this, I'm creating a new TXT record:
 
-This will generate a new key and store it in `~/.ipfs/keystore`. It's a good idea to **back up this key** by copying it to a safe place.
+- Record type: TXT
+- Domain: `_dnslink.ipfs-demo.withblueink.com`
+- Value: `dnslink=/ipfs/QmakGEBp4HJZ6tkFydbyvF6bVvFThqfAwnQS6F4D7ie7hL`
+- TTL: 300 seconds(5 minutes)
 
-Now, let's set the IPNS address to our app:
+There's no "right value" for the TTL, as it depending on how often you plan to update the content id (which changes every time you update the content). If you plan to change your content frequently, a low TTL (up to 60 seconds) could be better; on the other hand, if you don't plan to update the content at all, a day (86400 seconds) might be a good choice.
 
-````sh
-ipfs name publish --key=$KEY_NAME QmakGEBp4HJZ6tkFydbyvF6bVvFThqfAwnQS6F4D7ie7hL
+After saving the new DNS records and waiting a few moments for changes to propagate, we should be able to access our app using these URLs:
 
-# Result:
-# Published to QmbeSHRd4w32EFdnUXq4Fi3qSD9Xu1arPNYjj5z5e8jxWF: /ipfs/QmakGEBp4HJZ6tkFydbyvF6bVvFThqfAwnQS6F4D7ie7hL
-````
+    http://localhost:8080/ipns/ipfs-demo.withblueink.com
+    https://cloudflare-ipfs.com/ipns/ipfs-demo.withblueink.com
 
-At this point, we can access our app from the addresses:
+## Add a custom domain (with CloudFlare)
 
-    http://localhost:8080/ipns/QmbeSHRd4w32EFdnUXq4Fi3qSD9Xu1arPNYjj5z5e8jxWF/
-    https://cloudflare-ipfs.com/ipns/QmbeSHRd4w32EFdnUXq4Fi3qSD9Xu1arPNYjj5z5e8jxWF/
+The very last step is about making our custom domain pointing to IPFS directly, so users don't need to type the address of a gateway (or even know they're using one!). Thanks to CloudFlare's new [Distributed Web Gateway](https://www.cloudflare.com/distributed-web-gateway/), this is very easy to do – and totally free!
 
-If we change the content of the app, we can run the `ipfs name publish` command again and have the IPNS name pointing to the latest content.
+To enable using the CloudFlare IPFS gateway, you need to add 2 DNS records:
 
-However, the IPNS name above is still far from memorable. I can use an actual domain name to make it easier, and for example create an alias to `ipfs-demo.withblueink.com`. To do this, I need to create a new TXT record in my DNS zone similar to `dnslink=/ipfs/<content id>`. For example:
+1. The first record is the DNSLink TXT record, which we've already added in the previous step. Nothing new to see here!
+2. You also need to add a CNAME for the subdomain you want so it points to `cloudflare-ipfs.com`. In my example, I'm going to create a CNAME record for `ipfs-demo.withblueink.com` pointing to `cloudflare-ipfs.com`.
 
-    dnslink=/ipfs/<content id>
+> Note: recall that CNAME records cannot be set on the root domain, but only a subdomain. That is: you can't create a CNAME record on `withblueink.com`, and you must use a subdomain (like `ipfs-demo.withblueink.com`).
 
-## Add a custom domain with CloudFlare
+Last step: on the [CloudFlare Distributed Web Gateway](https://www.cloudflare.com/distributed-web-gateway/) page, click on the **Connect your website** button. You'll see a textbox at the bottom of the page; type your domain name there and submit the form: this will setup your domain in the CloudFlare gateway and generate the TLS certificates for your domain.
+
+![Setting up the domain with CloudFlare Distributed Web Gateway](/assets/ipfs/cloudflare-setup.png)
+
+After a couple of minutes, your domain will be active, also with TLS, and you can browse your app on IPFS at the URL:
+
+    https://ipfs-demo.withblueink.com
+
+![Web app served via CloudFlare gateway](/assets/ipfs/app-cloudflare.png)
