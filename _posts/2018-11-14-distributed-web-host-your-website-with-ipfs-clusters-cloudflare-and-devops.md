@@ -2,41 +2,41 @@
 layout:     post
 title:      "Distributed Web: host your website with IPFS clusters, Cloudflare, and DevOps"
 subtitle:   "Static website development for the \"Web 3.0\", and optional CI/CD with Azure DevOps"
-date:       2018-11-13 07:14:00
+date:       2018-11-14 08:39:00
 author:     "Alessandro Segala"
 header-img: "img/pie.jpg"
 comments:   yes
 ---
 
-IPFS (or, the _InterPlanetary File System_) is a peer-to-peer network designed to distribute content in a decentralized way. At present time, it appears to me that IPFS is one of the (very few) technologies that are part of the Distributed Web–or "Web 3.0"–that has reached a stage where it's mature and user-friendly enough to be adopted by broader audiences.
+IPFS (or, the _InterPlanetary File System_) is a peer-to-peer network designed to distribute content in a decentralized way. At present time, it appears to me that IPFS is one of the (very few) technologies that are part of the Distributed Web—or "Web 3.0"—to have reached a stage where they’re mature and user-friendly enough to be adopted by broader audiences.
 
-A huge help in making IPFS more accessible comes from Cloudflare, which just two months ago announced it will offer a free [IPFS gateway](https://blog.cloudflare.com/distributed-web-gateway/) through their CDN. Thanks to that, we can get a custom sub-domain and point it to a website served via IPFS, and this is all transparent to our end users. Cool!
+A huge help in making IPFS more accessible comes from Cloudflare, which just two months ago announced it is offering a free [IPFS gateway](https://blog.cloudflare.com/distributed-web-gateway/) through their CDN. Thanks to that, we can get a custom sub-domain and point it to a website served via IPFS, and this is all transparent to our end users. 😎
 
-With this article we're looking into one part of the Distributed Web, which is hosting static websites. These are web apps written in HTML and JavaScript (with optional use of React, Angular, Vue, Svelte… I could continue infinitely), that are not connected to any database and do not have any server-side processing. If this sounds a bit limiting, well, it is, but at the moment I don't believe developers and technologists have really figured out a mature, comprehensive and user-friendly way to build distributed backends. There are many projects attempting this (almost all of them based on some sort of blockchain technology), but a winner hasn't emerged. Regardless, with some creativity and relying on external APIs, you can still build very exciting things, even without backends.
+With this article we're looking into one part of the Distributed Web, which is hosting static websites. These are web apps written in HTML and JavaScript (with optional use of React, Angular, Vue, Svelte… I could continue _ad nauseam_ here), that are not connected to any database and do not have any server-side processing. If this sounds a bit limiting, well, it is, but at the moment I don't believe developers and technologists have really figured out a mature, comprehensive, and user-friendly way to build distributed backends. There are many projects attempting to do this (almost all of them based on blockchains), but a winner hasn't emerged. Regardless, with some creativity and relying on external APIs, you can still build very exciting apps, even without traditional backend servers.
 
-In the rest of this article, I'll show you **how to serve a complete static website using IPFS** (with HTML, JavaScript, CSS, images, etc), and making it **available via HTTPS on a custom domain thanks to Cloudflare**. I'll also show you how to optionally enable **full Continuous Integration and Continuous Delivery using Azure DevOps**. We will have high availability with three geo-distributed servers: it is as **production-ready** as it gets for now (for a the technology is too new to be really battle-tested).
+In the rest of this article, I'll show you **how to serve a complete static website using IPFS** (with HTML, JavaScript, CSS, images, etc), and make it **available via HTTPS on a custom domain thanks to Cloudflare**. I'll also show you how to optionally enable **full Continuous Integration and Continuous Delivery using Azure DevOps**. We will have high availability with three geo-distributed servers. This is as **production-ready** as it gets, for a the technology is too new to be really battle-tested.
 
-To continue this article, you should to be at least somewhat **familiar with the basics of IPFS**. There are countless of articles and tutorials showing how to get IPFS on your laptop, browse and publish files to the network; if you need a refresher, check out the [official guide](https://docs.ipfs.io/introduction/usage/). We'll also be using Docker extensively.
+To continue this article, you should to be at least somewhat **familiar with the basics of IPFS**. There are countless of articles and tutorials showing how to get IPFS on your laptop, browse and publish files to the network; if you need a refresher, check out the [official guide](https://docs.ipfs.io/introduction/usage/).
 
 > **What IPFS is and what it is not**
 >
 > This confused me at the beginning: *if IPFS is distributed, why do I need servers and high-availability?*. Turns out, I was looking at this the wrong way.<br />
-> IPFS is a *distribution protocol*, and not a storage service. It is more akin to a CDN than a NAS: you don't *upload* files to IPFS, but you *serve* them through it. <br />
-> The difference is that once a node downloaded your data, it will seed it too for as long as it's online (and with the IPFS daemon running), making your content faster. <br />
-> This means that you need at least one node with the data you want to serve pinned in it (so it's not garbage-collected), up 24/7. For high availability, we'll deploy a cluster of nodes, and we'll make it geo-distributed because why not!
+> IPFS is a *distribution protocol*, and not a storage service. It is more akin to a CDN than a NAS: you don't *upload* files to IPFS, but you *serve* files through it. <br />
+> The difference with a traditional CDN is that once a client has downloaded your data, it will seed it too for as long as it's online (and with the IPFS daemon running), making your content available faster.<br />
+> This means that you need at least one node with the data you want to serve pinned in it (so it's not garbage-collected), up 24/7. For high availability, we'll deploy a cluster of nodes, and we'll make it geo-distributed because… well, why not!
 
 ## Prepare the infrastructure
 
-We'll be using **three** nodes to serve our website. These nodes will run the IPFS daemon, and will have our documents pinned to them. In order to keep the list of pinned items (pinset) in sync across all nodes, we'll be using [IPFS Cluster](https://github.com/ipfs/ipfs-cluster), running alongside the IPFS daemon. 
+We'll be using **three** nodes to serve our website. These nodes will be runing the IPFS daemon, and will have our documents pinned in them. In order to keep the list of pinned items (or, the pinset) in sync across all nodes, we'll be using [IPFS Cluster](https://github.com/ipfs/ipfs-cluster), running alongside the IPFS daemon.
 
-Why 3 nodes? IPFS Cluster is built on top of the Raft consensus algorithm, and 3 nodes is the minimum required to ensure that we maintain quorum and the system can continue with operate even with the failure of a single node. These nodes should be deployed in a way that they it will be unlikely for all of them to fail at the same time: an easy way to do that in a cloud environment is to use multiple availability sets or availability zones. We'll go one step further, deploying to multiple regions worldwide, just for fun.
+Why 3 nodes? IPFS Cluster is built on top of the Raft consensus algorithm, and 3 nodes is the minimum required to ensure that we maintain quorum and the system can continue to operate even with the failure of a single node. These nodes should be deployed in a way that it will be highly unlikely for all of them to fail at the same time: in a cloud environment, this is easy done using multiple availability sets and/or availability zones. In this article, we'll go one step further, deploying to multiple regions worldwide, just for fun (but, really, it's not a bad idea for you too).
 
-To start, **create three nodes (Linux VMs) on your favorite cloud provider** (I'll be using Azure in my examples). Thanks to the distributed nature of IPFS, you'll likely be ok with using small nodes for your cluster, so you don't have to break the bank. Make sure that **Docker is installed** in each node, and that the following ports are open in the firewall (in addition to SSH):
+To start, **create three nodes (Linux VMs) on your favorite cloud provider** (I'll be using Azure in my example). Thanks to the distributed nature of IPFS, you'll likely be ok with using small nodes for your cluster, so this won't break the bank for you. Make sure that **Docker is installed** in each node, and that the following ports are open in the firewall (in addition to SSH):
 
 - **4001 (tcp)** for IPFS
 - **9096 (tcp)** for IPFS Cluster
 
-In my example, I have created three Ubuntu 18.04 LTS VMs (the actual distribution isn't important, we'll be using containers) in Azure, in the US, Europe and Asia. Geo-distribution isn't a strict requirement, but it will make our cluster more resilient and we'll be serving data faster to users worldwide. Plus, it's fun! I've also installed Docker CE in all VMs.
+In my example, I have created three Ubuntu 18.04 LTS VMs (we'll be using containers, so the actual distribution isn't important) in Azure, in the US, Europe and Asia. While geo-distribution isn't a strict requirement, it will make our cluster more resilient and we'll be serving data faster to users worldwide. Plus, it sounds a cool thing to do. I've also installed Docker CE in all VMs.
 
 ![Three VMs running on the cloud](/assets/ipfs/running-vms.png)
 
@@ -44,11 +44,11 @@ Take note of the public IPs, as we'll need them.
 
 ## Start the IPFS daemon
 
-First step is to start the IPFS daemon, using Docker. Run this command on every node.
+First step is to start the IPFS daemon, using Docker, running a command on **every node**.
 
 We're using two Docker volumes:
 
-- `/data/ipfs` contains the configuration and internal data for the IPFS daemon. We're mounting it as volume so the data persists when the container is re-created (e.g. when you update the container)
+- `/data/ipfs` contains the configuration and internal data for the IPFS daemon. We're mounting it as volume so the data persists when the container is re-created (e.g. when you update the container image)
 - `/data/ipfs-staging` is where you can put the files you want to publish on IPFS. More on this later.
 
 We're also starting the container with the `-d --restart=always` options, so it will run in the background and will be restarted automatically if it crashes or when the server reboots.
@@ -80,13 +80,13 @@ sudo docker exec \
     ipfs config profile apply server
 ````
 
-That's it! We should now have a working, running IPFS daemon.
+That's it! We should now have a working IPFS daemon.
 
 ## Start IPFS Cluster
 
-This won't be as straightforward. 🙃
+This won't be as straightforward as the last step. 🙃
 
-To start, we need to generate some cryptographic secrets and keys. The first thing we need is a shared **secret** for the cluster. This is a string that we'll give to each node of the cluster, so they can communicate with each other safely. Generate it once on a node:
+To start, we need to generate some cryptographic secrets and keys. The first thing we need is a shared **secret** for the cluster. This is a string that we'll pass to each node of the cluster, so they can communicate with each other safely. Generate it once on one of the nodes:
 
 ````sh
 od  -vN 32 -An -tx1 /dev/urandom | tr -d ' \n' && echo ""
@@ -94,10 +94,10 @@ od  -vN 32 -An -tx1 /dev/urandom | tr -d ' \n' && echo ""
 # e2a63ec01bf0a1fff9df2ade32833e46c42cca67085eecc3737333d9183316f6
 ````
 
-Next, on one of the nodes, generate the **peer id** and **private key** for each node on the cluster. We can do this with the `ìpfs-key` utility, running inside a temporary container:
+Next, again on one of the nodes, generate the **peer id** and **private key** for each node on the cluster. We can do this with the `ìpfs-key` utility, running inside a temporary container:
 
 ````sh
-# Start the Go container
+# Start a container with Go
 sudo docker run --rm -it golang:1.11-alpine sh
 
 # Run these inside the container
@@ -106,7 +106,7 @@ go get github.com/whyrusleeping/ipfs-key
 ipfs-key | base64 | tr -d ' \n' && echo ""
 `````
 
-The result will be similar to this. Line 3 contains the generated key, and line 4 (a very long line) contains the private key.
+The result will be similar to this; line 3 contains the generated key, and line 4 (a very long line) contains the private key.
 
 ````text
 Generating a 2048 bit RSA key...
@@ -115,17 +115,17 @@ ID for generated key: Qma2uTgTZk8Vz456fELirJExns5qPkXdzhCnmEthidmuWd
 CAASpwkwggSjAgEAAoIBAQCj+lZoIh3U+MJ6Oub[...]
 ````
 
-**Repeat the last command for as many times as the number of nodes in your cluster**. In my example, that is three times. At the end, I should have one (only one!) shared secret, and three different pairs of peer id and private key.
+**Repeat the last command as many times as the number of nodes in your cluster**. In my example, that is three times. At the end, I should have one (only one!) shared secret, and three different pairs of peer id and private key.
 
 In **each node** create the config file `/data/ipfs-cluster/service.json`. Use the template below, and fill:
 
 - `cluster.id` containing the peer id (the one generated with the private key, starting with "Qm"); this is unique for each node
 - `cluster.peername` a friendly name for the node; this is unique for each node
 - `cluster.private_key` the private key, generated with the peer id (a long base64-encoded string); this is unique for each node
-- `cluster.secret` the shared secret, same for all nodes
-- `consensus.raft.init_peerset` this is a JSON array of all the peer ids, same for all nodes
+- `cluster.secret` the shared secret; it's the same value for all nodes
+- `consensus.raft.init_peerset` this is a JSON array of all the peer ids; same list for all nodes
 
-The template below has been modified from the stock one, increasing the timeouts so the cluster can work better when the nodes are geo-distributed. Depending on how you use your cluster, you might need to make other advanced changes to the configuration: see the [official documentation](https://cluster.ipfs.io/documentation/deployment/#running-ipfs-cluster-in-production).
+The template below has been modified from the default configuration, increasing the timeouts to make the cluster work better with geo-distributed nodes. Depending on how you use your cluster (for example, how many pins and how often they change), you might need to make other advanced tweaks to the configuration; see the [official documentation](https://cluster.ipfs.io/documentation/deployment/#running-ipfs-cluster-in-production).
 
 ````json
 {
@@ -219,9 +219,9 @@ In **each node** create also the peerstore file in `/data/ipfs-cluster/peerstore
 /ip4/104.214.93.186/tcp/9096/ipfs/QmU7jPxK6LXFDTwkXe173V5LLv3WV43BPGgBYuhXm4FLSj
 ````
 
-> Why not using the method of [Starting a single peer and bootstrapping the rest to it](https://cluster.ipfs.io/documentation/starting/#starting-a-single-peer-and-bootstrapping-the-rest-to-it)? Because that requires communication on the API port 9094, which should not be exposed on the public Internet unless TLS is configured (and that would require setting up TLS certificates, etc).
+> Why not using the method of [Starting a single peer and bootstrapping the rest to it](https://cluster.ipfs.io/documentation/starting/#starting-a-single-peer-and-bootstrapping-the-rest-to-it)? Because that requires the nodes to communicate on the API port 9094, which should not be exposed on the public Internet unless TLS is configured (and doing that would require setting up TLS certificates, basic auth, etc).
 
-Then, in each node, start the container with this command. Try to start all containers within a few seconds from each other, so they don't timeout while trying to connect to each other.
+Then, in each node, start the IPFS Cluster container with this command. Try to start all containers within a few seconds, so they don't timeout while trying to connect to each other.
 
 ````sh
 sudo docker run \
@@ -235,7 +235,7 @@ sudo docker run \
   ipfs/ipfs-cluster:v0.7.0
 ````
 
-**Done!** The cluster is up. You can check that everything is working with:
+**Done!** The cluster is up. You can check that everything is working (in each node) with:
 
 ````sh
 sudo docker logs -f ipfs-cluster
@@ -243,21 +243,22 @@ sudo docker logs -f ipfs-cluster
 
 ## Publish a web app to IPFS
 
-Let's try publishing a static web app to IPFS. We'll be using [rwieruch/minimal-react-webpack-babel-setup](https://github.com/rwieruch/minimal-react-webpack-babel-setup) which is a simple React app and needs to be compiled using Webpack.
+Let's try publishing a static web app to IPFS. We'll be using [rwieruch/minimal-react-webpack-babel-setup](https://github.com/rwieruch/minimal-react-webpack-babel-setup) which is a simple React app, compiled with Webpack.
 
-The first step is to clone the source code and compile the app. You can do it anywhere: on one of the VMs, or on your laptop.
+The first step is to clone the source code and compile the app. You can do it on one of the VMs, or on your laptop.
 
 ````sh
+# Requires Node.js and Git installed
 git clone https://github.com/rwieruch/minimal-react-webpack-babel-setup
 cd minimal-react-webpack-babel-setup
 npm install
 npx webpack --mode production
 ````
 
-At this point, we should have our static web app in the `dist` subfolder, with two files: `index.html` and `bundle.js` (the index file needs to be called `index.html`). We need to copy the entire folder to one of the VMs, and put it inside the `/data/ipfs-staging` directory. For example, I copied the entire dist folder to `/data/ipfs-staging/react`
+At this point, we should have our static web app in the `dist` subfolder, with two files: `index.html` and `bundle.js` (the index file in IPFS needs to be called `index.html`). We need to copy the entire folder to one of the VMs, and put it inside the `/data/ipfs-staging` directory. For example, I copied the entire dist folder to `/data/ipfs-staging/react`
 
 ````sh
-# Just showing the structure of the directory
+# Just to show the structure of the directory
 $ tree /data/ipfs-staging
 /data/ipfs-staging
 └── react
@@ -265,12 +266,12 @@ $ tree /data/ipfs-staging
     └── index.html
 ````
 
-Let's publish the website on IPFS.
+Let's publish the website to IPFS.
 
 ````sh
 # The -r switch for recursively adding a folder
-# The -Q switch only shows the address of the folder that we're adding, and not the content addresses of every single file (and folder) inside there
-# Note that /data/ipfs-staging is called /staging in the container
+# The -Q switch only shows the content id of the folder that we're adding, and not of every single file (and folder) inside there
+# Note that /data/ipfs-staging is mounted to /staging in the container
 sudo docker exec \
   ipfs-node \
     ipfs add -rQ /staging/react
@@ -278,7 +279,7 @@ sudo docker exec \
 # Result will be similar to "QmVWPaTVSKqZ28qAefQX3PYptjR3nJgiT5Pugz1pPYsqvz"
 ````
 
-The website has already been published and it's in the folder `QmVWPaTVSKqZ28qAefQX3PYptjR3nJgiT5Pugz1pPYsqvz`, however it's currently been pinned only on one node. Let's add it to the pinset of our IPFS Cluster with:
+The website has already been published and it's in the folder `QmVWPaTVSKqZ28qAefQX3PYptjR3nJgiT5Pugz1pPYsqvz`, however it's currently pinned only on one node. Let's add it to the pinset of our IPFS Cluster so all nodes can seed it:
 
 ````sh
 # Pin the folder recursively
@@ -295,11 +296,11 @@ sudo docker exec \
 
 # Result will be similar to
 # QmVWPaTVSKqZ28qAefQX3PYptjR3nJgiT5Pugz1pPYsqvz :
-#     > node-1-asia     : PINNED | 2018-11-13T21:40:45Z
-#     > node-2-eu       : PINNED | 2018-11-13T21:40:46Z
-#     > node-3-us       : PINNED | 2018-11-13T21:40:44Z
+#     > node-1-asia     : PINNED | 2018-11-13T08:40:45Z
+#     > node-2-eu       : PINNED | 2018-11-13T08:40:46Z
+#     > node-3-us       : PINNED | 2018-11-13T08:40:44Z
 
-# You can also see all the pins in the pinset
+# You can also list all the pins in the pinset
 sudo docker exec \
   ipfs-cluster \
     ipfs-cluster-ctl pin ls
@@ -315,7 +316,7 @@ At this point we can test the web app. If you have the IPFS daemon installed and
 
     http://localhost:8080/ipfs/QmVWPaTVSKqZ28qAefQX3PYptjR3nJgiT5Pugz1pPYsqvz/
 
-Alternatively, you can use a gateway that shows IPFS over HTTP, like Cloudflare:
+Alternatively, you can use a gateway that shows IPFS over HTTP, like Cloudflare's:
 
     https://cloudflare-ipfs.com/ipfs/QmVWPaTVSKqZ28qAefQX3PYptjR3nJgiT5Pugz1pPYsqvz/
 
@@ -323,35 +324,35 @@ One thing you'll notice: the web page loads and you can see the title, but the c
 
 ![Empty web app served via IPFS](/assets/ipfs/app-empty.png)
 
-As you can see, the issue is that the static web app is trying to include the JavaScript bundle at the path `/bundle`. Since our web app is not running in a root folder, that will fail. This is expected, and you can fix it by changing this line in the `index.html` file (making the path relative rather than absolute), then repeat the steps above to publish the updated app:
+As you can see, the issue is that the static web app is trying to include the JavaScript bundle at the path `/bundle.js`. Since our web app is not running in the root folder of the domain, that request fails. This is expected, and you can fix it by changing this line in the `index.html` file (making the path relative rather than absolute), then repeating the steps above to publish the updated app:
 
 ````html
 <script src="bundle.js"></script>
 ````
 
-After making the change, the app's content address is now `QmakGEBp4HJZ6tkFydbyvF6bVvFThqfAwnQS6F4D7ie7hL`, and it's live at the following URLs:
+After making the change and re-publishing the app, the content id is now `QmakGEBp4HJZ6tkFydbyvF6bVvFThqfAwnQS6F4D7ie7hL`, and the app is live at the following URLs:
 
     http://localhost:8080/ipfs/QmakGEBp4HJZ6tkFydbyvF6bVvFThqfAwnQS6F4D7ie7hL/
     https://cloudflare-ipfs.com/ipfs/QmakGEBp4HJZ6tkFydbyvF6bVvFThqfAwnQS6F4D7ie7hL/
 
 ![Web app served via IPFS](/assets/ipfs/app-local.png)
 
-Note that the old content has not been removed, and it will be available for as long as there's at least one node serving it. You can unpin it from the pinset to have it (eventually) removed from our nodes, but that doesn't guarantee that other IPFS nodes in the world will stop seeding it. Instead, read the next session for how to use IPNS.
+Note that the old content has not been removed, and it will be available for as long as there's at least one node seeding it. You can unpin it from the pinset to have it (eventually) removed from our nodes, but that doesn't guarantee that other IPFS nodes in the world will stop seeding it. Instead, read the next session for how to use IPNS.
 
 ## Bind to a domain name
 
 Now that the app is live, we need to make it easier to access. A path like `/ipfs/QmakGEBp4HJZ6tkFydbyvF6bVvFThqfAwnQS6F4D7ie7hL` is not particularly memorable, and it will change every time you update your content. To fix both these issues, we'll be using the DNSLink feature.
 
-We'll need a domain name, and the ability to edit DNS records. We can simply add a TXT record named `_dnslink.domain.com`, with the value `dnslink=/ipfs/<content id>`. Then, users will be able to access your content on IPFS via `/ipns/domain.com` (note the IPNS prefix). You can use subdomains too.
+We'll need a domain name, and the ability to edit DNS records. We can simply add a TXT record named `_dnslink.domain.com`, with the value `dnslink=/ipfs/<content id>`. Then, users will be able to access content on IPFS via `/ipns/domain.com` (note the IPNS prefix). You can use subdomains too.
 
 I'm going to use `ipfs-demo.withblueink.com` as example. For this, I'm creating a new TXT record:
 
 - Record type: TXT
-- Domain: `_dnslink.ipfs-demo.withblueink.com`
+- Domain: `_dnslink.ipfs-demo.withblueink.com` (the domain name with `_dnslink.` prepended)
 - Value: `dnslink=/ipfs/QmakGEBp4HJZ6tkFydbyvF6bVvFThqfAwnQS6F4D7ie7hL`
 - TTL: 300 seconds(5 minutes)
 
-There's no "right value" for the TTL, as it depending on how often you plan to update the content id (which changes every time you update the content). If you plan to change your content frequently, a low TTL (up to 60 seconds) could be better; on the other hand, if you don't plan to update the content at all, a day (86400 seconds) might be a good choice.
+There's no "right value" for the TTL, as it depends on how often you plan to update the content id (which changes every time you update the content). If you plan to update your files frequently, a low TTL (down to 120 seconds) could be better; on the other hand, if you don't plan to update the content at all, even a full day (86400 seconds) might be a good choice.
 
 After saving the new DNS records and waiting a few moments for changes to propagate, we should be able to access our app using these URLs:
 
@@ -360,16 +361,16 @@ After saving the new DNS records and waiting a few moments for changes to propag
 
 ## Add a custom domain (with Cloudflare)
 
-The very last step is about making our custom domain pointing to IPFS directly, so users don't need to type the address of a gateway (or even know they're using one!). Thanks to Cloudflare's new [Distributed Web Gateway](https://www.cloudflare.com/distributed-web-gateway/), this is very easy to do – and totally free!
+The very last step is about making our custom domain pointing to the IPFS gateway directly, so it's totally transparent to our users. Thanks to Cloudflare's new [Distributed Web Gateway](https://www.cloudflare.com/distributed-web-gateway/), this is very easy to do—and totally free!
 
-To enable using the Cloudflare IPFS gateway, you need to add 2 DNS records:
+To start using the Cloudflare IPFS gateway, you need to add 2 DNS records to your domain:
 
 1. The first record is the DNSLink TXT record, which we've already added in the previous step. Nothing new to see here!
-2. You also need to add a CNAME for the subdomain you want so it points to `cloudflare-ipfs.com`. In my example, I'm going to create a CNAME record for `ipfs-demo.withblueink.com` pointing to `cloudflare-ipfs.com`.
+2. You also need to add a CNAME record for the subdomain you want pointing to `cloudflare-ipfs.com`. In my example, I'm going to create a CNAME for `ipfs-demo.withblueink.com` pointing to `cloudflare-ipfs.com`.
 
-> Note: recall that CNAME records cannot be set on the root domain, but only a subdomain. That is: you can't create a CNAME record on `withblueink.com`, and you must use a subdomain (like `ipfs-demo.withblueink.com`).
+> Note: as you know, CNAME records cannot be set on the root domain, but only a subdomain. That means you can't create a CNAME record on `withblueink.com`, and you must use a subdomain (like `ipfs-demo.withblueink.com`).
 
-Last step: on the [Cloudflare Distributed Web Gateway](https://www.cloudflare.com/distributed-web-gateway/) page, click on the **Connect your website** button. You'll see a textbox at the bottom of the page; type your domain name there and submit the form: this will setup your domain in the Cloudflare gateway and generate the TLS certificates for your domain.
+Last step: on the [Cloudflare Distributed Web Gateway](https://www.cloudflare.com/distributed-web-gateway/) page, click on the **Connect your website** button. You'll see a textbox at the bottom of the page: type your domain name there and submit the form. This will setup your domain in the Cloudflare gateway and generate the TLS certificates for your domain.
 
 ![Setting up the domain with Cloudflare Distributed Web Gateway](/assets/ipfs/cloudflare-setup.png)
 
@@ -385,7 +386,7 @@ Let's make this even more fun and implement full CI/CD capabilities. We'll be us
 
 ### Generate a new SSH key
 
-Before we dig into the creation of the pipeline, we need to create a SSH keypair so that Azure DevOps can connect to our VMs and publish our app on IPFS. On one of the nodes we created (in my case, I'm picking the one in the US, because my Azure DevOps account is in the US), connect via SSH and execute:
+Before we dig into the creation of the pipeline, we need to create a SSH keypair so that Azure DevOps can connect to one of our VMs and publish our app on IPFS. On one of the nodes we've created (in my case, I'm picking the one in the US, because my Azure DevOps account is in the US), connect via SSH and execute:
 
 ````sh
 # First: Generate the new key
@@ -397,13 +398,13 @@ ssh-keygen -t rsa -b 4096
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 ````
 
-Copy then the contents of the private key (`~/.ssh/id_rsa`) somewhere. You might also want to delete the private key from the server.
+Copy then the contents of the private key (`~/.ssh/id_rsa`) somewhere. You might also want to delete the private key file from the server.
 
 ### Set up the Build pipeline
 
 To start, [login to Azure DevOps](https://dev.azure.com), and create an account if you don't have one already. You might also want to create a new project for this.
 
-Open your Azure DevOps project, and navigate to the Pipelines tab, then choose Builds. Click on the "New pipeline" button.
+Open your Azure DevOps project, and navigate to the Pipelines tab, then choose **Builds**. Click on the "New pipeline" button.
 
 ![Create a new pipeline landing screen](/assets/ipfs/pipelines-new.png)
 
@@ -413,9 +414,9 @@ Click on the "Use the visual designer" link.
 
 Select where your source code lives, and authorize the Azure DevOps app if necessary. You will then be able to select the repository and branch containing your code. In this demo, I'm using the same [rwieruch/minimal-react-webpack-babel-setup](https://github.com/rwieruch/minimal-react-webpack-babel-setup) repo from GitHub, and the master branch.
 
-> Note: the next few steps are specific to this application, which, you'll recall, is compiled using Webpack. Your application might require different steps, and might be built with other tools (e.g. Ruby and Jekyll).
-
 ![Selecting a repo](/assets/ipfs/pipelines-repo-selection.png)
+
+> Note: the build tasks in this section are specific to this demo application, which, you'll recall, uses React and is compiled with Webpack. Your application might require different steps, and might even be built with completely different tools (e.g. Ruby and Jekyll).
 
 In the next step, skip selecting a template and choose to start with an empty job.
 
@@ -436,10 +437,10 @@ Add then a task of type **Bash Script** and configure it with:
 - Type: inline
 - Script: `npm install && npx webpack --mode production`
 
-Lastly, add a **Publish Build Artifacts** task (note: there are two with a similar name; don't pick the deprecated one). Configure this task as:
+Lastly, add a **Publish Build Artifacts** task (note: there are two tasks with similar names; don't pick the deprecated one). Configure this task with:
 
 - Display name: `Publish Artifact: drop`
-- Path to publish `dist` (this is the folder where Webpack puts the compiled files)
+- Path to publish `dist` (this is the folder where Webpack puts the compiled files - might be different in your project)
 - Artifacts publish location: `Azure Pipelines/TFS`
 
 Lastly, select the row called "Pipeline". Give your pipeline a name (e.g. `ipfs-demo-CI`) and select **Hosted Ubuntu 1604** as agent pool.
@@ -452,13 +453,13 @@ We now have the pipeline complete. Press "Save & Queue" to start a new build. Af
 
 ### Create a Release pipeline
 
-After building, we need to deliver the code. For this, we'll be using the **Releases tab** under Pipelines. Open that, then click on the "New pipeline" button. Once again, do not pick a template, but instead click on "Start with an empty job".
+After building the app, we need to publish the code on IPFS. For this, we'll be using the **Releases tab** under Pipelines. Open that, then click on the "New pipeline" button. Once again, do not pick a template, but instead click on "Start with an empty job".
 
-First thing, on the left side click on the blue area saying "Add an artifact".
+First thing, click on the blue area saying "Add an artifact".
 
 ![First step is adding an artifact](/assets/ipfs/pipelines-release-new.png)
 
-Leaving source type as "Build", choose the Source (build pipeline) that generated the artifacts. This is the build pipeline we created a few moments ago.
+Leaving source type as "Build", choose the Source (build pipeline) that generated the artifacts: this is the build pipeline we created a few moments ago. Note down the value for "Source alias", as we'll need it soon.
 
 ![Select artifacts](/assets/ipfs/pipelines-add-artifact.png)
 
@@ -466,7 +467,7 @@ Click then on the Tasks tab, and choose "Stage 1".
 
 ![Open stage 1 tasks](/assets/ipfs/pipelines-tasks-menu.png)
 
-Select the first Agent Job and change the Agent pool to use **Hosted Ubuntu 1604**. Then, click on the "+" symbol to add a new task.
+Select the first Agent Job and change the Agent pool to use **Hosted Ubuntu 1604**. Then, click on the "+" symbol to add a new task.
 
 ![Change pool for Agent Job](/assets/ipfs/pipelines-release-pool.png)
 
@@ -486,7 +487,7 @@ Back to the previous tab, configure the Copy Files Over SSH task with:
 
 - Display name: `Copy files to staging via SSH`
 - SSH Service Connection: select the connection created a moment ago
-- Source folder: `$(System.DefaultWorkingDirectory)/_ipfs-demo-CI/drop` (the `ipfs-demo-CI` token is the name of the artifacts that you selected a few moments back)
+- Source folder: `$(System.DefaultWorkingDirectory)/_ipfs-demo-CI/drop` (the `ipfs-demo-CI` token is the "Source alias" of the artifacts that you selected a few moments back)
 - Target folder: `/data/ipfs-staging/react` (any subfolder of `/data/ipfs-staging`)
 - Under Advanced, make sure that the following options are checked:
   - Clean target folder
@@ -495,7 +496,7 @@ Back to the previous tab, configure the Copy Files Over SSH task with:
 
 ![Configure the SCP task](/assets/ipfs/pipelines-scp-task.png)
 
-Add a second task on the pipeline, of type **SSH**, that will pin the app to IPFS. Configure the task with:
+Add a second task on the pipeline, of type **SSH**, that will add the app to the pinset. Configure the task with:
 
 - Display name: `Pin files on IPFS`
 - SSH Service Connection: select the connection created a moment ago
@@ -506,14 +507,14 @@ Add a second task on the pipeline, of type **SSH**, that will pin the app to IPF
 #!/bin/sh
 # Add files to IPFS
 HASH=$(sudo docker exec ipfs-node ipfs add -rQ /staging/react)
-# Pin files
+# Add to the pinset of the cluster
 sudo docker exec ipfs-cluster ipfs-cluster-ctl pin add $HASH
 ````
 
 ![Configure the SSH task](/assets/ipfs/pipelines-ssh-task.png)
 
-> The task above is missing one step: **changing the TXT DNS record** so the Cloudflare gateway points to the new IPFS content id. How this can be accomplished depends a lot on your domain name registrar (or DNS nameserver), and if they provide any API. <br/>
-> In my specific case, I'm using Cloudflare also as a DNS nameserver, and I can modify the script above to also invoke the Cloudflare APIs. After getting the [API Key](https://support.cloudflare.com/hc/en-us/articles/200167836-Where-do-I-find-my-Cloudflare-API-key-) and the zone ID (in the CloudFlare portal, this is in the "Domain Summary" tab), I need to add this command at the end of the script (make sure "jq" is installed in the system):
+> The task above is missing one step: **changing the TXT DNS record** for the Cloudflare gateway to point to the new IPFS content id. How this can be accomplished depends on your domain name registrar (or DNS nameserver), and if they provide any API access. <br/>
+> In my specific case, I'm using Cloudflare also as a DNS nameserver, and I can modify the script above to invoke the Cloudflare APIs. After getting the [API Key](https://support.cloudflare.com/hc/en-us/articles/200167836-Where-do-I-find-my-Cloudflare-API-key-) and the zone ID (in the CloudFlare portal, this is in the "Domain Summary" tab), I need to append these commands at the end of the previous script (make sure "jq" is installed in the system):
 > 
 > ````sh
 > # Note: this updates an existing record; will fail if record doesn't already exist
