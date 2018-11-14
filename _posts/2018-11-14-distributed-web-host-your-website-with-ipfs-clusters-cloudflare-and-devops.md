@@ -4,7 +4,7 @@ title:      "Distributed Web: host your website with IPFS clusters, Cloudflare, 
 subtitle:   "Static website development for the \"Web 3.0\", and optional CI/CD with Azure DevOps"
 date:       2018-11-14 08:39:00
 author:     "Alessandro Segala"
-header-img: "img/pie.jpg"
+header-img: "img/planet.jpg"
 comments:   yes
 ---
 
@@ -545,3 +545,6 @@ sudo docker exec ipfs-cluster ipfs-cluster-ctl pin add $HASH
 Save the release pipeline, then click on the **Release** button and start a new release. Wait a few moments, and it's done!
 
 ![Release complete](/assets/ipfs/pipelines-release-done.png)
+
+
+<small>*Cover photo by NASA ([Unsplash](https://unsplash.com/@nasa))*</small>
