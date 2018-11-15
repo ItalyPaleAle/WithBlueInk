@@ -27,7 +27,7 @@ To continue this article, you should to be at least somewhat **familiar with the
 
 ## Prepare the infrastructure
 
-We'll be using **three** nodes to serve our website. These nodes will be runing the IPFS daemon, and will have our documents pinned in them. In order to keep the list of pinned items (or, the pinset) in sync across all nodes, we'll be using [IPFS Cluster](https://github.com/ipfs/ipfs-cluster), running alongside the IPFS daemon.
+We'll be using **three** nodes to serve our website. These nodes will be running the IPFS daemon, and will have our documents pinned in them. In order to keep the list of pinned items (or, the pinset) in sync across all nodes, we'll be using [IPFS Cluster](https://github.com/ipfs/ipfs-cluster), running alongside the IPFS daemon.
 
 Why 3 nodes? IPFS Cluster is built on top of the Raft consensus algorithm, and 3 nodes is the minimum required to ensure that we maintain quorum and the system can continue to operate even with the failure of a single node. These nodes should be deployed in a way that it will be highly unlikely for all of them to fail at the same time: in a cloud environment, this is easy done using multiple availability sets and/or availability zones. In this article, we'll go one step further, deploying to multiple regions worldwide, just for fun (but, really, it's not a bad idea for you too).
 
@@ -412,7 +412,7 @@ Click on the "Use the visual designer" link.
 
 ![Choose to use the visual designer](/assets/ipfs/pipelines-visual-designer.png)
 
-Select where your source code lives, and authorize the Azure DevOps app if necessary. You will then be able to select the repository and branch containing your code. In this demo, I'm using the same [rwieruch/minimal-react-webpack-babel-setup](https://github.com/rwieruch/minimal-react-webpack-babel-setup) repo from GitHub, and the master branch.
+Select where your source code lives, and authorize the Azure DevOps app if necessary. You will then be able to select the repository and branch containing your code. In this demo, I'm using the same **[rwieruch/minimal-react-webpack-babel-setup](https://github.com/rwieruch/minimal-react-webpack-babel-setup)** repo from GitHub, and the master branch.
 
 ![Selecting a repo](/assets/ipfs/pipelines-repo-selection.png)
 
