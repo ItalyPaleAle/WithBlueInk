@@ -6,15 +6,15 @@
   "author": "Start Bootstrap",
   "license": "BSD-2-Clause",
   "devDependencies": {
-    "grunt": "^1.0.1",
+    "grunt": "^1.0.3",
     "grunt-banner": "^0.6.0",
-    "grunt-contrib-cssmin": "^2.2.1",
-    "grunt-contrib-less": "^1.1.0",
-    "grunt-contrib-uglify": "^3.1.0",
-    "grunt-contrib-watch": "^1.0.0",
-    "imagemin-cli": "^3.0.0",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-less": "^2.0.0",
+    "grunt-contrib-uglify": "^4.0.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "imagemin-cli": "^4.0.0",
     "unorm": "^1.4.1",
-    "xregexp": "^3.0.0"
+    "xregexp": "^4.2.0"
   },
   "repository": {
     "type": "git",
