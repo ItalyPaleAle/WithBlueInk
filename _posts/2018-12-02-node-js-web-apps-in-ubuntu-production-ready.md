@@ -101,7 +101,7 @@ $ npm -v
 
 Updating Node.js is easy: first, download the new binary tarball and uncompress it, and then update the `/usr/local/node/bin` symlink.
 
-For example, to install Node.js 10 on the same system:
+For example, to install Node.js 11 on the same system:
 
 ````sh
 # Use version 11.3.0 (Current) now
