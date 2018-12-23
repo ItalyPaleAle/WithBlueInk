@@ -1,6 +1,6 @@
 # With Blue Ink
 
-[![Build status](https://italypaleale.visualstudio.com/WithBlueInk/_apis/build/status/WithBlueInk%20CI)](https://italypaleale.visualstudio.com/WithBlueInk/_build/latest?definitionId=6)
+[![Build Status](https://dev.azure.com/italypaleale/WithBlueInk/_apis/build/status/WithBlueInk-Hugo-CI?branchName=master)](https://dev.azure.com/italypaleale/WithBlueInk/_build/latest?definitionId=14?branchName=master)
 
 This repository contains the full source code for the With Blue Ink website, at http://withblue.ink
 
