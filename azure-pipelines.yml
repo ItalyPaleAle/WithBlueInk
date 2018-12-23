@@ -1,0 +1,42 @@
+# CI pipelines for Azure Pipelines, using Hugo
+
+# Define repository
+resources:
+- repo: self
+
+# Trigger on changes to the master branch
+trigger:
+- master
+
+# Run on Linux (Ubuntu 16.04)
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+# Steps
+steps:
+
+# Install Node.js first, which is necessary for the module depdendencies
+- task: NodeTool@0
+  displayName: 'Use Node 10.x'
+  inputs:
+    versionSpec: 10.x
+
+# Install Hugo
+- script: |
+   cd /tmp
+   curl -fsSL "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz" -o hugo.tar.gz
+   tar -zxf hugo.tar.gz
+   sudo mv hugo /usr/local/bin
+  displayName: 'Install Hugo'
+  env:
+    HUGO_VERSION: 0.52
+
+# Build the site
+- script: 'make dist'
+  displayName: 'Build site'
+
+# Publish the compiled site as build artifact
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: public'
+  inputs:
+    PathtoPublish: 'public'
