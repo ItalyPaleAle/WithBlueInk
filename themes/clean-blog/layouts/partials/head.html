@@ -1,0 +1,44 @@
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="{{ .Site.Params.description }}">
+
+	<!-- Canonical URL -->
+	<link rel="canonical" href="{{ .Page.URL | absURL }}">
+
+	<!-- Page title -->
+	<title>{{ if .Page.Title }}{{ .Page.Title }} | {{ .Site.Title }}{{ else }}{{ .Site.Title }}{{ end }}</title>
+
+	<!-- Social (for posts only) -->
+	{{ if eq .Page.Type "post" }}
+    <meta property="og:url" content="{{ .Page.URL | absURL }}">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ if .Page.Title }}{{ .Page.Title }} | {{ .Site.Title }}{{ else }}{{ .Site.Title }}{{ end }}">
+    <meta property="og:description" content="{{ if .Page.Description }}{{ .Page.Description }}{{ end }}">
+    <meta property="og:image" content="{{ if .Page.Params.image }}{{ .Page.Params.image | absURL }}{{ else }}{{ "/img/home-bg.jpg" | absURL }}{{ end }}">
+    <meta property="fb:app_id" content="805968969565472">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ItalyPaleAle">
+    <meta name="twitter:creator" content="@ItalyPaleAle">
+    <meta name="twitter:title" content="{{ if .Page.Title }}{{ .Page.Title }} | {{ .Site.Title }}{{ else }}{{ .Site.Title }}{{ end }}">
+    <meta name="twitter:description" content="{{ if .Page.Description }}{{ .Page.Description }}{{ end }}">
+    <meta name="twitter:image" content="{{ if .Page.Params.image }}{{ .Page.Params.image | absURL }}{{ else }}{{ "/img/home-bg.jpg" | absURL }}{{ end }}">
+  {{ end }}
+
+	<!-- Custom fonts for this template -->
+	<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+	 rel='stylesheet' type='text/css'>
+
+	<!-- Custom styles for this template -->
+	{{ $options := (dict "targetPath" "css/style.css" "outputStyle" "compressed" "enableSourceMap" true) }}
+	{{ $style := resources.Get "scss/main.scss" | resources.ToCSS $options }}
+	{{ $styleFingerprint := $style | resources.Fingerprint "sha512" }}
+	<link href="{{ $style.RelPermalink }}" rel="stylesheet" integrity="{{ $styleFingerprint.Data.Integrity }}" crossorigin="anonymous">
+
+	<!-- RSS -->
+	<link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} RSS" href="/feed.xml" />
+
+</head>

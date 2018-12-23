@@ -1,0 +1,28 @@
+{{ $hasNext := false }}
+
+{{ if .NextPage }}
+  {{ if .NextPage.Type }}
+    {{ $hasNext = (eq .NextPage.Type "post") }}
+  {{ end}}
+{{ end }}
+
+{{ $hasPrev := false }}
+{{ if .PrevPage }}
+  {{ if .PrevPage.Type }}
+    {{ $hasPrev = (eq .PrevPage.Type "post") }}
+  {{ end}}
+{{ end }}
+
+{{ if or $hasNext $hasPrev }}
+  <div class="clearfix">
+
+    {{ if $hasNext }}
+      <a class="btn btn-primary float-left" href="{{ .NextPage.RelPermalink }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ .NextPage.Title }}">← Next Post</a>
+    {{ end }}
+    
+    {{ if $hasPrev }}
+      <a class="btn btn-primary float-right" href="{{ .PrevPage.RelPermalink }}" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{ .PrevPage.Title }}">Previous Post →</a>
+    {{ end }}
+
+  </div>
+{{ end }}
