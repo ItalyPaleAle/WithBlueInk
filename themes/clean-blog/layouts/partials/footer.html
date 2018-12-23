@@ -55,7 +55,6 @@
 {{ $popperJs := resources.Get "vendor/popper.js" }}
 {{ $bootstrapLicense := resources.Get "js/bootstrap-license.js" }}
 {{ $bootstrapUtil := resources.Get "vendor/util.js" }}
-{{ $bootstrapCollapse := resources.Get "vendor/collapse.js" }}
 {{ $bootstrapTooltip := resources.Get "vendor/tooltip.js" }}
 {{ $cleanBlog := resources.Get "js/clean-blog.js" }}
 {{ $js := slice $jquery $popperJsLicense $popperJs $bootstrapLicense $bootstrapUtil $bootstrapTooltip $cleanBlog | resources.Concat "js/bundle.js" | resources.Minify }}
