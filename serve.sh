@@ -8,4 +8,4 @@ echo "\033[0;1mRefreshing theme dependencies\033[0;0m"
 
 # Compile the code with the "production" environment
 echo "\033[0;1mBuilding and starting web server...\033[0;0m"
-HUGO_ENV=development hugo serve
+hugo serve --environment=development

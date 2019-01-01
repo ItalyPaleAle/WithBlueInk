@@ -6,7 +6,7 @@
 FROM node:10-stretch AS builder
 
 # Version of Hugo
-ENV HUGO_VERSION=0.52
+ENV HUGO_VERSION=0.53
 
 # Add Hugo
 RUN cd /tmp && \

@@ -12,7 +12,7 @@ echo "\033[0;1mRefreshing theme dependencies\033[0;0m"
 
 # Compile the code with the "production" environment
 echo "\033[0;1mBuilding...\033[0;0m"
-HUGO_ENV=production hugo
+hugo --environment=production
 
 # Remove files that shouldn't be published
 echo "\033[0;1mRemoving unnecessary files...\033[0;0m"
