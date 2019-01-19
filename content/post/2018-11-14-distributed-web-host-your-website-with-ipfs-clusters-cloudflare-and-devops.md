@@ -7,6 +7,8 @@ image: "img/planet.jpg"
 comments: yes
 ---
 
+> *January 18, 2019: This post has been updated for ipfs-cluster 0.8*
+
 IPFS (or, the _InterPlanetary File System_) is a peer-to-peer network designed to distribute content in a decentralized way. At present time, it appears to me that IPFS is one of the (very few) technologies that are part of the Distributed Web—or "Web 3.0"—to have reached a stage where they’re mature and user-friendly enough to be adopted by broader audiences.
 
 A huge help in making IPFS more accessible comes from Cloudflare, which just two months ago announced it is offering a free [IPFS gateway](https://blog.cloudflare.com/distributed-web-gateway/) through their CDN. Thanks to that, we can get a custom sub-domain and point it to a website served via IPFS, and this is all transparent to our end users. 😎
@@ -166,6 +168,14 @@ The template below has been modified from the default configuration, increasing 
     }
   },
   "api": {
+    "ipfsproxy": {
+      "node_multiaddress": "/dns4/ipfs-node/tcp/5001",
+      "listen_multiaddress": "/ip4/0.0.0.0/tcp/9095",
+      "read_timeout": "0s",
+      "read_header_timeout": "5s",
+      "write_timeout": "0s",
+      "idle_timeout": "1m0s"
+    },
     "restapi": {
       "http_listen_multiaddress": "/ip4/0.0.0.0/tcp/9094",
       "read_timeout": "0s",
@@ -173,22 +183,19 @@ The template below has been modified from the default configuration, increasing 
       "write_timeout": "0s",
       "idle_timeout": "2m0s",
       "basic_auth_credentials": null,
-      "headers": {
-        "Access-Control-Allow-Headers": ["X-Requested-With", "Range"],
-        "Access-Control-Allow-Methods": ["GET"],
-        "Access-Control-Allow-Origin": ["*"]
-      }
+      "headers": {},
+      "cors_allowed_origins": ["*"],
+      "cors_allowed_methods": ["GET"],
+      "cors_allowed_headers": [],
+      "cors_exposed_headers": ["Content-Type", "X-Stream-Output", "X-Chunked-Output", "X-Content-Length"],
+      "cors_allow_credentials": true,
+      "cors_max_age": "0s"
     }
   },
   "ipfs_connector": {
     "ipfshttp": {
-      "proxy_listen_multiaddress": "/ip4/0.0.0.0/tcp/9095",
       "node_multiaddress": "/dns4/ipfs-node/tcp/5001",
       "connect_swarms_delay": "30s",
-      "proxy_read_timeout": "0s",
-      "proxy_read_header_timeout": "5s",
-      "proxy_write_timeout": "0s",
-      "proxy_idle_timeout": "1m0s",
       "pin_method": "refs",
       "ipfs_request_timeout": "5m0s",
       "pin_timeout": "24h0m0s",
@@ -218,8 +225,6 @@ In **each node** create also the peerstore file in `/data/ipfs-cluster/peerstore
 /ip4/104.214.93.186/tcp/9096/ipfs/QmU7jPxK6LXFDTwkXe173V5LLv3WV43BPGgBYuhXm4FLSj
 ````
 
-> Why not using the method of [Starting a single peer and bootstrapping the rest to it](https://cluster.ipfs.io/documentation/starting/#starting-a-single-peer-and-bootstrapping-the-rest-to-it)? Because that requires the nodes to communicate on the API port 9094, which should not be exposed on the public Internet unless TLS is configured (and doing that would require setting up TLS certificates, basic auth, etc).
-
 Then, in each node, start the IPFS Cluster container with this command. Try to start all containers within a few seconds, so they don't timeout while trying to connect to each other.
 
 ````sh
@@ -231,7 +236,7 @@ sudo docker run \
   -p "127.0.0.1:9094:9094" \
   -p "9096:9096" \
   --network="ipfs" \
-  ipfs/ipfs-cluster:v0.7.0
+  ipfs/ipfs-cluster:v0.8.0
 ````
 
 **Done!** The cluster is up. You can check that everything is working (in each node) with:
