@@ -7,7 +7,7 @@ image: "img/planet.jpg"
 comments: yes
 ---
 
-> *January 18, 2019: This post has been updated for ipfs-cluster 0.8*
+> *February 19, 2019: This post has been updated for ipfs-cluster 0.9*
 
 IPFS (or, the _InterPlanetary File System_) is a peer-to-peer network designed to distribute content in a decentralized way. At present time, it appears to me that IPFS is one of the (very few) technologies that are part of the Distributed Web—or "Web 3.0"—to have reached a stage where they’re mature and user-friendly enough to be adopted by broader audiences.
 
@@ -236,7 +236,7 @@ sudo docker run \
   -p "127.0.0.1:9094:9094" \
   -p "9096:9096" \
   --network="ipfs" \
-  ipfs/ipfs-cluster:v0.8.0
+  ipfs/ipfs-cluster:v0.9.0
 ````
 
 **Done!** The cluster is up. You can check that everything is working (in each node) with:
