@@ -29,7 +29,7 @@ steps:
    sudo mv hugo /usr/local/bin
   displayName: 'Install Hugo'
   env:
-    HUGO_VERSION: 0.53
+    HUGO_VERSION: 0.54
 
 # Build the site
 - script: 'make dist'
