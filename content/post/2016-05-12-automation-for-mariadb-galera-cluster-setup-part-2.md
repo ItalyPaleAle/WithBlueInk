@@ -1,5 +1,6 @@
 ---
 title: "Automation for MariaDB/Galera Cluster setup (Part 2)"
+slug: "automation-for-mariadb-galera-cluster-setup-part-2"
 description: "Scripts and templates for easy deployments on Azure and other clouds"
 date: 2016-05-12 19:02:00
 author:
