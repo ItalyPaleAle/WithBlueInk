@@ -3,13 +3,12 @@ title: "Automation for MariaDB/Galera Cluster setup (Part 2)"
 slug: "automation-for-mariadb-galera-cluster-setup-part-2"
 description: "Scripts and templates for easy deployments on Azure and other clouds"
 date: 2016-05-12 19:02:00
-author:
-  name: "Alessandro Segala"
+author: "Alessandro Segala"
 image: "img/containers2.jpg"
 comments: yes
 ---
 
-*This is the second post in the series. The [first part]({% post_url 2016-03-09-galera-cluster-mariadb-coreos-and-docker-part-1 %}) explained the ideas behind the project and the research done, while now we're focusing on the practice.*
+*This is the second post in the series. The [first part]({{< ref "2016-03-09-galera-cluster-mariadb-coreos-and-docker-part-1" >}}) explained the ideas behind the project and the research done, while now we're focusing on the practice.*
 
 This article contains deployment scripts and templates for deploying a MariaDB and Galera Cluster database, with 3-5 nodes running on CoreOS. In addition to the sample code, I'm also publishing a web-based [generator app](https://github.com/ItalyPaleAle/mariadb-cluster) as open source code on GitHub that can be used to simplify the creation of the startup scripts.
 
