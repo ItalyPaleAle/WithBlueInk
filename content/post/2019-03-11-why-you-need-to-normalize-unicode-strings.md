@@ -1,6 +1,6 @@
 ---
 title: "When \"Zoë\" !== \"Zoë\". Or why you need to normalize Unicode strings"
-description: "Have you heard about Unicode normalization? You’re not alone. But it will save you a lot of trouble."
+description: "Never heard of Unicode normalization? You’re not alone. But it will save you a lot of trouble."
 date: 2019-03-11 23:34:00
 author: "Alessandro Segala"
 image: "img/unicode.jpg"
