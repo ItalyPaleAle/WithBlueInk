@@ -5,6 +5,7 @@ date: 2016-10-21 19:04:00
 author: "Alessandro Segala"
 image: "img/zfs.jpg"
 comments: yes
+authorTwitter: "@ItalyPaleAle"
 ---
 
 As of [last June](https://azure.microsoft.com/en-us/blog/freebsd-now-available-in-azure-marketplace/) FreeBSD is officially supported on Azure and available on the Marketplace, so everyone can simply launch a FreeBSD 10.3 (as of writing) VM in a few clicks and play with the OS. Obviously, I couldn't miss the chance to test one of the most appreciated features of FreeBSD.

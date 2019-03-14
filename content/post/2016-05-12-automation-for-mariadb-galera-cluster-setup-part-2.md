@@ -6,6 +6,7 @@ date: 2016-05-12 19:02:00
 author: "Alessandro Segala"
 image: "img/containers2.jpg"
 comments: yes
+authorTwitter: "@ItalyPaleAle"
 ---
 
 *This is the second post in the series. The [first part]({{< ref "2016-03-09-galera-cluster-mariadb-coreos-and-docker-part-1" >}}) explained the ideas behind the project and the research done, while now we're focusing on the practice.*

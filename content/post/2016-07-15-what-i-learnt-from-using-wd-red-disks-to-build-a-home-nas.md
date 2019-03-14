@@ -5,6 +5,7 @@ date: 2016-07-15 17:02:00
 author: "Alessandro Segala"
 image: "img/hard-drives.jpg"
 comments: yes
+authorTwitter: "@ItalyPaleAle"
 ---
 
 I know, this blog was supposed to be about the cloud, but in fifth post I'm taking a break from writing about that! Instead, I'd like to share a couple of learnings I got from another project I've been working on.

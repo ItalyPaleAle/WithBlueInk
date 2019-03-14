@@ -5,6 +5,7 @@ date: 2016-01-09 01:00:00
 author: "Alessandro Segala"
 image: "img/redhat6.jpg"
 comments: yes
+authorTwitter: "@ItalyPaleAle"
 ---
 
 After writing about how to [prepare a RHEL 7 image]({% post_url 2015-12-22-preparing-a-red-hat-enterprise-linux-7-image-for-azure-using-virtualbox %}) for deploying to Azure, this second article in the series will cover the procedure for RHEL 6. These instructions have been written for RHEL 6.7, which is the minimum version recommended in the 6 branch.

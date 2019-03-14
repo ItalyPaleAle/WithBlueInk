@@ -9,7 +9,7 @@
             <h1>{{ .Title }}</h1>
             {{ with .Description }}<h2 class="subheading">{{ . }}</h2>{{ end }}
             <span class="meta">Posted by
-              {{ .Params.author }}
+              {{ .Params.author }} <a href="https://twitter.com/{{ .Params.authorTwitter }}">({{ .Params.authorTwitter }})</a>
               on {{ .Date.Format "January 2, 2006" }}</span>
           </div>
         </div>

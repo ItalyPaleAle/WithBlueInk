@@ -5,6 +5,7 @@ date: 2016-03-09 23:35:00
 author: "Alessandro Segala"
 image: "img/containers.jpg"
 comments: yes
+authorTwitter: "@ItalyPaleAle"
 ---
 
 Lately, I've found myself in many discussions with customers who remind me what database still matters most on the web. While startups in the Valley today are all about MongoDB (or CouchDB, or RethinkDB, or… whatever other SQL/NoSQL database you're thinking of), and while Microsoft SQL and Oracle still dominate the enterprise space, a big chunk of the web runs on MySQL. Think for example of WordPress, the blogging platform that [powers 25% of the web](http://venturebeat.com/2015/11/08/wordpress-now-powers-25-of-the-web/), or Drupal, possibly the most popular CMS used by public institutions: both are written in PHP, and rely on MySQL.

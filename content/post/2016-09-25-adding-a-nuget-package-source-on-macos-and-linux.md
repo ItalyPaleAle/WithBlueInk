@@ -5,6 +5,7 @@ date: 2016-09-25 20:42:00
 author: "Alessandro Segala"
 image: "img/boxes.jpg"
 comments: yes
+authorTwitter: "@ItalyPaleAle"
 ---
 
 I've decided to play a bit with .NET Core on macOS and Linux, given that is now fully open source and cross-platform. For a simple C# project, I had to install a NuGet package (specifically, [ImageProcessorCore](https://github.com/JimBobSquarePants/ImageProcessor)) that was not published on the official gallery, but rather on MyGet, and because of that the normal `dotnet restore` failed. The solution, adding a new NuGet package source, was simple in principle, but hard to figure out in practice when not using Windows!

@@ -6,6 +6,7 @@ author: "Alessandro Segala"
 image: "img/unicode.jpg"
 comments: yes
 slug: "why-you-need-to-normalize-unicode-strings"
+authorTwitter: "@ItalyPaleAle"
 ---
 
 Sooner or later, this hits every developer:

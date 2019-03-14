@@ -5,6 +5,7 @@ date: 2017-12-31 10:14:00
 author: "Alessandro Segala"
 image: "img/pie.jpg"
 comments: yes
+authorTwitter: "@ItalyPaleAle"
 ---
 
 This post is the definitive guide on using Docker on a Raspberry Pi 2 or 3, something I wish I had one week ago. I have a couple of Raspberry Pi's to provide services for my home and using Docker seemed the simplest way to deploy them. However, the number of guides for doing that on the internet is relatively low.
