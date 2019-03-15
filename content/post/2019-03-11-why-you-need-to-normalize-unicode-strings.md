@@ -23,7 +23,7 @@ In fact, while the two strings above look identical on screen, the way they're r
 
 Computers work with bytes, which are just numbers. In order to be able to represent text, we are mapping each characters to a specific number, and have conventions for how display them.
 
-The first of such conventions, or character encodings, was ASCII (American Standard Code for Information Interchange). It used 7 bit and could represent a total of 128 characters, including the latin alphabet (both uppercase and lowercase), digits and basic punctuation symbols. It also included a bunch of "non-printable" charactes, such as newline, tab, carriage return, etc. In the ASCII standard, for example, the letter M (uppercase m) is encoded as nummber 77 (4D in hex).
+The first of such conventions, or character encodings, was ASCII (American Standard Code for Information Interchange). It used 7 bit and could represent a total of 128 characters, including the latin alphabet (both uppercase and lowercase), digits and basic punctuation symbols. It also included a bunch of "non-printable" characters, such as newline, tab, carriage return, etc. In the ASCII standard, for example, the letter M (uppercase m) is encoded as nummber 77 (4D in hex).
 
 The problem is that 128 characters might be enough to represent all the characters English-speakers normally use, but it's orders of magnitude too small to represent every character of every script worldwide, including emojis. 😫
 
