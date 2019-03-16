@@ -50,6 +50,11 @@ GoogleAnalytics: "UA-72379106-1"
 pygmentsCodeFences: true
 pygmentsStyle: "tango"
 
+# Privacy
+privacy:
+  youtube:
+    privacyEnhanced: true
+
 # Menu (Not implemented)
 menu:
   main:
