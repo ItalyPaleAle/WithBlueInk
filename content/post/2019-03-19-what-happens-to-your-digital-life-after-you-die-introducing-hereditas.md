@@ -1,7 +1,7 @@
 ---
 title: "What happens to your digital life after you die? Introducing Hereditas"
 description: "An open source static site generator for a fully-trustless digital legacy box"
-date: 2019-03-14 16:34:00
+date: 2019-03-19 07:00:00
 author: "Alessandro Segala"
 image: "img/hereditas.jpg"
 comments: yes
@@ -22,7 +22,7 @@ You could also decide to give your digital information to a trusted third-party,
 
 ## Introducing Hereditas
 
-[Hereditas](https://hereditas.app) tries to solve these problems, which are caused by technology, with technology.
+[Hereditas](https://hereditas.app), which means *inheritance* in Latin, tries to solve these problems, which are caused by technology, with technology.
 
 [![Hereditas logo](/assets/hereditas/hereditas-logo.png)](https://hereditas.app)
 
