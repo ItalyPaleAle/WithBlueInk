@@ -1,5 +1,5 @@
 ---
-title: "What happens to your digital life after you die? Introducing Hereditas"
+title: "What happens to your digital life after you're gone? Introducing Hereditas"
 description: "An open source static site generator for a fully-trustless digital legacy box"
 date: 2019-03-19 07:00:00
 author: "Alessandro Segala"
@@ -8,7 +8,7 @@ comments: yes
 authorTwitter: "@ItalyPaleAle"
 ---
 
-## What happens after you die or suddenly disappear?
+## What happens after you're gone?
 
 All countries, cultures and religions have laws and customs for dealing with your legacy, including your physical inheritance (your wealth) as well as your moral one. However, there's a new kind of legacy we're totally not prepared for: our digital one. As we rely more and more on technology and the Internet, we are also protecting our digital assets with passcodes, passwords or biometrics like fingerprints, which are challenging to pass along.
 
