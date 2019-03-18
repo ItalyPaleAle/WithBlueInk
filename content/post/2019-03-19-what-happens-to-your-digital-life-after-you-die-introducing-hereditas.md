@@ -44,7 +44,7 @@ Naturally, **Hereditas is fully open source**, and the source code is available 
 
 Watch this short demo video:
 
-{{< youtube CZ3wIuvmHeM >}}
+{{< youtube lZEKgB5dzQ4 >}}
 
 With Hereditas, you can write the content you want to share and use the CLI to build a box, which is a static HTML web app. You can deploy it anywhere you'd like (including object storage providers like Azure Storage or Amazon S3, which are essentially free), then share the link and a *user passphrase* with your loved ones.
 
