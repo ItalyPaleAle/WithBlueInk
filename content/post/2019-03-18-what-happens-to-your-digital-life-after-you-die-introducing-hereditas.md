@@ -12,7 +12,7 @@ authorTwitter: "@ItalyPaleAle"
 
 All countries, cultures and religions have laws and customs for dealing with your legacy, including your physical inheritance (your wealth) as well as your moral one. However, there's a new kind of legacy we're totally not prepared for: our digital one. As we rely more and more on technology and the Internet, we are also protecting our digital assets with passcodes, passwords or biometrics like fingerprints, which are challenging to pass along.
 
-How will your partners, children, and loved ones, get access to your digital life when your die? How will they get to see your photos on the cloud, inherit your cryptocurrency investments, or resolve your online profiles?
+How will your partners, children, and loved ones, get access to your digital life when you die? How will they get to see your photos on the cloud, inherit your cryptocurrency investments, or resolve your online profiles?
 
 Some may decide to share their passwords with their significant others, like husbands or wives. Security experts would argue that this is an unsafe behavior, as the more people know your passwords (or have them stored somewhere), the more likely it is that they could get stolen. When people share passwords they're also harder to change, and it is more challenging to use important security features like Multi-Factor Authentication, biometrics, etc.
 
