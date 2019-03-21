@@ -1,7 +1,7 @@
 ---
 title: "Hugo and IPFS: how this blog works (and scales to serve 5,000% spikes instantly!)"
 description: "Learnings from real-world experience with IPFS, and the curious stack that powers this website"
-date: 2019-03-20 20:10:00
+date: 2019-03-20 07:00:00
 author: "Alessandro Segala"
 image: "img/hugo-ipfs.jpg"
 comments: yes
