@@ -10,7 +10,7 @@ authorTwitter: "@ItalyPaleAle"
 
 I recently had to build an app in Go to retrieve TLS certificates stored on [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/), and because of some quirks this took way longer than I expected (*admittedly, my limited experience with Go didn't really help*). Sharing is caring, so I'm posting the code here for everyone else 🙌🏻
 
-Even if you're not working with Go, read below for the explanation of the quriks and how to solve them.
+Even if you're not working with Go, read below for the explanation of the quirks and how to solve them.
 
 ## TL;DR—just show me the code
 
@@ -72,7 +72,11 @@ First, assuming you have a certificate named `certificate.pem` and a key named `
 
 ````sh
 # When asked for a password, hit return (twice) to use an empty password
-openssl pkcs12 -export -inkey key.pem -in certificate.pem -out certificate.pfx
+openssl pkcs12 \
+  -export \
+  -inkey key.pem \
+  -in certificate.pem \
+  -out certificate.pfx
 ````
 
 Create a new Azure Key Vault if you need to:
