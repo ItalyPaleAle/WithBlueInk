@@ -8,7 +8,7 @@ comments: yes
 authorTwitter: "@ItalyPaleAle"
 ---
 
-Two days ago, jQuery 3.4.0 was released, and the amount of negative reactions I've seen on [Twitter](https://twitter.com/search?q=jquery),  [Reddit](https://www.reddit.com/r/javascript/comments/bc0f98/jquery_340_released/), and [Hacker News](https://news.ycombinator.com/item?id=19628789) is staggering.
+[jQuery 3.4.0](https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/) was released two days ago, and the amount of negative reactions I've seen on [Twitter](https://twitter.com/search?q=jquery),  [Reddit](https://www.reddit.com/r/javascript/comments/bc0f98/jquery_340_released/), and [Hacker News](https://news.ycombinator.com/item?id=19628789) is staggering.
 
 {{< tweet 1116196690174681088 >}}
 
