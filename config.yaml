@@ -54,6 +54,8 @@ pygmentsStyle: "tango"
 privacy:
   youtube:
     privacyEnhanced: true
+  twitter:
+    enableDNT: true
 
 # Menu (Not implemented)
 menu:
