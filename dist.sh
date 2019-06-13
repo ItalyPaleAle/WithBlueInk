@@ -8,7 +8,7 @@ rm -rf public
 
 # Run "npm install" in the theme folder
 echo "\033[0;1mRefreshing theme dependencies\033[0;0m"
-(cd themes/clean-blog && npm install)
+(cd themes/clean-blog && npm ci)
 
 # Compile the code with the "production" environment
 echo "\033[0;1mBuilding...\033[0;0m"
