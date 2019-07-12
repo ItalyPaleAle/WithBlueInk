@@ -1,6 +1,6 @@
 ---
 title: "Yes, you can run Docker on Raspbian"
-description: "Very simple steps for getting Docker and Docker Compose on Raspberry Pi 2 and 3"
+description: "Very simple steps for getting Docker and Docker Compose on Raspberry Pi 2, 3 and 4"
 date: 2017-12-31 10:14:00
 author: "Alessandro Segala"
 image: "img/pie.jpg"
@@ -8,17 +8,19 @@ comments: yes
 authorTwitter: "@ItalyPaleAle"
 ---
 
-This post is the definitive guide on using Docker on a Raspberry Pi 2 or 3, something I wish I had one week ago. I have a couple of Raspberry Pi's to provide services for my home and using Docker seemed the simplest way to deploy them. However, the number of guides for doing that on the internet is relatively low.
+> *July 12, 2019: This post has been updated for the new Raspberry Pi 4 and Raspbian Buster*
 
-Turns out there's **plenty of good news**. Docker does run on Raspberry Pi 2 and 3, and you don't need any other OS beside Raspbian, the most popular and widely supported distribution. Even better: you can also install Docker Compose.
+This post is the definitive guide on using Docker on a Raspberry Pi, something I wish I had one week ago. I have a couple of Raspberry Pi's to provide services for my home and using Docker seemed the simplest way to deploy them. However, the number of guides for doing that on the internet is relatively low.
+
+Turns out there's **plenty of good news**. Docker does run on Raspberry Pi 2, 3 and 4, and you don't need any other OS beside Raspbian, the most popular and widely supported distribution. Even better: you can also install Docker Compose.
 
 ## Installing Docker
 
-Installing Docker CE on Raspbian (Jessie or Stretch) for Raspberry Pi 2 and 3 is straightforward, and it's fully supported by Docker.
+Installing Docker CE on Raspbian (Stretch or Buster) for Raspberry Pi is straightforward, and it's fully supported by Docker. Docker CE is not supported on Raspbian Jessie anymore, so I'd recommend upgrading to a more recent release.
 
 We're going to install Docker from the **official Docker repositories**. While there are Docker packages on the Raspbian repos too, those are not kept up to date, which is something of an issue with a fast-evolving software like Docker.
 
-To install Docker CE on Raspbian Jessie/Stretch:
+To install Docker CE on Raspbian Stretch/Buster:
 
 ````sh
 # Install some required packages first
@@ -65,6 +67,8 @@ If everything is working fine, the command above will output something similar t
 This should hardly come as a surprise, but there's a caveat with running Docker on a Raspberry Pi. Since those small devices do not run on x86_64, but rather have ARM-based CPUs, you won't be able to use all the packages on the Docker Hub.
 
 Instead, you need to look for images distributed by the **arm32v7** organization (called **armhf** before), or tagged with those labels. Good news is that the arm32v7 organization is officially supported by Docker, so you get high-quality images.
+
+> While the CPUs of the Raspberry Pi 3 and 4 are using the ARMv8 (or ARM64) architecture, Raspbian is compiled as a 32-bit OS, so using Raspbian you're not able to run 64-bit applications or containers.
 
 Many common applications are already pre-built for ARM, and you can find the list of [official arm32v7 images on Docker Hub](https://hub.docker.com/r/arm32v7); however, this is still a fraction of the number of images available for the x86_64 architecture.
 
