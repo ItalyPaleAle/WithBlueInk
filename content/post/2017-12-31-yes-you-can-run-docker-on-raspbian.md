@@ -2,13 +2,14 @@
 title: "Yes, you can run Docker on Raspbian"
 description: "Very simple steps for getting Docker and Docker Compose on Raspberry Pi 2, 3 and 4"
 date: 2017-12-31 10:14:00
+lastmod: 2019-07-13
 author: "Alessandro Segala"
 image: "img/pie.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
 ---
 
-> *July 12, 2019: This post has been updated for the new Raspberry Pi 4 and Raspbian Buster*
+> *July 13, 2019: This post has been updated for the new Raspberry Pi 4 and Raspbian Buster*
 
 This post is the definitive guide on using Docker on a Raspberry Pi, something I wish I had one week ago. I have a couple of Raspberry Pi's to provide services for my home and using Docker seemed the simplest way to deploy them. However, the number of guides for doing that on the internet is relatively low.
 
@@ -20,7 +21,7 @@ Installing Docker CE on Raspbian (Stretch or Buster) for Raspberry Pi is straigh
 
 We're going to install Docker from the **official Docker repositories**. While there are Docker packages on the Raspbian repos too, those are not kept up to date, which is something of an issue with a fast-evolving software like Docker.
 
-To install Docker CE on Raspbian Stretch/Buster:
+To install Docker CE on **Raspbian Stretch** (see below for Buster):
 
 ````sh
 # Install some required packages first
@@ -42,7 +43,37 @@ echo "deb [arch=armhf] https://download.docker.com/linux/$(. /etc/os-release; ec
 
 # Install Docker
 sudo apt update
-sudo apt install docker-ce
+sudo apt install -y docker-ce
+````
+
+As of writing, the official packages for **Raspbian Buster** aren't available in the stable channel yet. However, you can install the packages for Stretch and they will work fine, with the exception of AUFS. You can track the development on this [issue on GitHub](https://github.com/docker/for-linux/issues/709). For now, the following commands will give you a working Docker installation on Buster:
+
+````sh
+# Install some required packages first
+sudo apt update
+sudo apt install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg2 \
+    software-properties-common
+
+# Get the Docker signing key for packages
+curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg | sudo apt-key add -
+
+# Add the Docker official repos
+# For now, use the packages for Raspbian Stretch
+echo "deb [arch=armhf] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
+     stretch stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list
+
+# Install Docker
+# The aufs package, part of the "recommended" packages, won't install juet yet, for missing pre-compiled kernel modules.
+# We can work around that issue by using "--no-install-recommends"
+sudo apt update
+sudo apt install -y --no-install-recommends \
+    docker-ce \
+    cgroupfs-mount
 ````
 
 That's it! The next step is about starting Docker and enabling it at boot:
@@ -90,6 +121,5 @@ pip install docker-compose
 ````
 
 With this, you now have a complete Raspberry Pi mini-server running Docker and ready to accept your containers.
-
 
 <small>*Cover photo by Lucky Heath ([Unsplash](https://unsplash.com/@capturebylucy))*</small>
