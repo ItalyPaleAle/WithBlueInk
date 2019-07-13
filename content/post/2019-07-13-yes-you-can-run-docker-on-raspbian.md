@@ -1,15 +1,16 @@
 ---
 title: "Yes, you can run Docker on Raspbian"
 description: "Very simple steps for getting Docker and Docker Compose on Raspberry Pi 2, 3 and 4"
-date: 2017-12-31 10:14:00
-lastmod: 2019-07-13
+date: 2019-07-13 10:14:00
+aliases:
+  - "/2017/12/31/yes-you-can-run-docker-on-raspbian.html"
 author: "Alessandro Segala"
 image: "img/pie.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
 ---
 
-> *July 13, 2019: This post has been updated for the new Raspberry Pi 4 and Raspbian Buster*
+> *This article is an updated version of the one posted in December 2017, with instructions for the new Raspberry Pi 4 and Raspbian Buster.*
 
 This post is the definitive guide on using Docker on a Raspberry Pi, something I wish I had one week ago. I have a couple of Raspberry Pi's to provide services for my home and using Docker seemed the simplest way to deploy them. However, the number of guides for doing that on the internet is relatively low.
 
@@ -99,7 +100,7 @@ This should hardly come as a surprise, but there's a caveat with running Docker 
 
 Instead, you need to look for images distributed by the **arm32v7** organization (called **armhf** before), or tagged with those labels. Good news is that the arm32v7 organization is officially supported by Docker, so you get high-quality images.
 
-> While the CPUs of the Raspberry Pi 3 and 4 are using the ARMv8 (or ARM64) architecture, Raspbian is compiled as a 32-bit OS, so using Raspbian you're not able to run 64-bit applications or containers.
+> While the CPUs inside Raspberry Pi 3's and 4's are using the ARMv8 (or ARM64) architecture, Raspbian is compiled as a 32-bit OS, so using Raspbian you're not able to run 64-bit applications or containers.
 
 Many common applications are already pre-built for ARM, and you can find the list of [official arm32v7 images on Docker Hub](https://hub.docker.com/r/arm32v7); however, this is still a fraction of the number of images available for the x86_64 architecture.
 
