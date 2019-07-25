@@ -167,3 +167,5 @@ docker run \
   -p 80:80 \
   myphpapp
 ````
+
+<small>*Cover photo by Sharon McCutcheon ([Unsplash](https://unsplash.com/@sharonmccutcheon))*</small>
