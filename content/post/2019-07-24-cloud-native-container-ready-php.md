@@ -1,9 +1,9 @@
 ---
 title: "Cloud native, container-ready PHP"
 description: "Building PHP apps and microservices for containers and high availability"
-date: 2019-07-24 10:14:00
+date: 2019-07-24 20:14:00
 author: "Alessandro Segala"
-image: "img/pie.jpg"
+image: "img/php.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
 ---
@@ -31,6 +31,8 @@ When architecting cloud native PHP applications, there are four principles that 
 ### 1. Keep your content off the filesystem
 
 This is by far the biggest thing, and it goes against one of the most common practice of PHP apps: all your generated content needs to stay off the local filesystem.
+
+!["PHP Apps? Plan all the storage!" Meme](/assets/php-meme.jpg)
 
 Since the PHP 4 days, virtually all apps have been storing content (e.g. user uploads, generated data, etc) in a folder on the local filesystem. For example, WordPress uses the famous `wp-content` directory to store both customizations (plugins and themes) and uploaded assets (post images, attachments…). When designing cloud-native apps, this is going to be a blocker, as data that is written on the local filesystem won't automatically replicate to other nodes when you scale horizontally, won't be available if you're failing over another server, won't persist when you destroy a container, etc.
 
