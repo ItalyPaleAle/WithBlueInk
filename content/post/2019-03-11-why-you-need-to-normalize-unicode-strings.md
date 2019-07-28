@@ -15,15 +15,15 @@ Sooner or later, this hits every developer:
 
 This is not another one of [JavaScript's oddities](https://github.com/denysdovhan/wtfjs), and I could have shown you the very same result with code in almost every other programming language, including Python, Go, and even shell scripts.
 
-It first hit me many years ago, when I was building an app (in Objective-C) that imported a list of people from an user's address book and social media graph, and filtered out duplicates. In certain situations, I would see the same person added twice because the names wouldn't compare as equal strings.
+It first hit me many years ago, when I was building an app (in Objective-C) that imported a list of people from a user's address book and social media graph, and filtered out duplicates. In certain situations, I would see the same person added twice because the names wouldn't compare as equal strings.
 
 In fact, while the two strings above look identical on screen, the way they're represented on disk, the bytes saved in the file, are different. In the first "Zoë", the ë character (e with umlaut) was represented a single Unicode code point, while in the second case it was in the decomposed form. If you're dealing with Unicode strings in your application, you need to take into account that characters could be represented in multiple ways.
 
 ## How we got to emojis: a brief explanation of character encoding
 
-Computers work with bytes, which are just numbers. In order to be able to represent text, we are mapping each characters to a specific number, and have conventions for how display them.
+Computers work with bytes, which are just numbers. In order to be able to represent text, we are mapping each character to a specific number, and have conventions for how display them.
 
-The first of such conventions, or character encodings, was ASCII (American Standard Code for Information Interchange). It used 7 bit and could represent a total of 128 characters, including the latin alphabet (both uppercase and lowercase), digits and basic punctuation symbols. It also included a bunch of "non-printable" characters, such as newline, tab, carriage return, etc. In the ASCII standard, for example, the letter M (uppercase m) is encoded as nummber 77 (4D in hex).
+The first of such conventions, or character encodings, was ASCII (American Standard Code for Information Interchange). It used 7 bit and could represent a total of 128 characters, including the Latin alphabet (both uppercase and lowercase), digits and basic punctuation symbols. It also included a bunch of "non-printable" characters, such as newline, tab, carriage return, etc. In the ASCII standard, for example, the letter M (uppercase m) is encoded as number 77 (4D in hex).
 
 The problem is that 128 characters might be enough to represent all the characters English-speakers normally use, but it's orders of magnitude too small to represent every character of every script worldwide, including emojis. 😫
 
@@ -37,7 +37,7 @@ Why use both? Western languages typically are most efficiently encoded with UTF-
 
 ### Unicode code points and character encoding
 
-Each character in the Unicode standard is assigned an identificative number, or code point. For example, the dog emoji 🐶 has the code point [U+1F436](http://www.fileformat.info/info/unicode/char/1F436/index.htm).
+Each character in the Unicode standard is assigned an identification number, or code point. For example, the dog emoji 🐶 has the code point [U+1F436](http://www.fileformat.info/info/unicode/char/1F436/index.htm).
 
 When encoded, the dog emoji can be represented in multiple byte sequences:
 
@@ -80,7 +80,7 @@ For example, the letter `é` could be represented using either:
 - A single code point [U+00E9](http://www.fileformat.info/info/unicode/char/e9/index.htm)
 - The combination of the letter `e` and the acute accent, for a total of two code points: [U+0065](http://www.fileformat.info/info/unicode/char/65/index.htm) and [U+0301](http://www.fileformat.info/info/unicode/char/0301/index.htm)
 
-The two characters look the same, but do not compare as equal, and the strings have different lenghts. In JavaScript:
+The two characters look the same, but do not compare as equal, and the strings have different lengths. In JavaScript:
 
 ````js
 console.log('\u00e9') // => é

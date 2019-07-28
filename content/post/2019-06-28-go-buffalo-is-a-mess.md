@@ -54,7 +54,7 @@ A framework is the foundation of a web app. My code has enough bugs in it alread
 
 ## Switching to Gin
 
-Switching the codebase to Gin wasn't completley painless. The hardest part was swapping the ORM from Pop to [GORM](https://github.com/jinzhu/gorm). However, it wasn't as daunting as a task either.
+Switching the codebase to Gin wasn't completely painless. The hardest part was swapping the ORM from Pop to [GORM](https://github.com/jinzhu/gorm). However, it wasn't as daunting as a task either.
 
 I found Gin to have much better documentation, with examples for almost everything you might need to do. It's also much leaner and comes with less than one third of the dependencies of Buffalo. And it doesn't require an additional CLI installed in the system to build apps.
 
