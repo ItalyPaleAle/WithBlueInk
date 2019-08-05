@@ -118,6 +118,7 @@ stages:
                     sudo chmod +x /usr/local/bin/pinatapinner
                     
                     # Pin on Pinata
+                    env
                     pinatapinner $(Pipeline.Workspace)/public "WithBlueInk-${RELEASE_RELEASEID}"
                   displayName: 'Pin on Pinata'
                   env:
