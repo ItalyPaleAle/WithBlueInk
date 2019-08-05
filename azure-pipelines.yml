@@ -137,6 +137,9 @@ stages:
         environment: Production
         displayName: 'Deploy to production'
 
+        # Dependency on staging
+        dependsOn: staging
+
         # Run on Linux (Ubuntu 16.04)
         pool:
           vmImage: 'Ubuntu-16.04'
@@ -151,6 +154,10 @@ stages:
             deploy:
               # Steps
               steps:
+                # Do not download artifacts
+                - download: none
+
+                # Update DNS record
                 - script: |
                     set -e
                     
@@ -173,6 +180,6 @@ stages:
                           -H "X-Auth-Key:$(CLOUDFLARE_API_KEY)" \
                           -H "X-Auth-Email:$(CLOUDFLARE_EMAIL)" \
                           --data "{\"type\":\"TXT\",\"name\":\"$(CLOUDFLARE_DOMAIN)\",\"content\":\"dnslink=/ipfs/$IPFS_HASH\",\"ttl\":120,\"priority\":10,\"proxied\":false}"
-                  displayName: 'Update DNS on Cloudflare'
+                  displayName: 'Update DNS record'
                   env:
                     IPFS_HASH: $(IPFS_HASH)
