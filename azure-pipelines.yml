@@ -14,6 +14,8 @@ variables:
   HUGO_VERSION: 0.56.3
   # Version of Pinata Pinner
   PINATAPINNER_VERSION: 0.1.1
+  # Domain to update (DNSLink)
+  CLOUDFLARE_DOMAIN: '_dnslink.withblue.ink'
 
 # Stages
 stages:
@@ -118,7 +120,6 @@ stages:
                     sudo chmod +x /usr/local/bin/pinatapinner
                     
                     # Pin on Pinata
-                    env
                     pinatapinner $(Pipeline.Workspace)/public "WithBlueInk-${RELEASE_RELEASEID}"
                   displayName: 'Pin on Pinata'
                   env:
