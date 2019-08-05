@@ -61,9 +61,9 @@ stages:
             displayName: 'Publish Artifact: public'
             artifact: 'public'
 
-  # Deploy site stage
-  - stage: deploy
-    displayName: 'Deploy site'
+  # Stage app stage
+  - stage: staging
+    displayName: 'Stage app'
     jobs:
 
       # Stage app job
@@ -126,6 +126,11 @@ stages:
                   env:
                     PINATA_API_KEY: $(PINATA_API_KEY)
                     PINATA_SECRET_KEY: $(PINATA_SECRET_KEY)
+
+  # Deploy to production stage
+  - stage: production
+    displayName: 'Deploy to production'
+    jobs:
 
       # Deploy to production
       - deployment: production
