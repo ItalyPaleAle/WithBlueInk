@@ -66,8 +66,7 @@ stages:
     jobs:
 
       # Stage app job
-      - job: staging
-        deployment: Staging
+      - deployment: Staging
         displayName: 'Stage app'
 
         # Run on Linux (Ubuntu 16.04)
