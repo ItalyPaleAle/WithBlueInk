@@ -107,10 +107,13 @@ stages:
                       
                       # Add files to IPFS
                       HASH=$(sudo docker exec ipfs-node ipfs add -rQ /staging/withblueink)
-                      echo $HASH
-                      echo "##vso[task.setvariable variable=IPFS_HASH;isOutput=true]$HASH"
+                      echo "IPFS hash: ${HASH}"
+
                       # Add to the pinset of the cluster
                       sudo docker exec ipfs-cluster ipfs-cluster-ctl pin add $HASH
+
+                      # Write hash to file
+                      echo "$HASH" > $(Pipeline.Workspace)/ipfshash
 
                 # Pin on Pinata
                 - script: |
@@ -126,6 +129,10 @@ stages:
                   env:
                     PINATA_API_KEY: $(PINATA_API_KEY)
                     PINATA_SECRET_KEY: $(PINATA_SECRET_KEY)
+                
+                # Publish the ipfshash artifact
+                - publish: $(Pipeline.Workspace)/ipfshash
+                  artifact: 'ipfshash'
 
   # Deploy to production stage
   - stage: production
@@ -137,16 +144,9 @@ stages:
         environment: Production
         displayName: 'Deploy to production'
 
-        # Dependency on staging
-        dependsOn: staging
-
         # Run on Linux (Ubuntu 16.04)
         pool:
           vmImage: 'Ubuntu-16.04'
-        
-        # Link with variable IPFS_HASH from previous job
-        variables:
-          IPFS_HASH: $[ dependencies.staging.outputs['pinfiles.IPFS_HASH'] ]
         
         # Deployment strategy is "runOnce"
         strategy:
@@ -154,15 +154,17 @@ stages:
             deploy:
               # Steps
               steps:
-                # Do not download artifacts
-                - download: none
+                # Download the ipfshash artifact
+                - download: current
+                  artifact: 'ipfshash'
 
                 # Update DNS record
                 - script: |
                     set -e
+
+                    IPFS_HASH=$(cat $(Pipeline.Workspace)/ipfshash)
                     
                     echo "Updating DNSLink to ${IPFS_HASH}"
-                    echo "Replacement: $(IPFS_HASH)"
 
                     [[ -z "$IPFS_HASH" ]] && { echo "Variable IPFS_HASH is empty" ; exit 1; }
 
@@ -181,5 +183,3 @@ stages:
                           -H "X-Auth-Email:$(CLOUDFLARE_EMAIL)" \
                           --data "{\"type\":\"TXT\",\"name\":\"$(CLOUDFLARE_DOMAIN)\",\"content\":\"dnslink=/ipfs/$IPFS_HASH\",\"ttl\":120,\"priority\":10,\"proxied\":false}"
                   displayName: 'Update DNS record'
-                  env:
-                    IPFS_HASH: $(IPFS_HASH)
