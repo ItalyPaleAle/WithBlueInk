@@ -2,44 +2,120 @@
 
 # Define repository
 resources:
-- repo: self
+  - repo: self
 
 # Trigger on changes to the master branch
 trigger:
-  - master
+  - master+
 
-# Run on Linux (Ubuntu 16.04)
-pool:
-  vmImage: 'Ubuntu-16.04'
-
+# Variables for the entire pipeline
 variables:
-  HUGO_VERSION: 0.56.1
+  # Version of Hugo
+  HUGO_VERSION: 0.56.3
+  # Version of Pinata Pinner
+  PINATAPINNER_VERSION: 0.1.1
 
-# Steps
-steps:
+# Stages
+stages:
 
-  # Install Node.js first, which is necessary for the module depdendencies
-  - task: NodeTool@0
-    displayName: 'Use Node.js 10.x'
-    inputs:
-      versionSpec: 10.x
-
-  # Install Hugo
-  - script: |
-      set -e
-      cd /tmp
-      echo "Using Hugo $(HUGO_VERSION)"
-      curl -fsSL "https://github.com/gohugoio/hugo/releases/download/v$(HUGO_VERSION)/hugo_extended_$(HUGO_VERSION)_Linux-64bit.tar.gz" -o hugo.tar.gz
-      tar -zxf hugo.tar.gz
-      sudo mv hugo /usr/local/bin
-    displayName: 'Install Hugo'
-
-  # Build the site
-  - script: 'make dist'
+  # Build site stage
+  - stage: build
     displayName: 'Build site'
+    jobs:
 
-  # Publish the compiled site as build artifact
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: public'
-    inputs:
-      PathtoPublish: 'public'
+    # Build site job
+      - job: build
+        displayName: 'Build site'
+
+        # Run on Linux (Ubuntu 16.04)
+        pool:
+          vmImage: 'Ubuntu-16.04'
+
+        # Steps
+        steps:
+
+          # Install Node.js first, which is necessary for the module depdendencies
+          - task: NodeTool@0
+            displayName: 'Use Node.js 10.x'
+            inputs:
+              versionSpec: 10.x
+
+          # Install Hugo
+          - script: |
+              set -e
+              cd /tmp
+              echo "Using Hugo $(HUGO_VERSION)"
+              curl -fsSL "https://github.com/gohugoio/hugo/releases/download/v$(HUGO_VERSION)/hugo_extended_$(HUGO_VERSION)_Linux-64bit.tar.gz" -o hugo.tar.gz
+              tar -zxf hugo.tar.gz
+              sudo mv hugo /usr/local/bin
+            displayName: 'Install Hugo'
+
+          # Build the site
+          - script: 'make dist'
+            displayName: 'Build site'
+
+          # Publish the compiled site as build artifact
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Artifact: public'
+            inputs:
+              PathtoPublish: 'public'
+
+  # Deploy site stage
+  - stage: deploy
+    displayName: 'Deploy site'
+    jobs:
+
+      # Stage app job
+      - job: staging
+        deployment: Staging
+        displayName: 'Stage app'
+
+        # Run on Linux (Ubuntu 16.04)
+        pool:
+          vmImage: 'Ubuntu-16.04'
+        
+        # Deployment strategy is "runOnce"
+        strategy:
+          runOnce:
+            deploy:
+              # Steps
+              steps:
+                # Copy files to staging via SSH
+                - task: CopyFilesOverSSH@0
+                  displayName: 'Copy files to staging via SSH'
+                  inputs:
+                    sshEndpoint: 'IPFS-EU'
+                    sourceFolder: '$(System.DefaultWorkingDirectory)/_WithBlueInk-Hugo-CI/drop'
+                    targetFolder: '/data/ipfs-staging/withblueink'
+                    cleanTargetFolder: true
+                    failOnEmptySource: true
+                # Pin files on IPFS
+                - task: SSH@0
+                  displayName: 'Pin files on IPFS'
+                  inputs:
+                    sshEndpoint: 'IPFS-EU'
+                    runOptions: inline
+                    inline: |
+                      set -e
+                      
+                      # Add files to IPFS
+                      HASH=$(sudo docker exec ipfs-node ipfs add -rQ /staging/withblueink)
+                      echo $HASH
+                      echo "##vso[task.setvariable variable=IPFS_HASH]$HASH"
+                      # Add to the pinset of the cluster
+                      sudo docker exec ipfs-cluster ipfs-cluster-ctl pin add $HASH
+                # Pin on Pinata
+                - script: |
+                    set -e
+                    
+                    # Download pinatapinner
+                    sudo curl -L "https://github.com/ItalyPaleAle/pinatapinner/releases/download/v$(PINATAPINNER_VERSION)/pinatapinner_linux_amd64" -o /usr/local/bin/pinatapinner
+                    sudo chmod +x /usr/local/bin/pinatapinner
+                    
+                    # Pin on Pinata
+                    pinatapinner $(System.DefaultWorkingDirectory)/_WithBlueInk-Hugo-CI/drop "WithBlueInk-${RELEASE_RELEASEID}"
+                  displayName: 'Pin on Pinata'
+                  env:
+                    PINATA_API_KEY: $(PINATA_API_KEY)
+                    PINATA_SECRET_KEY: $(PINATA_SECRET_KEY)
+
