@@ -54,11 +54,10 @@ stages:
           - script: 'make dist'
             displayName: 'Build site'
 
-          # Publish the compiled site as build artifact
-          - task: PublishBuildArtifacts@1
+          # Publish the compiled site as pipeline artifact
+          - publish: '$(System.DefaultWorkingDirectory)/public'
             displayName: 'Publish Artifact: public'
-            inputs:
-              PathtoPublish: 'public'
+            artifact: 'public'
 
   # Deploy site stage
   - stage: deploy
@@ -80,15 +79,20 @@ stages:
             deploy:
               # Steps
               steps:
+                # Download pipeline artifact
+                - download: current
+                  artifact: 'public'
+
                 # Copy files to staging via SSH
                 - task: CopyFilesOverSSH@0
                   displayName: 'Copy files to staging via SSH'
                   inputs:
                     sshEndpoint: 'IPFS-EU'
-                    sourceFolder: '$(System.DefaultWorkingDirectory)/_WithBlueInk-Hugo-CI/drop'
+                    sourceFolder: '$(System.DefaultWorkingDirectory)/public'
                     targetFolder: '/data/ipfs-staging/withblueink'
                     cleanTargetFolder: true
                     failOnEmptySource: true
+
                 # Pin files on IPFS
                 - task: SSH@0
                   displayName: 'Pin files on IPFS'
@@ -104,6 +108,7 @@ stages:
                       echo "##vso[task.setvariable variable=IPFS_HASH]$HASH"
                       # Add to the pinset of the cluster
                       sudo docker exec ipfs-cluster ipfs-cluster-ctl pin add $HASH
+
                 # Pin on Pinata
                 - script: |
                     set -e
@@ -113,7 +118,7 @@ stages:
                     sudo chmod +x /usr/local/bin/pinatapinner
                     
                     # Pin on Pinata
-                    pinatapinner $(System.DefaultWorkingDirectory)/_WithBlueInk-Hugo-CI/drop "WithBlueInk-${RELEASE_RELEASEID}"
+                    pinatapinner $(System.DefaultWorkingDirectory)/public "WithBlueInk-${RELEASE_RELEASEID}"
                   displayName: 'Pin on Pinata'
                   env:
                     PINATA_API_KEY: $(PINATA_API_KEY)
