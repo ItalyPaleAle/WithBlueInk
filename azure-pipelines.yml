@@ -97,6 +97,7 @@ stages:
 
                 # Pin files on IPFS
                 - task: SSH@0
+                  name: pinfiles
                   displayName: 'Pin files on IPFS'
                   inputs:
                     sshEndpoint: 'IPFS-EU'
@@ -107,7 +108,7 @@ stages:
                       # Add files to IPFS
                       HASH=$(sudo docker exec ipfs-node ipfs add -rQ /staging/withblueink)
                       echo $HASH
-                      echo "##vso[task.setvariable variable=IPFS_HASH]$HASH"
+                      echo "##vso[task.setvariable variable=IPFS_HASH;isOutput=true]$HASH"
                       # Add to the pinset of the cluster
                       sudo docker exec ipfs-cluster ipfs-cluster-ctl pin add $HASH
 
@@ -126,3 +127,41 @@ stages:
                     PINATA_API_KEY: $(PINATA_API_KEY)
                     PINATA_SECRET_KEY: $(PINATA_SECRET_KEY)
 
+      # Deploy to production
+      - deployment: production
+        environment: Production
+        displayName: 'Deploy to production'
+
+        # Run on Linux (Ubuntu 16.04)
+        pool:
+          vmImage: 'Ubuntu-16.04'
+        
+        # Link with variable IPFS_HASH from previous job
+        variables:
+          IPFS_HASH: $[ dependencies.staging.outputs['pinfiles.IPFS_HASH'] ]
+        
+        # Deployment strategy is "runOnce"
+        strategy:
+          runOnce:
+            deploy:
+              # Steps
+              steps:
+                - script: |
+                    set -e
+                    
+                    echo "Updating DNSLink to ${IPFS_HASH}"
+
+                    RECORD_ID=$(curl -sS -X GET "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE_ID)/dns_records?type=TXT&name=$(CLOUDFLARE_DOMAIN)" \
+                          -H "Content-Type:application/json" \
+                          -H "X-Auth-Key:$(CLOUDFLARE_API_KEY)" \
+                          -H "X-Auth-Email:$(CLOUDFLARE_EMAIL)" \
+                              | jq -r '.result[0].id')
+                    
+                    curl -sS -X PUT "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE_ID)/dns_records/$RECORD_ID" \
+                          -H "Content-Type:application/json" \
+                          -H "X-Auth-Key:$(CLOUDFLARE_API_KEY)" \
+                          -H "X-Auth-Email:$(CLOUDFLARE_EMAIL)" \
+                          --data "{\"type\":\"TXT\",\"name\":\"$(CLOUDFLARE_DOMAIN)\",\"content\":\"dnslink=/ipfs/$IPFS_HASH\",\"ttl\":120,\"priority\":10,\"proxied\":false}"
+                  displayName: 'Update DNS on Cloudflare'
+                  env:
+                    IPFS_HASH: $(IPFS_HASH)
