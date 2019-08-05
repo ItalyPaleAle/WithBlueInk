@@ -155,6 +155,12 @@ stages:
                     set -e
                     
                     echo "Updating DNSLink to ${IPFS_HASH}"
+                    echo "Replacement: $(IPFS_HASH)"
+
+                    [[ -z "$IPFS_HASH" ]] && { echo "Variable IPFS_HASH is empty" ; exit 1; }
+
+                    # During testing, do not continue
+                    exit 0
 
                     RECORD_ID=$(curl -sS -X GET "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE_ID)/dns_records?type=TXT&name=$(CLOUDFLARE_DOMAIN)" \
                           -H "Content-Type:application/json" \
