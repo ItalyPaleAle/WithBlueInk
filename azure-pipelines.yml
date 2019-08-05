@@ -88,7 +88,7 @@ stages:
                   displayName: 'Copy files to staging via SSH'
                   inputs:
                     sshEndpoint: 'IPFS-EU'
-                    sourceFolder: '$(System.DefaultWorkingDirectory)/public'
+                    sourceFolder: '$(Pipeline.Workspace)/public'
                     targetFolder: '/data/ipfs-staging/withblueink'
                     cleanTargetFolder: true
                     failOnEmptySource: true
@@ -118,7 +118,7 @@ stages:
                     sudo chmod +x /usr/local/bin/pinatapinner
                     
                     # Pin on Pinata
-                    pinatapinner $(System.DefaultWorkingDirectory)/public "WithBlueInk-${RELEASE_RELEASEID}"
+                    pinatapinner $(Pipeline.Workspace)/public "WithBlueInk-${RELEASE_RELEASEID}"
                   displayName: 'Pin on Pinata'
                   env:
                     PINATA_API_KEY: $(PINATA_API_KEY)
