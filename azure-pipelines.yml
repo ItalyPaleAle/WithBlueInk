@@ -6,7 +6,7 @@ resources:
 
 # Trigger on changes to the master branch
 trigger:
-  - master+
+  - master
 
 # Variables for the entire pipeline
 variables:
@@ -106,14 +106,14 @@ stages:
                       set -e
                       
                       # Add files to IPFS
-                      HASH=$(sudo docker exec ipfs-node ipfs add -rQ /staging/withblueink)
-                      echo "IPFS hash: ${HASH}"
+                      IPFS_HASH=$(sudo docker exec ipfs-node ipfs add -rQ /staging/withblueink)
+                      echo "IPFS hash: ${IPFS_HASH}"
+
+                      # Set the IPFS_HASH variable
+                      echo "##vso[task.setvariable variable=IPFS_HASH]$IPFS_HASH"
 
                       # Add to the pinset of the cluster
-                      sudo docker exec ipfs-cluster ipfs-cluster-ctl pin add $HASH
-
-                      # Write hash to file
-                      echo "$HASH" > $(Pipeline.Workspace)/ipfshash
+                      sudo docker exec ipfs-cluster ipfs-cluster-ctl pin add $IPFS_HASH
 
                 # Pin on Pinata
                 - script: |
@@ -129,10 +129,17 @@ stages:
                   env:
                     PINATA_API_KEY: $(PINATA_API_KEY)
                     PINATA_SECRET_KEY: $(PINATA_SECRET_KEY)
-                
-                # Publish the ipfshash artifact
-                - publish: $(Pipeline.Workspace)/ipfshash
-                  artifact: 'ipfshash'
+
+                # Write IPFS hash to file
+                - script: |
+                    set -e
+                    mkdir -p $(Pipeline.Workspace)/variables
+                    echo "$IPFS_HASH" > $(Pipeline.Workspace)/variables/IPFS_HASH
+                  displayName: 'Write IPFS hash to file'
+
+                # Publish the variables artifact
+                - publish: $(Pipeline.Workspace)/variables
+                  artifact: variables
 
   # Deploy to production stage
   - stage: production
@@ -154,15 +161,15 @@ stages:
             deploy:
               # Steps
               steps:
-                # Download the ipfshash artifact
+                # Download the variables artifact
                 - download: current
-                  artifact: 'ipfshash'
+                  artifact: variables
 
                 # Update DNS record
                 - script: |
                     set -e
 
-                    IPFS_HASH=$(cat $(Pipeline.Workspace)/ipfshash)
+                    IPFS_HASH=$(cat $(Pipeline.Workspace)/variables/IPFS_HASH)
                     
                     echo "Updating DNSLink to ${IPFS_HASH}"
 
