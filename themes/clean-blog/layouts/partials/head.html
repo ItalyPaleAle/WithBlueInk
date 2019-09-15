@@ -6,14 +6,14 @@
 	<meta name="description" content="{{ .Site.Params.description }}">
 
 	<!-- Canonical URL -->
-	<link rel="canonical" href="{{ .Page.URL | absURL }}">
+	<link rel="canonical" href="{{ .Page.Permalink | absURL }}">
 
 	<!-- Page title -->
 	<title>{{ if .Page.Title }}{{ .Page.Title }} | {{ .Site.Title }}{{ else }}{{ .Site.Title }}{{ end }}</title>
 
 	<!-- Social (for posts only) -->
 	{{ if eq .Page.Type "post" }}
-    <meta property="og:url" content="{{ .Page.URL | absURL }}">
+    <meta property="og:url" content="{{ .Page.Permalink | absURL }}">
     <meta property="og:type" content="article">
     <meta property="og:title" content="{{ if .Page.Title }}{{ .Page.Title }} | {{ .Site.Title }}{{ else }}{{ .Site.Title }}{{ end }}">
     <meta property="og:description" content="{{ if .Page.Description }}{{ .Page.Description }}{{ end }}">
