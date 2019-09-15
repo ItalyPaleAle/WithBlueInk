@@ -32,9 +32,9 @@ Of course, being without a working firewall means, for most people, having no In
 
 There are a few things you'll need.
 
-First: **download the OS image of pfSense 2.x**. If you're using the Community Edition, you can download it from the [pfSense website](https://www.pfsense.org/download/). If you have a Netgate appliance, you might need to [open a ticket](https://go.netgate.com/support/login) with them to get one (if you have an ARM-based device like the Netgate SG-3100, this is the only way to get the image).
+First: **download the OS image of pfSense 2.x**. If you're using the Community Edition, you can download it from the [pfSense website](https://www.pfsense.org/download/) - make sure to fetch the "memstick" version for the right type of console ("vga" if you have a screen; otherwise, "serial"). If you have a Netgate appliance, you might need to [open a ticket](https://go.netgate.com/support/login) with them to get one (if you have an ARM-based device like the Netgate SG-3100, this is the only way to get the image).
 
-Second: you'll need a **USB drive** of at least 2GB. The contents of this drive will be completely deleted.
+Second: you'll need a **USB drive** of at least 2GB. The contents of this drive will be completely deleted. If you are using an **amd64** image, then you'll need a second USB drive, formatted as FAT32.
 
 Third: you'll need a way to interact with the device.
 
@@ -73,11 +73,13 @@ sudo dd if=pfSense-netgate-memstick-serial-2.4.4-RELEASE-p3-amd64.img of=/dev/rd
 
 pfSense can automatically restore the configuration from the XML backup file.
 
-After writing the installer image to the USB drive, you should see a FAT32 partition (should be called `FATRECOV`). Place the backup file in the root of that drive and call it `config.xml`.
+After writing the installer image to the USB drive, you might see a FAT32 partition (should be called `FATRECOV`). If you do see this partition (as in the ARM-based image), place the backup file in the root of that drive and call it `config.xml`.
 
 ![The config.xml file inside the USB drive](/assets/pfsense-reinstall/config-xml-finder.png)
 
-Safely eject the USB disk to proceed with the installation.
+If you **do not** see a FAT32 partition, you will need another USB drive formatted as FAT32. Copy the backup file, named `config.xml` in that drive, in the root folder.
+
+Safely eject the USB disk(s) to proceed with the installation.
 
 ## Step 3: Connect to the firewall via serial console
 
@@ -141,7 +143,9 @@ Then confirm with `y` and return. The installer will take a few minutes.
 
 ## Step 5: Reboot and restore the configuration
 
-Once the installation is over, you'll get a message asking you to reboot the system. Press any key in the serial console to reboot it. Do **not** remove the USB drive just yet.
+Once the installation is over, you'll get a message asking you to reboot the system. Press any key in the serial console to reboot it.
+
+**Before you reboot**, make sure that the drive containing the `config.xml` file is attached. If it's in the same USB drive as the installer, don't remove the install media. If it's on a separate drive, switch the USB stick. 
 
 ![Press any key to reboot after the installation](/assets/pfsense-reinstall/console-reboot.png)
 
