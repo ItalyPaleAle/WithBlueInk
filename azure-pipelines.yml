@@ -11,7 +11,7 @@ trigger:
 # Variables for the entire pipeline
 variables:
   # Version of Hugo
-  HUGO_VERSION: 0.56.3
+  HUGO_VERSION: 0.58.2
   # Version of Pinata Pinner
   PINATAPINNER_VERSION: 0.1.1
   # Domain to update (DNSLink)
@@ -140,6 +140,7 @@ stages:
                 # Publish the variables artifact
                 - publish: $(Pipeline.Workspace)/variables
                   artifact: variables
+                  displayName: 'Publish pipeline artifacts'
 
   # Deploy to production stage
   - stage: production
@@ -164,6 +165,7 @@ stages:
                 # Download the variables artifact
                 - download: current
                   artifact: variables
+                  displayName: 'Download pipeline artifacts'
 
                 # Update DNS record
                 - script: |
