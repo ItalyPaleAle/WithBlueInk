@@ -22,7 +22,7 @@
       <div class="col-lg-9 col-md-11 mx-auto">
         {{ range $paginator.Pages }}
           <div class="post-preview">
-            <a href="{{ .Permalink }}">
+            <a href="{{ .RelPermalink }}">
               <h2 class="post-title">{{ .Title }}</h2>
               {{ with .Description }}
                 <h3 class="post-subtitle">{{ . }}</h3>
