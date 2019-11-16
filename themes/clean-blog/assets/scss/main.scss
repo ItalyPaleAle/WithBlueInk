@@ -48,3 +48,12 @@ blockquote {
     padding-left: 0.8em;
     border-left: 4px solid $gray-400;
 }
+
+// Make the h4 in figcaption's less like a title
+figcaption > h4 {
+    @include serif-font;
+
+    font-weight: normal;
+    font-style: italic;
+    font-size: 0.9rem;
+}
