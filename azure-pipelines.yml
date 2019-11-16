@@ -11,7 +11,7 @@ trigger:
 # Variables for the entire pipeline
 variables:
   # Version of Hugo
-  HUGO_VERSION: 0.58.2
+  HUGO_VERSION: 0.59.1
   # Version of Pinata Pinner
   PINATAPINNER_VERSION: 0.1.1
   # Domain to update (DNSLink)
