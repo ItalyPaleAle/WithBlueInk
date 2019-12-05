@@ -64,3 +64,10 @@ menu:
       url: "/"
     - name: "About"
       url: "/about.html"
+
+# Markup converters
+markup:
+  defaultMarkdownHandler: blackFriday
+  goldmark:
+    renderer:
+      unsafe: true

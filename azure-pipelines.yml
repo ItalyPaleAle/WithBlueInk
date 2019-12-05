@@ -11,7 +11,7 @@ trigger:
 # Variables for the entire pipeline
 variables:
   # Version of Hugo
-  HUGO_VERSION: 0.59.1
+  HUGO_VERSION: 0.60.1
   # Version of Pinata Pinner
   PINATAPINNER_VERSION: 0.1.1
   # Domain to update (DNSLink)
@@ -29,9 +29,9 @@ stages:
       - job: build
         displayName: 'Build site'
 
-        # Run on Linux (Ubuntu 16.04)
+        # Run on Linux (Ubuntu 18.04)
         pool:
-          vmImage: 'Ubuntu-16.04'
+          vmImage: 'Ubuntu-18.04'
 
         # Steps
         steps:
@@ -71,9 +71,9 @@ stages:
         environment: Staging
         displayName: 'Stage app'
 
-        # Run on Linux (Ubuntu 16.04)
+        # Run on Linux (Ubuntu 18.04)
         pool:
-          vmImage: 'Ubuntu-16.04'
+          vmImage: 'Ubuntu-18.04'
         
         # Deployment strategy is "runOnce"
         strategy:
@@ -152,9 +152,9 @@ stages:
         environment: Production
         displayName: 'Deploy to production'
 
-        # Run on Linux (Ubuntu 16.04)
+        # Run on Linux (Ubuntu 18.04)
         pool:
-          vmImage: 'Ubuntu-16.04'
+          vmImage: 'Ubuntu-18.04'
         
         # Deployment strategy is "runOnce"
         strategy:
@@ -179,13 +179,11 @@ stages:
 
                     RECORD_ID=$(curl -sS -X GET "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE_ID)/dns_records?type=TXT&name=$(CLOUDFLARE_DOMAIN)" \
                           -H "Content-Type:application/json" \
-                          -H "X-Auth-Key:$(CLOUDFLARE_API_KEY)" \
-                          -H "X-Auth-Email:$(CLOUDFLARE_EMAIL)" \
+                          -H "Authorization:Bearer $(CLOUDFLARE_API_TOKEN)" \
                               | jq -r '.result[0].id')
                     
                     curl -sS -X PUT "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE_ID)/dns_records/$RECORD_ID" \
                           -H "Content-Type:application/json" \
-                          -H "X-Auth-Key:$(CLOUDFLARE_API_KEY)" \
-                          -H "X-Auth-Email:$(CLOUDFLARE_EMAIL)" \
+                          -H "Authorization:Bearer $(CLOUDFLARE_API_TOKEN)" \
                           --data "{\"type\":\"TXT\",\"name\":\"$(CLOUDFLARE_DOMAIN)\",\"content\":\"dnslink=/ipfs/$IPFS_HASH\",\"ttl\":120,\"priority\":10,\"proxied\":false}"
                   displayName: 'Update DNS record'
