@@ -91,11 +91,11 @@ Luckily, we can still easily install Docker Compose from pip:
 ````sh
 # Install required packages
 sudo apt update
-sudo apt install -y python python-pip libffi-dev python-backports.ssl-match-hostname
+sudo apt install -y python3-pip libffi-dev
 
-# Install Docker Compose from pip
+# Install Docker Compose from pip (using Python3)
 # This might take a while
-sudo pip install docker-compose
+sudo pip3 install docker-compose
 ````
 
 With this, you now have a complete Raspberry Pi mini-server running Docker and ready to accept your containers.
