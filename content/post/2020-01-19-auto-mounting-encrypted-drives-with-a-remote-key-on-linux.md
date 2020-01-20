@@ -31,7 +31,7 @@ I'm piping the encryption key through base64 so we don't have to deal with binar
 You will then need to store the keyfile somewhere safe. You can pick and choose any place you'd like; some ideas include:
 
 - A key vault like [Azure Key Vault](https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview)
-- HTTPS servers, including object storage services such as AWS S3 or Azure Blob Storage; make sure you're using TLS to protect the data while in tansit, rather than basic HTTP
+- HTTPS servers, including object storage services such as AWS S3 or Azure Blob Storage; make sure you're using TLS to protect the data while in transit, rather than basic HTTP
 
 For a simple (but effective enough) solution, you can store the keyfile in Azure Blob Storage. You can see an example of doing this in the _Appendix_ below.
 
@@ -96,7 +96,7 @@ parted /dev/sdc mklabel gpt
 parted -a opt /dev/sdc mkpart datadisk ext4 0% 100%
 ````
 
-Encrpyt the `sdc1` partition using LUKS, create an ext4 volume in that partition, and then close the encrypted volume. In all commands that require a keyfile, we're invoking the `/etc/luks/key.sh` script that we created before, and telling `cryptsetup` to read the keyfile from stdin.
+Encrypt the `sdc1` partition using LUKS, create an ext4 volume in that partition, and then close the encrypted volume. In all commands that require a keyfile, we're invoking the `/etc/luks/key.sh` script that we created before, and telling `cryptsetup` to read the keyfile from stdin.
 
 ````sh
 # Encrypt the disk
