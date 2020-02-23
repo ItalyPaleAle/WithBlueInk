@@ -158,7 +158,9 @@ stages:
                 # Pin on Pinata
                 - script: |
                     set -e
-                    ./pinatapinner $(Pipeline.Workspace)/public "WithBlueInk-${BUILD_BUILDID}"
+                    ./pinatapinner $(Pipeline.Workspace)/public "WithBlueInk-${BUILD_BUILDID}" | tee out.tmp
+                    IPFS_HASH=$(cat out.tmp | jq -r ".IpfsHash")
+                    echo "##vso[task.setvariable variable=IPFS_HASH]$IPFS_HASH"
                   displayName: 'Pin on Pinata'
                   env:
                     PINATA_API_KEY: $(PINATA_API_KEY)
@@ -167,6 +169,7 @@ stages:
                 # Write IPFS hash to file
                 - script: |
                     set -e
+                    echo "IPFS Hash is: $IPFS_HASH"
                     mkdir -p $(Pipeline.Workspace)/variables
                     echo "$IPFS_HASH" > $(Pipeline.Workspace)/variables/IPFS_HASH
                   displayName: 'Write IPFS hash to file'

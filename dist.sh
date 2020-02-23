@@ -15,6 +15,10 @@ echo "\033[0;1mBuilding...\033[0;0m"
 #hugo --environment=production --buildFuture
 hugo --environment=production
 
+# Copy static files
+echo "\033[0;1mCopy static files...\033[0;0m"
+cp -v _statiko.yaml public/
+
 # Remove files that shouldn't be published
 echo "\033[0;1mRemoving unnecessary files...\033[0;0m"
 rm -v public/*.sh

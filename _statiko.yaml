@@ -1,0 +1,9 @@
+files:
+  js:
+    clientCaching: 6h
+  css:
+    clientCaching: 6h
+  _images:
+    clientCaching: 1w
+  html:
+    clientCaching: 30m
