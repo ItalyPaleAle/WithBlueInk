@@ -116,7 +116,7 @@ stages:
                 - bash: |
                     set -e
                     URL=$(curl -s https://api.github.com/repos/ItalyPaleAle/pinatapinner/releases/latest -H "Accept: application/vnd.github.v3+json" \
-                      | jq -r ".assets[] | select(.name | test(\"linux_arm\")) | .browser_download_url")
+                      | jq -r ".assets[] | select(.name | test(\"linux_arm$\", \"xs\")) | .browser_download_url")
                     echo "Downloading pinatapinner: $URL"
                     curl -L "$URL" -o pinatapinner
                     chmod +x pinatapinner
