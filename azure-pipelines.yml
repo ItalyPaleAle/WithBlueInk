@@ -220,6 +220,17 @@ stages:
                   artifact: variables
                   displayName: 'Download pipeline artifacts'
 
+                # Install stkcli
+                - bash: |
+                    set -e
+                    URL=$(curl -s https://api.github.com/repos/ItalyPaleAle/stkcli/releases/latest -H "Accept: application/vnd.github.v3+json" \
+                      | jq -r ".assets[] | select(.name | test(\"linux_arm32v7\")) | .browser_download_url")
+                    echo "Downloading stkcli: $URL"
+                    curl -L "$URL" -o stkcli
+                    chmod +x stkcli
+                    ./stkcli version
+                  displayName: "Install stkcli"
+
                 # Deploy app to production on Statiko
                 - script: |
                     set -e
