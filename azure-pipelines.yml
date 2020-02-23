@@ -238,7 +238,8 @@ stages:
                       -n $(NODE_ADDRESS) \
                       -k \
                       -d $(SITE_PRODUCTION) \
-                      -a withblueink -v $(Build.BuildNumber)
+                      -a withblueink \
+                      -v $(Build.BuildNumber)
                   displayName: 'Deploy app to production on Statiko'
                   env:
                     NODE_KEY: $(NODE_KEY)
