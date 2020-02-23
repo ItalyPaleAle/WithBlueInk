@@ -26,7 +26,7 @@ variables:
   # DNSLink DNS record to update (for IPFS)
   CLOUDFLARE_DOMAIN: '_dnslink.withblue.ink'
   # Version of Hugo to use
-  HUGO_VERSION: 0.60.1
+  HUGO_VERSION: 0.65.2
 
 # Stages
 stages:
