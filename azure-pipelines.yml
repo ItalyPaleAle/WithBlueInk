@@ -234,12 +234,20 @@ stages:
                 # Deploy app to production on Statiko
                 - script: |
                     set -e
+
+                    # Deploy app
                     ./stkcli deploy \
                       -n $(NODE_ADDRESS) \
                       -k \
                       -d $(SITE_PRODUCTION) \
                       -a withblueink \
                       -v $(Build.BuildNumber)
+
+                    # Purge DNS cache
+                    curl -X POST "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE_ID)/purge_cache" \
+                      -H "Authorization: Bearer $(CLOUDFLARE_API_TOKEN)" \
+                      -H "Content-Type: application/json" \
+                      --data '{"purge_everything":true}'
                   displayName: 'Deploy app to production on Statiko'
                   env:
                     NODE_KEY: $(NODE_KEY)
