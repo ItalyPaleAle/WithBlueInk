@@ -1,9 +1,13 @@
-files:
-  js:
-    clientCaching: 6h
-  css:
-    clientCaching: 6h
-  _images:
-    clientCaching: 1w
-  html:
-    clientCaching: 30m
+rules:
+  - file: "js"
+    options:
+      clientCaching: 6h
+  - file: "css"
+    options:
+      clientCaching: 6h
+  - file: "_images"
+    options:
+      clientCaching: 2w
+  - file: "html"
+    options:
+      clientCaching: 30m
