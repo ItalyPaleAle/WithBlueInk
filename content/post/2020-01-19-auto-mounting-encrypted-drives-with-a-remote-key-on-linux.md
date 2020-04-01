@@ -43,6 +43,7 @@ The content of the script completely depends on how and where you stored your ke
 
 ````sh
 #!/bin/sh
+set -e
 # Request the file from Azure Blob Storage using the URL with the SAS token, then pipe it through `base64 -d` to decode it from base64
 curl -s "https://ln5bxfzbl0tlf5z.blob.core.windows.net/keyfiles/keyfile?se=2022-01-19T23%3A02Z&sp=r&spr=https&sv=2018-11-09&sr=b&sig=gkaN2OSzN2zj1WSAPiLJMgtkcXLi2Y8EOVdBUmZQh88%3D" | base64 -d
 ````
@@ -137,7 +138,8 @@ Create a systemd unit for unlocking the encrypted device and save it as **`/etc/
 ````text
 [Unit]
 Description=Open encrypted data volume
-After=network-online.target local-fs.target
+After=network-online.target
+Wants=network-online.target
 StopWhenUnneeded=true
 
 [Service]
