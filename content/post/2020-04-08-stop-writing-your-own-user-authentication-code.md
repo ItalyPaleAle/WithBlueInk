@@ -5,7 +5,6 @@ date: 2020-04-08
 author: "Alessandro Segala"
 image: "img/authentication.jpg"
 comments: yes
-draft: yes
 authorTwitter: "@ItalyPaleAle"
 slug: "stop-writing-your-own-user-authentication-code"
 ---
