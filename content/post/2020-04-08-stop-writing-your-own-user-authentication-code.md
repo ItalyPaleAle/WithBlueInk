@@ -1,5 +1,5 @@
 ---
-title: "Please all, stop writing your own user authentication code"
+title: "Please everyone, stop writing your own user authentication code"
 description: "It's time to adopt safer solutions, and save time and money"
 date: 2020-04-08
 author: "Alessandro Segala"
