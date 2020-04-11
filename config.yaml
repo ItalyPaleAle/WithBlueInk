@@ -14,8 +14,15 @@ languageCode: "en-us"
 title: "With Blue Ink"
 copyright: "Unless otherwise noted, all blog posts, photos, graphics, presentations and other media are published under a Creative Commons Attribution-NonCommercial (CC BY-NC) license. Unless otherwise noted, all code snippets are available under the Unlicense."
 author: "Alessandro Segala"
+
+# Custom params
 params:
+  # Site description
   description: "Tales of surfing the Cloud"
+  # Fathom Analytics
+  FathomAnalytics:
+    Endpoint: stats.withblueink.com
+    SiteID: OAUSSYKA
 
 # Theme configuration
 theme: "clean-blog"
