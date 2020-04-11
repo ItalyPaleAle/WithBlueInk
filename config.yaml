@@ -21,7 +21,7 @@ params:
   description: "Tales of surfing the Cloud"
   # Fathom Analytics
   FathomAnalytics:
-    Endpoint: stats.withblueink.com
+    Endpoint: stats.italypaleale.me
     SiteID: OAUSSYKA
 
 # Theme configuration
