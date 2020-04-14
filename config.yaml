@@ -21,8 +21,8 @@ params:
   description: "Tales of surfing the Cloud"
   # Fathom Analytics
   FathomAnalytics:
-    Endpoint: stats.italypaleale.me
-    SiteID: OAUSSYKA
+    Endpoint: st.italypaleale.me
+    SiteID: PGLNG
 
 # Theme configuration
 theme: "clean-blog"
