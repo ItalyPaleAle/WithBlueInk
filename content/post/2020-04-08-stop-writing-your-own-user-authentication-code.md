@@ -52,6 +52,8 @@ To start, you need implement other business logics, such as enforcing password s
 
 There are lots of details to keep in mind while designing those systems, and making mistakes is surprisingly easy: very large companies have been caught not hashing passwords in their databases (or not hashing them *properly*), accidentally dumping passwords in clear-text in log files, having password reset forms that can be exploited too easily with social engineering, etc.
 
+That managing passwords correctly isn't easy shouldn't surprise anyone. But, did you know that usernames are hard too? For example, just because two usernames look identical, [doesn't mean they compare the same]({{< ref "2019-03-11-why-you-need-to-normalize-unicode-strings" >}}). James Bennett's 2018 talk [*Hi! My name is…*](https://www.youtube.com/watch?v=NIebelIpdYk) has other really interesting insights on what could go wrong with things as "simple" as usernames.
+
 Lastly, applications can greatly benefit from advanced security features that many providers already offer, including support for multi-factor authentication and security tokens.
 
 ### But, those services authentication services aren't always free, especially as my app grows
