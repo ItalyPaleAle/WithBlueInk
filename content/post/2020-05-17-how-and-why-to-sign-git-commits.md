@@ -108,7 +108,7 @@ Besides Git, the only requirement is that you must have GPG installed. I recomme
 
 On macOS, you might also want to install a graphical *pinentry* application with `brew install pinentry-mac`, then add this line to `~/.gnupg/gpg-agent.conf` (if the file doesn't exist, create it):
 
-```conf
+```txt
 pinentry-program /usr/local/bin/pinentry-mac
 ```
 
@@ -116,7 +116,7 @@ pinentry-program /usr/local/bin/pinentry-mac
 
 On Linux and macOS, you can enable the GPG agent to avoid having to type the secret key's password every time. To do that, add this line to `~/.gnupg/gpg.conf` (if the file doesn't exist, create it):
 
-```conf
+```txt
 # Enable gpg to use the gpg-agent
 use-agent
 ```
