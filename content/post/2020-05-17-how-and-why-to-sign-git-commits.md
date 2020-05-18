@@ -63,7 +63,7 @@ In addition to encrypting data, asymmetric cryptography can also be used to sign
 
 ### About signatures
 
-When you sign a message, you're adding a cryptographically-strong proof that you (*or someone in possess of your private key*) wrote that, and that the message was not tampered with.
+When you sign a message, you're adding a cryptographically-strong proof that you (*or someone in possessesion of your private key*) wrote that, and that the message was not tampered with.
 
 For example, let's say that you want to send a message to your friend saying "You and I will meet tomorrow at 11.30am". You want your friend to be 100% sure that the message came from you, and you want to make sure that no one can change its content (e.g. changing from 11.30am to 1pm). You can do that by adding a cryptographic signature to the message.
 
@@ -80,7 +80,7 @@ Note that signatures are added to clear-text messages. Signing a message alone d
 
 By now, I hope you at least have a general understanding of the idea behind asymmetric cryptography. Let's see how we can use it.
 
-The OpenPGP standard contains specifications on algorithms, encodings, etc, for real-world usage of solutions based on cryptography. Among the various implementations of the OpenPGP standard, the most widely-adopted one is likely GPG (also known as GnuPG). This is a free, open source (libre) application that works on Windows, macOS, and Linux, as a command-line tool. Countless of tools and applications depend on GPG (or the standards it use) to deal with cryptography in a standardized, interoperable way.
+The OpenPGP standard contains specifications on algorithms, encodings, etc, for real-world usage of solutions based on cryptography. Among the various implementations of the OpenPGP standard, the most widely-adopted one is likely GPG (also known as GnuPG). This is a free, open source (libre) application that works on Windows, macOS, and Linux, as a command-line tool. Countless tools and applications depend on GPG (or the standards it use) to deal with cryptography in a standardized, interoperable way.
 
 One of the (many) things GPG does is giving you the ability to sign arbitrary messages or files. This works great with Git, and we'll see how in just a moment.
 
