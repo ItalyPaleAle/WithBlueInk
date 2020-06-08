@@ -102,11 +102,14 @@ stages:
                 - bash: |
                     set -e
                     # Download stkcli
-                    URL=$(curl -s https://api.github.com/repos/Statiko-dev/stkcli/releases/latest -H "Accept: application/vnd.github.v3+json" \
-                      | jq -r ".assets[] | select(.name | test(\"linux-arm32v7\")) | .browser_download_url")
+                    TAG_NAME=$(curl -s https://api.github.com/repos/Statiko-dev/stkcli/releases/latest -H "Accept: application/vnd.github.v3+json" \
+                      | jq -r ".tag_name")
+                    URL="https://github.com/Statiko-dev/stkcli/releases/download/${TAG_NAME}/stkcli-${TAG_NAME}-linux-arm32v7.tar.gz"
                     echo "Downloading stkcli: $URL"
-                    curl -L "$URL" -o stkcli
-                    chmod +x stkcli
+                    curl -L "$URL" -o stkcli.tar.gz
+                    tar -xvzf stkcli.tar.gz
+                    cp stkcli-${TAG_NAME}-*/stkcli .
+                    rm -rvf stkcli-${TAG_NAME}-* stkcli.tar.gz
 
                     # Configure stkcli
                     cat /dev/null > ~/.stkcli/config.yaml
