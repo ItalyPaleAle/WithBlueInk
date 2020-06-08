@@ -25,7 +25,7 @@ The real answer is **it depends**. The choice of where to put each module depend
 
 ## When it's simple…
 
-There are some clear-cut cases, or almost. Packages like [eslint](https://www.npmjs.com/package/eslint) are *always* a *devDependency*… unless, of course, you're building a CLI whose job is running eslint, in which case you'd add it as a *dependency*!
+There are some clear-cut cases, or almost. Packages like [eslint](https://www.npmjs.com/package/eslint) are *always* a *devDependency* …unless, of course, you're building a CLI whose job is running eslint, in which case you'd add it as a *dependency*!
 
 Other packages that are (almost) always going to be *devDependencies* include:
 
