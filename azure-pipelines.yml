@@ -141,8 +141,7 @@ stages:
                     ls -l $(Pipeline.Workspace)/public
 
                     # Create an archive
-                    cd $(Pipeline.Workspace)
-                    tar -cvjf public.tar.bz2 public
+                    tar -C $(Pipeline.Workspace) -cvjf public.tar.bz2 public
 
                     # Upload the app
                     ./stkcli app upload \
