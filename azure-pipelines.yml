@@ -147,7 +147,7 @@ stages:
                     # Upload the app
                     ./stkcli app upload \
                       -a withblueink-$(Build.BuildNumber) \
-                      -f public.tar.bz
+                      -f public.tar.bz2
                   displayName: "Upload app to Statiko"
                   env:
                     NODE_KEY: $(NODE_KEY)
