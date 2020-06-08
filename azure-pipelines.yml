@@ -141,12 +141,13 @@ stages:
                     ls -l $(Pipeline.Workspace)/public
 
                     # Create an archive
-                    tar -cvjf public.tar.bz2 $(Pipeline.Workspace)/public
+                    cd $(Pipeline.Workspace)
+                    tar -cvjf public.tar.bz2 public
 
                     # Upload the app
                     ./stkcli app upload \
                       -a withblueink-$(Build.BuildNumber) \
-                      -f $(Pipeline.Workspace)/public.tar.bz
+                      -f public.tar.bz
                   displayName: "Upload app to Statiko"
                   env:
                     NODE_KEY: $(NODE_KEY)
