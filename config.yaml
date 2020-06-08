@@ -3,9 +3,9 @@ baseURL: "https://withblue.ink/"
 
 # Ignore files
 ignoreFiles:
-- "\\.sh$"
-- "Makefile"
-- "Dockerfile"
+  - "\\.sh$"
+  - "Makefile"
+  - "Dockerfile"
 
 # Default language
 languageCode: "en-us"
@@ -25,7 +25,7 @@ params:
     SiteID: PGLNG
 
 # Theme configuration
-theme: "clean-blog"
+theme: "withblueink"
 paginate: 10
 
 # Enable all URLs to be relative, and make them end with ".html"
@@ -39,9 +39,9 @@ permalinks:
 
 # Disable taxonomies
 disableKinds:
-- taxonomy
-- taxonomyTerm
-- section
+  - taxonomy
+  - taxonomyTerm
+  - section
 
 # RSS
 rssLimit: 10
