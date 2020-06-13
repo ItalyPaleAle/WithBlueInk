@@ -179,7 +179,7 @@ stages:
                     # Deploy app
                     ./stkcli deploy \
                       -d $(SITE_PRODUCTION) \
-                      -a withblueink-$(Build.BuildNumber).tar.bz2
+                      -a withblueink-$(Build.BuildNumber)
 
                     # Purge DNS cache
                     curl -X POST "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE_ID)/purge_cache" \
