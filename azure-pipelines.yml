@@ -140,13 +140,10 @@ stages:
                     echo "Folder: $(Pipeline.Workspace)/public"
                     ls -l $(Pipeline.Workspace)/public
 
-                    # Create an archive
-                    tar -C $(Pipeline.Workspace) -cvjf public.tar.bz2 public
-
                     # Upload the app
                     ./stkcli app upload \
                       -a withblueink-$(Build.BuildNumber) \
-                      -f public.tar.bz2
+                      -f public
                   displayName: "Upload app to Statiko"
                   env:
                     NODE_KEY: $(NODE_KEY)
