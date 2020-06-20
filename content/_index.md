@@ -1,4 +1,2 @@
 ---
 ---
-
-Live long and code.

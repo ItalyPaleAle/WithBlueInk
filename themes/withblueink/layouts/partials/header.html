@@ -41,10 +41,12 @@
                 <a href="{{ .Permalink }}" class="text-gray-500 hover:text-blue-400">{{ .Title }}</a>
             </li>
             {{ end }}
-            {{ range .Site.Sections }}
-            <li>
-                <a href="{{ .Permalink }}" class="text-gray-500 hover:text-blue-400">{{ .Title }}</a>
-            </li>
+            {{ range .Site.Menus.Main }}
+                {{ if not (eq .Type "posts") }}
+                <li>
+                    <a href="{{ .Permalink }}" class="text-gray-500 hover:text-blue-400">{{ .Title }}</a>
+                </li>
+                {{ end }}
             {{ end }}
         </ul>
     </nav>

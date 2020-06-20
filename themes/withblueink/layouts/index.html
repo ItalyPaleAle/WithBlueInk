@@ -1,6 +1,42 @@
 {{ define "main" }}
-<article class="text-center text-gray-700">
-    <h1 class="font-serif font-thin text-5xl text-gray-500">{{ .Title }}</h1>
-    {{ .Content }}
-</article>
+  
+  {{ $paginator := .Paginate (where .Site.RegularPages "Type" "posts") }}
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('{{ if gt $paginator.PageNumber 1 }}../{{ end }}img/home-bg.jpg')">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9 col-md-11 mx-auto">
+          <div class="site-heading">
+            <h1>{{ .Site.Title }}</h1>
+            <span class="subheading">{{ .Site.Params.description }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-9 col-md-11 mx-auto">
+        {{ range $paginator.Pages }}
+          <div class="post-preview">
+            <a href="{{ .RelPermalink }}">
+              <h2 class="post-title">{{ .Title }}</h2>
+              {{ with .Description }}
+                <h3 class="post-subtitle">{{ . }}</h3>
+              {{ end }}
+            </a>
+            {{ with .Date }}
+              <p class="post-meta">Posted on {{ .Format "January 2, 2006" }} </p>
+            {{ end }}
+          </div>
+          <hr>
+        {{ end }}
+        {{ partial "page-controls.html" . }}
+      </div>
+    </div>
+  </div>
+
 {{ end }}

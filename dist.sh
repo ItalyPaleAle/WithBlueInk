@@ -8,7 +8,7 @@ rm -rf public
 
 # Run "npm install" in the theme folder
 echo "\033[0;1mRefreshing theme dependencies\033[0;0m"
-(cd themes/clean-blog && npm ci)
+(cd themes/withblueink && npm ci)
 
 # Compile the code with the "production" environment
 echo "\033[0;1mBuilding...\033[0;0m"
@@ -21,10 +21,10 @@ cp -v _statiko.yaml public/
 
 # Remove files that shouldn't be published
 echo "\033[0;1mRemoving unnecessary files...\033[0;0m"
-rm -v public/*.sh
-rm -v public/.dockerignore
-rm -v public/Makefile
-rm -v public/Dockerfile
-rm -rvf public/docker
-rm -rvf public/assets-source
-rm -v public/**/.gitignore
+rm -v public/*.sh || true
+rm -v public/.dockerignore || true
+rm -v public/Makefile || true
+rm -v public/Dockerfile || true
+rm -rvf public/docker || true
+rm -rvf public/assets-source || true
+rm -v public/**/.gitignore || true

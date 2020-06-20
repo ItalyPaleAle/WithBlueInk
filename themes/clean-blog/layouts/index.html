@@ -1,6 +1,6 @@
 {{ define "main" }}
   
-  {{ $paginator := .Paginate (where .Site.RegularPages "Type" "post") }}
+  {{ $paginator := .Paginate (where .Site.RegularPages "Type" "posts") }}
 
   <!-- Page Header -->
   <header class="masthead" style="background-image: url('{{ if gt $paginator.PageNumber 1 }}../{{ end }}img/home-bg.jpg')">
