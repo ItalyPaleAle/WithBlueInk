@@ -2,20 +2,6 @@
   
   {{ $paginator := .Paginate (where .Site.RegularPages "Type" "posts") }}
 
-  <!-- Page Header -->
-  <header class="masthead" style="background-image: url('{{ if gt $paginator.PageNumber 1 }}../{{ end }}img/home-bg.jpg')">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-9 col-md-11 mx-auto">
-          <div class="site-heading">
-            <h1>{{ .Site.Title }}</h1>
-            <span class="subheading">{{ .Site.Params.description }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
   <!-- Main Content -->
   <div class="container">
     <div class="row">

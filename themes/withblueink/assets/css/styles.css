@@ -1,8 +1,37 @@
-/* Tailwind base - put variables under: tailwind.config.js */
-@import "node_modules/tailwindcss/base";
-/* Tailwind component classes registered by plugins*/
-@import "node_modules/tailwindcss/components";
-/* Site Specific */
-@import "assets/css/site";
-/* Tailwind's utility classes - generated based on config file */
-@import "node_modules/tailwindcss/utilities";
+/* Tailwind CSS */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Toggle menu with CSS */
+input#nav-toggle:checked~label#show-button {
+    display: none;
+}
+input#nav-toggle:checked~label#hide-button {
+    display: flex;
+}
+input#nav-toggle:checked~#nav-menu {
+    display: block;
+}
+
+/* Default font */
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+/* Full-width, tall image */
+.cover-image {
+    width: 100%;
+    height: 22rem;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+}
+
+@media (min-width: 768px) {
+    /* Medium (md) or higher */
+    .cover-image {
+        min-height: 30rem;
+    }
+}

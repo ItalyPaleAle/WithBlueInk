@@ -1,25 +1,11 @@
-<header class="w-full px-4 pt-4">
-    {{/*  CSS functionality for menu toggle  */}}
-    <style type="text/css">
-        input#nav-toggle:checked~label#show-button {
-            display: none;
-        }
-
-        input#nav-toggle:checked~label#hide-button {
-            display: flex;
-        }
-
-        input#nav-toggle:checked~#nav-menu {
-            display: block;
-        }
-    </style>
-
-    <nav class="flex items-center justify-between flex-wrap">
+<header>
+    <nav class="container py-2 flex items-center justify-between flex-wrap">
         <a href="{{ .Site.Home.Permalink }}" class="flex items-center text-gray-700 font-bold">
             {{ .Site.Title }}
         </a>
 
-        <input id="nav-toggle" type=checkbox class="hidden">
+        <!-- Nav toggle -->
+        <input id="nav-toggle" type="checkbox" class="hidden">
         <label id="show-button" for="nav-toggle"
             class="flex items-center block sm:hidden text-gray-500 hover:text-blue-500">
             <svg class="fill-current h-4 w-4" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -50,4 +36,22 @@
             {{ end }}
         </ul>
     </nav>
+    
+    {{- $relativeRoot := .Scratch.Get "relativeRoot" -}}
+    {{- $coverBgColor := (index .Page.Params "coverColor" | default "#EDF2F7") -}}
+    {{- $coverBg := printf "background-color: %s;" $coverBgColor -}}
+    {{- if index .Page.Params "image" -}}
+        {{- $coverBg = printf "background-image: url('%s%s');" $relativeRoot .Page.Params.image -}}
+    {{- end -}}
+    <div class="cover-image" style="{{ $coverBg | safeCSS }}">
+        <section class="container flex flex-col justify-center h-full text-white text-shadow-xl">
+                {{- if eq .Page.Type "posts"}}
+                    <h1 class="text-6xl font-bold leading-none">{{ .Page.Title }}</h1>
+                    {{ with .Page.Description }}<div class="text-4xl font-bold leading-tight">{{ . }}</div>{{ end }}
+                {{- else -}}
+                    <h1 class="text-6xl font-bold leading-none text-center">{{ .Page.Title }}</h1>
+                    {{ with .Page.Description }}<div class="text-4xl font-bold leading-tight text-center">{{ . }}</div>{{ end }}
+                {{- end -}}
+        </section>
+    </div>
 </header>

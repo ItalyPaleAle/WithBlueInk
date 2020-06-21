@@ -6,7 +6,6 @@ Different licenses apply to parts of this blog.
 
 Unless otherwise noted, all blog posts, photos, graphics, presentations and other media are published under a [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC)](https://creativecommons.org/licenses/by-nc/4.0/) license.
 
-
 ## Code samples and snippets
 
 Unless otherwise noted, all code samples, snippets, scripts, templates, etc, are available under the "Unlicense":
@@ -36,11 +35,11 @@ Unless otherwise noted, all code samples, snippets, scripts, templates, etc, are
 
 ## Blog theme
 
-Blog theme (in the [themes/clean-blog](themes/clean-blog) folder) is released under MIT license.
+Blog theme (in the [themes/withblueink](themes/withblueink) folder) is released under MIT license.
 
 > The MIT License (MIT)
 >
-> Copyright (c) 2018 Alessandro Segala
+> Copyright (c) 2020 Alessandro Segala
 >
 > Permission is hereby granted, free of charge, to any person obtaining a copy of
 > this software and associated documentation files (the "Software"), to deal in
@@ -59,11 +58,11 @@ Blog theme (in the [themes/clean-blog](themes/clean-blog) folder) is released un
 > IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 > CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Theme is based on the Start Bootstrap [Clean Blog](https://github.com/BlackrockDigital/startbootstrap-clean-blog) theme, released under MIT license.
+Theme is based on [hugo-theme-tailwindcss-starter](https://github.com/dirkolbrich/hugo-theme-tailwindcss-starter), released under MIT license.
 
 > The MIT License (MIT)
 >
-> Copyright (c) 2013-2018 Blackrock Digital LLC
+> Copyright (c) 2018 Dirk Olbrich
 >
 > Permission is hereby granted, free of charge, to any person obtaining a copy
 > of this software and associated documentation files (the "Software"), to deal

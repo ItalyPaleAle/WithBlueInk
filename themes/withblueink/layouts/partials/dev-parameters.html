@@ -1,4 +1,4 @@
-{{ if .Site.IsServer }}
+{{ if (and .Site.IsServer .Site.Params.DebugView) }}
 <div class="h-40 mb-4 py-4 px-4 overflow-y-auto scrolling-touch border-t border-gray-200">
     <table class="w-full text-left table-auto table-collapse border-gray-200">
         <caption class="text-left pb-2">Hugo Variables for the current page.</caption>

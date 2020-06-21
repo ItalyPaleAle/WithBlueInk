@@ -1,10 +1,15 @@
 <!DOCTYPE html>
+{{- $relativeRoot := (strings.TrimPrefix "/" (printf "%s%s" (path.Dir .Page.RelPermalink) "/") | replaceRE "[^/]+/" "../") -}}
+{{- if eq $relativeRoot "/" -}}
+    {{- $relativeRoot = "" -}}
+{{- end -}}
+{{- .Scratch.Set "relativeRoot" $relativeRoot -}}
 <html lang='{{ .Site.LanguageCode }}'>
     {{ partial "head.html" . }}
-    <body class="flex flex-col min-h-screen">
+    <body class="flex flex-col min-h-screen text-gray-900 tracking-wide leading-normal">
         {{- partial "dev-size-indicator.html" . -}}
         {{- partial "header.html" . -}}
-        <main class="flex-1 mx-4 md:mx-12 lg:mx-24 mt-4 sm:mt-16">
+        <main class="flex-1 container">
         {{- block "main" . }}{{- end }}
         </main>
         {{- partial "dev-parameters.html" . -}}

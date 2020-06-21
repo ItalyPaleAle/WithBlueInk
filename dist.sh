@@ -1,10 +1,16 @@
 #!/bin/sh
 
+set -e
+
 echo "\033[0;1mBuilding for environment: \033[0;1;35mproduction\033[0;0m"
 
 # Remove old compiled data
 echo "\033[0;1mCleaning destination directory...\033[0;0m"
 rm -rf public
+
+# Install required dependencies
+#echo "\033[0;1mEnsure dependencies\033[0;0m"
+#npm install -g postcss-cli autoprefixer tailwindcss postcss-import
 
 # Run "npm install" in the theme folder
 echo "\033[0;1mRefreshing theme dependencies\033[0;0m"

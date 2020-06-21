@@ -17,8 +17,10 @@ author: "Alessandro Segala"
 
 # Custom params
 params:
+  # Enable debug views
+  debugView: true
   # Site description
-  description: "Tales of surfing the Cloud"
+  description: "A blog by Alessandro Segala (@ItalyPaleAle)"
   # Fathom Analytics
   FathomAnalytics:
     Endpoint: st.italypaleale.me
