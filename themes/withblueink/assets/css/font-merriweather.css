@@ -1,0 +1,38 @@
+@font-face {
+    font-family: 'Merriweather';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local('Merriweather Display Regular'),
+        local('Merriweather-DisplayRegular'),
+        local('Merriweather-Display-Regular'),
+        url(../fonts/Merriweather-DisplayRegular.woff2) format('woff2'),
+        url(../fonts/Merriweather-DisplayRegular.ttf) format('truetype');
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Merriweather';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: local('Merriweather Display Italic'),
+        local('Merriweather-DisplayItalic'),
+        local('Merriweather-Display-Italic'),
+        url(../fonts/Merriweather-DisplayItalic.woff2) format('woff2'),
+        url(../fonts/Merriweather-DisplayItalic.ttf) format('truetype');
+    text-rendering: optimizeLegibility;
+}
+
+@font-face {
+    font-family: 'Merriweather';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: local('Merriweather Display Bold'),
+        local('Merriweather-DisplayBold'),
+        local('Merriweather-Display-Bold'),
+        url(../fonts/Merriweather-DisplayBold.woff2) format('woff2'),
+        url(../fonts/Merriweather-DisplayBold.ttf) format('truetype');
+    text-rendering: optimizeLegibility;
+}

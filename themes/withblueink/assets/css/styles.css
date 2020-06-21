@@ -5,6 +5,8 @@
 
 /* Fonts */
 @import "font-cascadia-code.css";
+@import "font-lato.css";
+@import "font-merriweather.css";
 
 /* Toggle menu with CSS */
 input#nav-toggle:checked~label#show-button {

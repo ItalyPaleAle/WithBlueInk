@@ -75,7 +75,9 @@ module.exports = {
             richText: {
                 fontWeight: theme('fontWeight.normal'),
                 fontSize: theme('fontSize.base'),
+                fontFamily: theme('fontFamily.serif'),
                 lineHeight: theme('lineHeight.relaxed'),
+                letterSpacing: theme('letterSpacing.wider'),
                 color: theme('colors.gray.800'),
                 '> * + *': {
                     marginTop: theme('spacing.6'),
