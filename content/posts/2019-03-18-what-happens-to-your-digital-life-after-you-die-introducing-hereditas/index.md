@@ -2,10 +2,11 @@
 title: "What happens to your digital life after you're gone? Introducing Hereditas"
 description: "An open source static site generator for a fully-trustless digital legacy box"
 date: 2019-03-18 07:00:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/hereditas.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "ian dooley"
   linkName: "Unsplash"
@@ -66,4 +67,4 @@ Here are some links to get started with Hereditas:
 
 📘 [**Documentation and CLI reference**](https://hereditas.app)
 
-🖥 [**ItalyPaleAle/hereditas**](https://github.com/ItalyPaleAle/hereditas) (GPLv3)
+🖥 GitHub: [**ItalyPaleAle/hereditas**](https://github.com/ItalyPaleAle/hereditas) (GPLv3)

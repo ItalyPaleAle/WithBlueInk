@@ -2,10 +2,11 @@
 title: "Reinstalling pfSense and restoring from backup"
 description: "When you have no other option to quickly bring your network back up"
 date: 2019-09-14 22:14:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/firewall.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Viktor Forgacs"
   linkName: "Unsplash"

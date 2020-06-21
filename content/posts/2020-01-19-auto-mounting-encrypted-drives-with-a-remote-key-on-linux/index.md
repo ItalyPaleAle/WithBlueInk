@@ -2,10 +2,11 @@
 title: Auto-mounting encrypted drives with a remote key on Linux
 description: Using dm-crypt and auto-mounting a drive without storing the key on the local disk
 date: 2020-01-19 00:00:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/mount.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "adrian"
   linkName: "Unsplash"

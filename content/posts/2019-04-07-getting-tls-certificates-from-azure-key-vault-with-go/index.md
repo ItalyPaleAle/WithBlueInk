@@ -2,10 +2,11 @@
 title: "Getting TLS certificates from Azure Key Vault with Go"
 description: "Whether you're using Go or another language, some advice and code to save you time"
 date: 2019-04-07 16:26:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/key-vault.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Tim Evans"
   linkName: "Unsplash"

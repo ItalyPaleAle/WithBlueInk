@@ -2,10 +2,11 @@
 title: "Watch: JavaScript apps going Inter-Planetary"
 description: My talk at Node+JS Interactive 2019
 date: 2020-01-21 00:00:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/node-talk.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Michael Descharles"
   linkName: "Unsplash"

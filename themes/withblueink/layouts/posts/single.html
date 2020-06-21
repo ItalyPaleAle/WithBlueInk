@@ -1,6 +1,8 @@
 {{ define "main" }}
 
-<article class="c-rich-text text-gray-700 text-lg my-8">
+{{ partial "date-author.html" . }}
+
+<article class="c-rich-text text-gray-700 text-lg my-6">
     {{ .Content }}
 </article>
 

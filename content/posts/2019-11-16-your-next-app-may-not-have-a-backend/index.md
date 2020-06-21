@@ -2,10 +2,11 @@
 title: Your next app may not have a backend
 description: A look at the JAMstack, and what could be next
 date: 2019-11-16 14:06:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/jam.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Jonathan Pielmayer"
   linkName: "Unsplash"

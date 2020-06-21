@@ -4,10 +4,11 @@ description: "Very simple steps for getting Docker and Docker Compose on Raspber
 date: 2019-07-13 10:14:00
 aliases:
   - "/2017/12/31/yes-you-can-run-docker-on-raspbian.html"
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/pie.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Lucky Heath"
   linkName: "Unsplash"

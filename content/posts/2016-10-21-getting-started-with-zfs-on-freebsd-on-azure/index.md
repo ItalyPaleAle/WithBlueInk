@@ -2,10 +2,11 @@
 title: "Getting started with ZFS on FreeBSD on Azure"
 description: "Enterprise-class storage for your data disks, with optional encryption"
 date: 2016-10-21 19:04:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/zfs.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "William Warby"
   linkName: "Flickr"

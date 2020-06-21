@@ -2,10 +2,11 @@
 title: "Solving FreeNAS jails on a dedicated NIC"
 description: "A simple, working solution for jails in different VLANs, or just with dedicated IPs"
 date: 2017-09-17 15:42:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/jail-numbers.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Nick Hillier"
   linkName: "Unsplash"

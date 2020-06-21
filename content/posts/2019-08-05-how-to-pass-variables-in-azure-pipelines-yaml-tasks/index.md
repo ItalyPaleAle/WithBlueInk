@@ -2,10 +2,11 @@
 title: "How to pass variables in Azure Pipelines YAML tasks"
 description: "Passing variables between steps, jobs, and stages: explained"
 date: 2019-08-05 19:14:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/pipeline-variables.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Chad Madden"
   linkName: "Unsplash"

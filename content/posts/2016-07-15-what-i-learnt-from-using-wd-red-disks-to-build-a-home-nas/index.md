@@ -2,10 +2,11 @@
 title: "What I learnt from using WD Red disks to build a home NAS"
 description: "Some important tips to make your drives last longer — and how to spin them down automatically on Linux"
 date: 2016-07-15 17:02:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/hard-drives.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Scott Schiller"
   linkName: "Flickr"

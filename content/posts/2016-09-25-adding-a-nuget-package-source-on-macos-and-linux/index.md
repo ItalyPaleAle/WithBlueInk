@@ -2,10 +2,11 @@
 title: "Adding a NuGet package source on macOS and Linux"
 description: "How to unblock MyGet and other custom feeds"
 date: 2016-09-25 20:42:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/boxes.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Rob Deutscher"
   linkName: "Flickr"

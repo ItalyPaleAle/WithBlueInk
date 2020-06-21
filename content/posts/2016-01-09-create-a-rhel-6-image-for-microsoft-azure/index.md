@@ -2,10 +2,11 @@
 title: "Create a RHEL 6 image for Microsoft Azure"
 description: "Step-by-step instructions, using VirtualBox"
 date: 2016-01-09 01:00:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/redhat6.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Ricardo Liberato"
   linkName: "Flickr"

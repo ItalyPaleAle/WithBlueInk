@@ -2,10 +2,11 @@
 title: "Galera cluster, MariaDB, CoreOS and Docker (Part 1)"
 description: "Get your multi-master, MySQL-like cluster, pain free"
 date: 2016-03-09 23:35:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/containers.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Rafael Edwards"
   linkName: "Flickr"

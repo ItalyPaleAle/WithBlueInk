@@ -2,10 +2,11 @@
 title: "I loved jQuery, and still do"
 description: "In defense of one of the most important JavaScript libraries ever"
 date: 2019-04-12 17:10:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/jquery.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Doran Erickson"
   linkName: "Unsplash"

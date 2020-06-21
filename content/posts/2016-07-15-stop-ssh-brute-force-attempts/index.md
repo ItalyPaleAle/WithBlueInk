@@ -2,10 +2,11 @@
 title: "Stop SSH brute force attempts"
 description: "Three effective tips to stop bots that won't harm you in the process"
 date: 2016-07-15 19:42:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/ssh-brute-force.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Martin Majer"
   linkName: "500px"

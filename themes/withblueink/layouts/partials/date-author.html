@@ -1,0 +1,7 @@
+<section id="author" class="text-gray-700 text-lg">
+    <span class="font-bold">{{ .Page.PublishDate.Format "January 2, 2006" }}</span>
+    {{with .Page.Params.author}}
+        by {{ .name }}
+        (<a href="https://twitter.com/{{ .handle }}" class="underline hover:text-gray-900">@{{ .handle }}</a>)
+    {{end}}
+</section>

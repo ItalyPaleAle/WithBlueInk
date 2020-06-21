@@ -2,10 +2,11 @@
 title: "Go Buffalo is a mess"
 description: "Some thoughts on Buffalo and why I rewrote my app with Gin"
 date: 2019-06-28 07:40:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/buffalo.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "elCarito"
   linkName: "Unsplash"

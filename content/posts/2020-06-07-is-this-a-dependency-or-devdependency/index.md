@@ -2,10 +2,11 @@
 title: Is this a dependency or devDependency?
 description: "Where to put NPM modules in package.json: it's not as simple as it seems"
 date: 2020-06-07 00:00:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/dependencies.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Natalino D'Amato"
   linkName: "Unsplash"

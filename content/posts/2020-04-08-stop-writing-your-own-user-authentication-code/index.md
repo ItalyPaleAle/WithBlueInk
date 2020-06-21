@@ -2,10 +2,11 @@
 title: "Please everyone, stop writing your own user authentication code"
 description: "It's time to adopt safer solutions, and save time and money"
 date: 2020-04-08
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/authentication.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 slug: "stop-writing-your-own-user-authentication-code"
 coverImage:
   author: "Paulina Sáez"

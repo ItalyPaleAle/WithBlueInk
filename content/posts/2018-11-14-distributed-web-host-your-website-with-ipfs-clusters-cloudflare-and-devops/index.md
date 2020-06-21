@@ -2,10 +2,11 @@
 title: "Distributed Web: host your website with IPFS clusters, Cloudflare, and DevOps"
 description: "Static website development for the \"Web 3.0\", and optional CI/CD with Azure DevOps"
 date: 2018-11-14 08:39:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/planet.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "NASA"
   linkName: "Unsplash"

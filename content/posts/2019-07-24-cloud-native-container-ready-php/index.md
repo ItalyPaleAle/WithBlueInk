@@ -2,10 +2,11 @@
 title: "Cloud native, container-ready PHP"
 description: "Building PHP apps and microservices for containers and high availability"
 date: 2019-07-24 20:14:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/php.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Sharon McCutcheon"
   linkName: "Unsplash"

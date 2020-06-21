@@ -2,10 +2,11 @@
 title: "Preparing a Red Hat Enterprise Linux 7 image for Azure using VirtualBox"
 description: "A step-by-step guide"
 date: 2015-12-22 18:00:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/redhat7.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Todd Petit"
   linkName: "Flickr"

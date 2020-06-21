@@ -2,10 +2,11 @@
 title: "How (and why) to sign Git commits"
 description: Authenticate your commits, plus get them the "Verified" badge on GitHub
 date: 2020-05-17 00:00:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/git.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Andreas Gücklhorn"
   linkName: "Unsplash"

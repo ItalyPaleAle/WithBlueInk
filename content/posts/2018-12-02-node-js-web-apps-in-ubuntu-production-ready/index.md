@@ -2,11 +2,12 @@
 title: "Node.js web apps in Ubuntu, production-ready"
 description: "Step-by-step instructions for running Node.js in production with systemd"
 date: 2018-12-02 12:05:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/node.jpg"
 comments: yes
 slug: "node-js-web-apps-in-ubuntu-production-ready"
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Ferdinand Stöhr"
   linkName: "Unsplash"

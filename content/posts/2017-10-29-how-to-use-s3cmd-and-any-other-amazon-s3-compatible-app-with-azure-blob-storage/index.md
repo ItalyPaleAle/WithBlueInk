@@ -2,10 +2,11 @@
 title: "How to use s3cmd and any other Amazon S3-compatible app with Azure Blob Storage"
 description: "A world of apps and tools finally working with Azure Storage, in just 5 minutes!"
 date: 2017-10-29 21:44:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/minio.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Jacek Malinowski"
   linkName: "Unsplash"

@@ -3,10 +3,11 @@ title: "Automation for MariaDB/Galera Cluster setup (Part 2)"
 slug: "automation-for-mariadb-galera-cluster-setup-part-2"
 description: "Scripts and templates for easy deployments on Azure and other clouds"
 date: 2016-05-12 19:02:00
-author: "Alessandro Segala"
+author:
+  name: "Alessandro Segala"
+  handle: "ItalyPaleAle"
 image: "img/containers2.jpg"
 comments: yes
-authorTwitter: "@ItalyPaleAle"
 coverImage:
   author: "Melusina Parkin"
   linkName: "Flickr"
