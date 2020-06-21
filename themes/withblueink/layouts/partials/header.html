@@ -43,14 +43,16 @@
     {{- if index .Page.Params "image" -}}
         {{- $coverBg = printf "background-image: url('%s%s');" $relativeRoot .Page.Params.image -}}
     {{- end -}}
-    <div class="cover-image" style="{{ $coverBg | safeCSS }}">
-        <section class="container flex flex-col justify-center h-full text-white text-shadow-xl">
+    <div class="cover-image mb-6" style="{{ $coverBg | safeCSS }}">
+        <section class="container flex flex-col justify-center h-full text-white text-shadow-xl py-16">
                 {{- if eq .Page.Type "posts"}}
-                    <h1 class="text-6xl font-bold leading-none">{{ .Page.Title }}</h1>
-                    {{ with .Page.Description }}<div class="text-4xl font-bold leading-tight">{{ . }}</div>{{ end }}
+                    <h1 class="text-6xl font-bold">{{ .Page.Title }}</h1>
+                    {{ with .Page.Description }}<div class="text-3xl font-bold mt-4">{{ . }}</div>{{ end }}
+                {{- else if eq .Page.Kind "home" -}}
+                    <h1 class="text-7xl font-bold text-center">{{ .Page.Title }}</h1>
                 {{- else -}}
-                    <h1 class="text-6xl font-bold leading-none text-center">{{ .Page.Title }}</h1>
-                    {{ with .Page.Description }}<div class="text-4xl font-bold leading-tight text-center">{{ . }}</div>{{ end }}
+                    <h1 class="text-6xl font-bold text-center">{{ .Page.Title }}</h1>
+                    {{ with .Page.Description }}<div class="text-4xl font-bold mt-4 text-center">{{ . }}</div>{{ end }}
                 {{- end -}}
         </section>
     </div>

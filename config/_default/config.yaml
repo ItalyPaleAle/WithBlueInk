@@ -18,7 +18,7 @@ author: "Alessandro Segala"
 # Custom params
 params:
   # Enable debug views
-  debugView: true
+  debugView: false
   # Site description
   description: "A blog by Alessandro Segala (@ItalyPaleAle)"
   # Fathom Analytics

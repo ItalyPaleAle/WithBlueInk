@@ -3,6 +3,9 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+/* Fonts */
+@import "font-cascadia-code.css";
+
 /* Toggle menu with CSS */
 input#nav-toggle:checked~label#show-button {
     display: none;
@@ -14,9 +17,10 @@ input#nav-toggle:checked~#nav-menu {
     display: block;
 }
 
-/* Default font */
-body {
-    font-family: 'Lato', sans-serif;
+/* Text selection */
+::selection {
+    background-color: #319795; /* teal-600 */
+    color: white;
 }
 
 /* Full-width, tall image */

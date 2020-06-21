@@ -1,28 +1,24 @@
 {{ define "main" }}
-  
-  {{ $paginator := .Paginate (where .Site.RegularPages "Type" "posts") }}
 
-  <!-- Main Content -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-9 col-md-11 mx-auto">
+    {{ $paginator := .Paginate (where .Site.RegularPages "Type" "posts") }}
+
+    <!-- Main Content -->
+    <div class="container">
         {{ range $paginator.Pages }}
-          <div class="post-preview">
-            <a href="{{ .RelPermalink }}">
-              <h2 class="post-title">{{ .Title }}</h2>
-              {{ with .Description }}
-                <h3 class="post-subtitle">{{ . }}</h3>
-              {{ end }}
-            </a>
-            {{ with .Date }}
-              <p class="post-meta">Posted on {{ .Format "January 2, 2006" }} </p>
-            {{ end }}
-          </div>
-          <hr>
+            <div class="post-preview">
+                <a href="{{ .RelPermalink }}">
+                    <h2 class="post-title">{{ .Title }}</h2>
+                    {{ with .Description }}
+                        <h3 class="post-subtitle">{{ . }}</h3>
+                    {{ end }}
+                </a>
+                {{ with .Date }}
+                    <p class="post-meta">Posted on {{ .Format "January 2, 2006" }} </p>
+                {{ end }}
+            </div>
+            <hr>
         {{ end }}
         {{ partial "page-controls.html" . }}
-      </div>
     </div>
-  </div>
 
 {{ end }}
