@@ -7,6 +7,10 @@ image: "img/hugo-ipfs.jpg"
 comments: yes
 slug: "hugo-and-ipfs-how-this-blog-works-and-scales"
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Amador Loureiro"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@amadorloureiroblanco"
 ---
 
 > **Update June 2020**: This blog is not served through IPFS anymore.
@@ -126,6 +130,3 @@ HTTP turned thirty years old this month, while IPFS is still a new technology. W
 - Lastly, one issue I've experienced with running an IPFS node is that it can use quite a bit of bandwidth, just for making the network work (not even for serving your content!). This has been greatly mitigated with [IPFS 0.4.19](https://github.com/ipfs/go-ipfs/releases/tag/v0.4.19), but my Azure VMs are still measuring around 160GB/month of outbound traffic (it was [over 400 GB](https://github.com/ipfs/go-ipfs/issues/3429) with IPFS 0.4.18).
 
 Many of the issues above, including with caching, cold-start time, server-side analytics, custom HTTP headers and 404 pages, could be mitigated by implementing a custom IPFS gateway, rather than relying on Cloudflare's. This is what the official ipfs.io website [does too](https://github.com/ipfs/website); it's something I'm considering if the issue with caching on Cloudflare doesn't improve.
-
-<small>*Original cover photo by Amador Loureiro ([Unsplash](https://unsplash.com/@amadorloureiroblanco))*</small>
-

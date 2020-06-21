@@ -6,6 +6,10 @@ author: "Alessandro Segala"
 image: "img/planet.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "NASA"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@nasa"
 ---
 
 > *March 13, 2019: This post has been updated for ipfs-cluster 0.10*
@@ -550,6 +554,3 @@ sudo docker exec ipfs-cluster ipfs-cluster-ctl pin add $HASH
 Save the release pipeline, then click on the **Release** button and start a new release. Wait a few moments, and it's done!
 
 ![Release complete](/assets/ipfs/pipelines-release-done.png)
-
-
-<small>*Cover photo by NASA ([Unsplash](https://unsplash.com/@nasa))*</small>

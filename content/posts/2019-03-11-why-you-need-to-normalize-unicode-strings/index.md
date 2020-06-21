@@ -7,6 +7,10 @@ image: "img/unicode.jpg"
 comments: yes
 slug: "why-you-need-to-normalize-unicode-strings"
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Hamed Daram"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@hameddaram"
 ---
 
 Sooner or later, this hits every developer:
@@ -122,5 +126,3 @@ console.log(normalized.length) // => 1
 In short, if you're building a web application and you're accepting input from users, you should always normalize it to a canonical form in Unicode.
 
 With JavaScript, you can use the [`String.prototype.normalize()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize) method, which is built-in since ES2015.
-
-<small>*Original cover photo by Hamed Daram ([Unsplash](https://unsplash.com/@hameddaram))*</small>

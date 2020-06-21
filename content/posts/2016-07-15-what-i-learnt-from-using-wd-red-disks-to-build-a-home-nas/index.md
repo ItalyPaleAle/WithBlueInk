@@ -6,6 +6,11 @@ author: "Alessandro Segala"
 image: "img/hard-drives.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Scott Schiller"
+  linkName: "Flickr"
+  linkURL: "https://flic.kr/p/buWBL3"
+  license: "CC BY"
 ---
 
 I know, this blog was supposed to be about the cloud, but in fifth post I'm taking a break from writing about that! Instead, I'd like to share a couple of learnings I got from another project I've been working on.
@@ -154,5 +159,3 @@ systemctl start hd-idle
 ````
 
 Your WD Red disks will then finally spin down, saving power.
-
-<small>*Cover photo by Scott Schiller ([Flickr](https://flic.kr/p/buWBL3)) released under Creative Commons BY*</small>

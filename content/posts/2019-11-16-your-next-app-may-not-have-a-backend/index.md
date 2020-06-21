@@ -6,6 +6,10 @@ author: "Alessandro Segala"
 image: "img/jam.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Jonathan Pielmayer"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@jonathanpielmayer"
 ---
 
 History has a tendency to repeat itself.
@@ -101,5 +105,3 @@ Then, users have to deal with Ethereum wallets. While reading data from Ethereum
 {{< figure src="/assets/jamstack/metamask.png" title="Confirmation popups are a common part of the Metamask UX" >}}
 
 There's a vast community that is working on improving the UX for blockchain applications, making it easier to add identities, building more transparent processes, making transactions faster or even instant, etc. As with every technology still in a fluid state, there are various competing blockchain technologies, and just as many different platforms and frameworks. I expect that we'll see more convergence and standardization in the next months and years, and eventually dapps written on the "JEMstack" might become the new norm.
-
-<small>*Cover photo by Jonathan Pielmayer ([Unsplash](https://unsplash.com/@jonathanpielmayer))*</small>

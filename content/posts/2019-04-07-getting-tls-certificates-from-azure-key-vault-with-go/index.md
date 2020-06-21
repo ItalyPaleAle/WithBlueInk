@@ -6,6 +6,10 @@ author: "Alessandro Segala"
 image: "img/key-vault.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Tim Evans"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@tjevans"
 ---
 
 I recently had to build an app in Go to retrieve TLS certificates stored on [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/), and because of some quirks this took way longer than I expected (*admittedly, my limited experience with Go didn't really help*). Sharing is caring, so I'm posting the code here for everyone else 🙌🏻
@@ -160,5 +164,3 @@ AZURE_CLIENT_SECRET="d3961f1e-8f20-4636-b695-82f961e154c0"
 # Run the code
 go run .
 ````
-
-<small>*Original cover photo by Tim Evans ([Unsplash](https://unsplash.com/@tjevans))*</small>

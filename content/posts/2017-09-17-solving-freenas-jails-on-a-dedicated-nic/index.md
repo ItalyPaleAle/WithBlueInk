@@ -6,6 +6,10 @@ author: "Alessandro Segala"
 image: "img/jail-numbers.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Nick Hillier"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@nhillier"
 ---
 
 I have been using FreeNAS as my main NAS system for many months, running in a virtualized environment ([*Yes, you can virtualize FreeNAS*](http://www.freenas.org/blog/yes-you-can-virtualize-freenas/)) with multiple HDDs and SSDs. One of the nicest features of FreeNAS is the support for FreeBSD jails, which is a container-like technology offering a more lightweight alternative to VMs. Jails are great; however, the FreeNAS interface for creating and managing jails is quite limited in functionality, in particular regarding networking.
@@ -101,5 +105,3 @@ Edit then the file `/etc/resolv.conf`, specifying the correct DNS server; for ex
 ````sh
 $ echo "nameserver 10.1.0.1" > /etc/resolv.conf
 ````
-
-<small>*Cover photo by Nick Hillier ([Unsplash](https://unsplash.com/@nhillier))*</small>

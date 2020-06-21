@@ -6,6 +6,10 @@ author: "Alessandro Segala"
 image: "img/jquery.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Doran Erickson"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@doran_erickson"
 ---
 
 [jQuery 3.4.0](https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/) was released two days ago, and the amount of negative reactions I've seen on [Twitter](https://twitter.com/search?q=jquery),  [Reddit](https://www.reddit.com/r/javascript/comments/bc0f98/jquery_340_released/), and [Hacker News](https://news.ycombinator.com/item?id=19628789) is staggering.
@@ -144,5 +148,3 @@ Sure, I would not attempt building a SPA with it. But, if I need to quickly buil
 Sometimes you're building complex web apps, and using something like Angular, React, Vue, Svelte, etc is the best choice. Many times, if you're just building one view or two, you don't really need the complexity of those frameworks.
 
 In all cases, remember that each technology was built for a specific purpose, and if you end up writing bad code while misusing it, that's all on you.
-
-<small>*Original cover photo by Doran Erickson ([Unsplash](https://unsplash.com/@doran_erickson))*</small>

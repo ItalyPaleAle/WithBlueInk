@@ -6,6 +6,10 @@ author: "Alessandro Segala"
 image: "img/mount.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "adrian"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@aows"
 ---
 
 I've been building a simple NAS for my home, and I wanted to store the data on a secondary disk, encrypted with dm-crypt/LUKS. There are plenty of articles on how to do that, but when it comes to automatically mounting the disk at boot, all of them recommend writing the encryption key in a keyfile and store it on the local filesystem.
@@ -296,5 +300,3 @@ az storage blob generate-sas \
 Result will be similar to: `https://ln5bxfzbl0tlf5z.blob.core.windows.net/keyfiles/keyfile?se=2022-01-19T23%3A02Z&sp=r&spr=https&sv=2018-11-09&sr=b&sig=gkaN2OSzN2zj1WSAPiLJMgtkcXLi2Y8EOVdBUmZQh88%3D`
 
 You can use the URL above in the `/etc/luks/key.sh` script, as per _Step 2_.
-
-<small>*Cover photo by adrian ([Unsplash](https://unsplash.com/@aows))*</small>

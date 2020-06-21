@@ -6,6 +6,10 @@ author: "Alessandro Segala"
 image: "img/php.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Sharon McCutcheon"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@sharonmccutcheon"
 ---
 
 PHP is the language that everyone loves to hate. It was the first language many of us used to build web apps (including myself!), but it's fallen out of favors with developers. There is plenty of reason behind that, and most criticism is, or at least was, justifiable: PHP 5 suffered from multiple design and performance issues, had various inconsistencies, lacked any Unicode support, etc.
@@ -167,5 +171,3 @@ docker run \
   -p 80:80 \
   myphpapp
 ````
-
-<small>*Cover photo by Sharon McCutcheon ([Unsplash](https://unsplash.com/@sharonmccutcheon))*</small>

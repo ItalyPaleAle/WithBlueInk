@@ -6,6 +6,10 @@ author: "Alessandro Segala"
 image: "img/dependencies.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Natalino D'Amato"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@natalino_damato"
 ---
 
 Earlier today, someone opened a Pull Request for [svelte-spa-router](https://github.com/ItalyPaleAle/svelte-spa-router)–an open source project I maintain as a client-side router for Single-Page Apps built with the Svelte framework–asking whether they should install the module as a *dependency* or *devDependency* in the package.json file.
@@ -99,5 +103,3 @@ Teams often end up erring on the side of caution. Installing all packages (inclu
 Additionally, unless you're confident that every dependency is in the right place, it might be advisable to treat all security alerts for vulnerabilities in dependencies the same way, regardless of whether they are for a *dependency* or *devDependency*.
 
 Have suggestions? Another scenario worth considering? Let us know in the comments!
-
-<small>*Cover photo by Natalino D'Amato ([Unsplash](https://unsplash.com/@natalino_damato))*</small>

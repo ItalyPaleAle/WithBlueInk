@@ -6,6 +6,10 @@ author: "Alessandro Segala"
 image: "img/node-talk.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Michael Descharles"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@michael_exploring"
 ---
 
 Last December, I gave a talk at Node+JS Interactive in Montreal, with the title **_JavaScript apps going Inter-Planetary_**.
@@ -32,5 +36,3 @@ Lastly, I demoed how you can enable a full DevOps pipeline with **Continuous Int
 - [Hugo and IPFS: how this blog works (and scales to serve 5,000% spikes instantly!)]({{< ref "2019-03-20-hugo-and-ipfs-how-this-blog-works-and-scales" >}})
 
 Hope you enjoy the content, and let me know if you have any feedback!
-
-<small>*Cover photo by Michael Descharles ([Unsplash](https://unsplash.com/@michael_exploring))*</small>

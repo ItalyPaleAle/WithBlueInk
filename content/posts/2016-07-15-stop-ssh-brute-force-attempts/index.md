@@ -6,6 +6,11 @@ author: "Alessandro Segala"
 image: "img/ssh-brute-force.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Martin Majer"
+  linkName: "500px"
+  linkURL: "https://500px.com/photo/95395439/2-52-rule-of-thirds-votogs52-by-martin-majer"
+  license: "CC BY-SA"
 ---
 
 Every admin has certainly experienced this. You have a Linux server that is directly addressable from the Internet and has SSH installed, and you see your logs full of failed login attempts by bots from all over the world, trying to hack through brute force attacks. Although for most users this should be quite harmless (as long as your password isn't something like "password", of course!), it's still annoying to have your logs full of noise and an increased load on the server.
@@ -106,6 +111,3 @@ COMMIT
 ### Conclusion
 
 I've presented three simple tips for blocking un-targeted SSH brute force attacks (and possibly targeted ones as well) in a Linux system, without imposing heavy restrictions on administrators and without heavy configuration or maintenance. Theoretically, any of these three techniques alone should be enough to block bots, but   you may want to consider implementing more than one for additional security.
-
-
-<small>*Cover photo by Martin Majer ([500px](https://500px.com/photo/95395439/2-52-rule-of-thirds-votogs52-by-martin-majer)) released under Creative Commons BY-SA*</small>

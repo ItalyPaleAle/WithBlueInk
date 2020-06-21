@@ -6,6 +6,10 @@ author: "Alessandro Segala"
 image: "img/git.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Andreas Gücklhorn"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@draufsicht"
 ---
 
 Even if you don't know about signed Git commits, you might have seen this on GitHub:
@@ -289,5 +293,3 @@ Additionally, having a private key in a file leaves open questions on how to (se
 A safer alternative, however, is to use a hardware token, for example security keys such as a [YubiKey](https://www.yubico.com/). This is what I use too. Among the various technologies a YubiKey supports, it can store a GPG key in a secure enclave, from where it cannot be extracted.
 
 Setting up a YubiKey for its various functions, including storing a GPG key (and using that for signing Git commits or for connecting to a SSH server), takes a bit of time. If you just got a YubiKey and want to know how to best set it up, I highly recommend [this guide from @drduh](https://github.com/drduh/YubiKey-Guide) published on GitHub.
-
-<small>*Cover photo by Andreas Gücklhorn ([Unsplash](https://unsplash.com/@draufsicht))*</small>

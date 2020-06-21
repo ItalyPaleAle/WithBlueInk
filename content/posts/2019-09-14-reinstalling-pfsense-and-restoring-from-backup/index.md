@@ -6,6 +6,10 @@ author: "Alessandro Segala"
 image: "img/firewall.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Viktor Forgacs"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@sonance"
 ---
 
 I have been a happy pfSense user for over three years, with my home networking currently running on a Netgate SG-3100 (with a power-efficient ARM chip).
@@ -156,5 +160,3 @@ After you see the pfSense menu, you can safely remove the USB drive and the disc
 ![pfSense menu in the console](/assets/pfsense-reinstall/console-ready.png)
 
 Your firewall should now be up and running.
-
-<small>*Cover photo by Viktor Forgacs ([Unsplash](https://unsplash.com/@sonance))*</small>

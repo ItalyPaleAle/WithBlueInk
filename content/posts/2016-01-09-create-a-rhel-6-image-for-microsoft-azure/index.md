@@ -6,6 +6,11 @@ author: "Alessandro Segala"
 image: "img/redhat6.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Ricardo Liberato"
+  linkName: "Flickr"
+  linkURL: "https://flic.kr/p/cLcko"
+  license: "CC BY-SA"
 ---
 
 After writing about how to [prepare a RHEL 7 image]({% post_url 2015-12-22-preparing-a-red-hat-enterprise-linux-7-image-for-azure-using-virtualbox %}) for deploying to Azure, this second article in the series will cover the procedure for RHEL 6. These instructions have been written for RHEL 6.7, which is the minimum version recommended in the 6 branch.
@@ -226,6 +231,3 @@ At this point, we can start closing down the VM: remove the bash history and the
     $ logout
 
 Eventually, turn off the VM from the VirtualBox interface, sending an ACPI shut down command. As soon as the VM stops, its VHD file is in a consistent state and ready to be uploaded to Azure!
-
-
-<small>*Cover photo by Ricardo Liberato ([Flickr](https://flic.kr/p/cLcko)) released under Creative Commons BY-SA*</small>

@@ -6,6 +6,10 @@ author: "Alessandro Segala"
 image: "img/minio.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Jacek Malinowski"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@jaxek"
 ---
 
 In the cloud storage world, it's not a secret that the Amazon S3 APIs are considered the *de facto* standard. Countless third-party and open source apps, libraries and tools are built to take advantage of S3, including very popular tools like [s3cmd](https://github.com/s3tools/s3cmd).
@@ -168,5 +172,3 @@ $ ./s3cmd put photos/* s3://testbucket
 ````
 
 Let me know in the comments how you plan to use Minio with Azure Blob Storage!
-
-<small>*Cover photo by Jacek Malinowski ([Unsplash](https://unsplash.com/@jaxek))*</small>

@@ -7,6 +7,10 @@ image: "img/node.jpg"
 comments: yes
 slug: "node-js-web-apps-in-ubuntu-production-ready"
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Ferdinand Stöhr"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@fellowferdi"
 ---
 
 I've been managing Node.js web apps in production on Linux servers for quite a few years, and I thought only now to document it publicly, hoping it can help others. There are too many ways to run Node.js apps, and I won't try to cover them all; if you're looking for a simple, straightforward way to run a Node.js web app on a VM with Ubuntu 18.04 (without containers), this article is for you.
@@ -394,6 +398,3 @@ sudo systemctl restart nginx
 ````
 
 You can now browse your website on port 80. Nginx will perform a "round-robin" load balancing, alternating between the two backend apps to serve the requests. If you follow the logs for each service, you'll notice the requests coming to them alternately (use `sudo journalctl -f -u express_example@3000` and `sudo journalctl -f -u express_example@3001` in two separate terminal windows). If one backend app is stopped or crashes, Nginx will remove it from the rotation automatically, until it's back online.
-
-
-<small>*Original cover photo by Ferdinand Stöhr ([Unsplash](https://unsplash.com/@fellowferdi))*</small>

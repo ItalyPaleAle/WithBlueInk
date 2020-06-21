@@ -6,6 +6,11 @@ author: "Alessandro Segala"
 image: "img/boxes.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Rob Deutscher"
+  linkName: "Flickr"
+  linkURL: "https://flic.kr/p/dsFGzL"
+  license: "CC BY"
 ---
 
 I've decided to play a bit with .NET Core on macOS and Linux, given that is now fully open source and cross-platform. For a simple C# project, I had to install a NuGet package (specifically, [ImageProcessorCore](https://github.com/JimBobSquarePants/ImageProcessor)) that was not published on the official gallery, but rather on MyGet, and because of that the normal `dotnet restore` failed. The solution, adding a new NuGet package source, was simple in principle, but hard to figure out in practice when not using Windows!
@@ -38,5 +43,3 @@ For example, here is my `NuGet.Config` with the public MyGet feed enabled:
 
 ### 21 October 2016 - Update
 As Toby Henderson pointed out in the comments section below, you can also add a `NuGet.Config` file locally in the **root folder of your project**; the syntax is the same as in the example above. Using a local file lets you check it into source control (e.g. git), so other contributors to the project do not have to modify their environment, and as such is a much better approach for adding project-specific package sources.
-
-<small>*Cover photo by Rob Deutscher ([Flickr](https://flic.kr/p/dsFGzL)) released under Creative Commons BY*</small>

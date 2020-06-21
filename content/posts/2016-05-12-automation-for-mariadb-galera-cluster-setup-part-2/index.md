@@ -7,6 +7,11 @@ author: "Alessandro Segala"
 image: "img/containers2.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Melusina Parkin"
+  linkName: "Flickr"
+  linkURL: "https://flic.kr/p/qGhDEC"
+  license: "CC BY-NC-SA"
 ---
 
 *This is the second post in the series. The [first part]({{< ref "2016-03-09-galera-cluster-mariadb-coreos-and-docker-part-1" >}}) explained the ideas behind the project and the research done, while now we're focusing on the practice.*
@@ -171,6 +176,3 @@ ssh-keygen -t rsa -b 4096
 Your public key will be located in `~/.ssh/id_rsa.pub`.
 
 Windows users can generate compatible keys using PuTTYgen, as shown in [this article](https://winscp.net/eng/docs/ui_puttygen). Please make sure you select "SSH-2 RSA" as type, and use 4096 bits as size for best security.
-
-
-<small>*Cover photo by Melusina Parkin ([Flickr](https://flic.kr/p/qGhDEC)) released under Creative Commons BY-NC-SA*</small>

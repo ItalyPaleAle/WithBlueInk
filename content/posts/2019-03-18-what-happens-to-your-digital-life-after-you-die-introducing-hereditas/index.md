@@ -6,6 +6,10 @@ author: "Alessandro Segala"
 image: "img/hereditas.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "ian dooley"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@sadswim"
 ---
 
 ## What happens after you're gone?
@@ -62,6 +66,4 @@ Here are some links to get started with Hereditas:
 
 📘 [**Documentation and CLI reference**](https://hereditas.app)
 
-<i class="fab fa-github"></i> [**ItalyPaleAle/hereditas**](https://github.com/ItalyPaleAle/hereditas) (GPLv3)
-
-<small>*Cover photo by ian dooley ([Unsplash](https://unsplash.com/@sadswim))*</small>
+🖥 [**ItalyPaleAle/hereditas**](https://github.com/ItalyPaleAle/hereditas) (GPLv3)

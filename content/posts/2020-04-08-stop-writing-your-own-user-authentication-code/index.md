@@ -7,6 +7,10 @@ image: "img/authentication.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
 slug: "stop-writing-your-own-user-authentication-code"
+coverImage:
+  author: "Paulina Sáez"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@polisaez"
 ---
 
 Most apps require some sort of authentication. You might be a developer working for a large company on their line of business apps, which require limiting access to authorized employees and checking their permissions. Or, you might be building a new SaaS app and you want users to create and maintain their profiles.
@@ -128,5 +132,3 @@ To validate a JWT in a static web app, you can use the [idtoken-verifier](https:
 Your client-side app can then use this JWT in each request made to back-end API servers, usually passed in the `Authorization` header or in a cookie. In this case, the JWT acts just like any other session token, but with self-contained claims.
 
 The API server will check the presence of the JWT and validate it again; if the validation succeeded (and the token has not expired), it can consider the user as authenticated and read its user ID from the claims inside the JWT.
-
-<small>*Cover photo by Paulina Sáez ([Unsplash](https://unsplash.com/@polisaez))*</small>

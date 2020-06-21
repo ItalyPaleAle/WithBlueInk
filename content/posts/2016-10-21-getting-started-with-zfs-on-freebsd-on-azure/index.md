@@ -6,6 +6,11 @@ author: "Alessandro Segala"
 image: "img/zfs.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "William Warby"
+  linkName: "Flickr"
+  linkURL: "https://flic.kr/p/iNmvEe"
+  license: "CC BY"
 ---
 
 As of [last June](https://azure.microsoft.com/en-us/blog/freebsd-now-available-in-azure-marketplace/) FreeBSD is officially supported on Azure and available on the Marketplace, so everyone can simply launch a FreeBSD 10.3 (as of writing) VM in a few clicks and play with the OS. Obviously, I couldn't miss the chance to test one of the most appreciated features of FreeBSD.
@@ -316,5 +321,3 @@ tank        1.98T    62K  1.98T         -     0%     0%  1.00x  ONLINE  -
 ````
 
 We now have a zpool that is ready to accept new ZFS datasets, like in the examples in the previous sections.
-
-<small>*Cover photo by William Warby ([Flickr](https://flic.kr/p/iNmvEe)) released under Creative Commons BY*</small>

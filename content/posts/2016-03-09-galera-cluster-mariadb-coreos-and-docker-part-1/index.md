@@ -6,6 +6,11 @@ author: "Alessandro Segala"
 image: "img/containers.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Rafael Edwards"
+  linkName: "Flickr"
+  linkURL: "https://flic.kr/p/poHKaF"
+  license: "CC BY-NC"
 ---
 
 Lately, I've found myself in many discussions with customers who remind me what database still matters most on the web. While startups in the Valley today are all about MongoDB (or CouchDB, or RethinkDB, or… whatever other SQL/NoSQL database you're thinking of), and while Microsoft SQL and Oracle still dominate the enterprise space, a big chunk of the web runs on MySQL. Think for example of WordPress, the blogging platform that [powers 25% of the web](http://venturebeat.com/2015/11/08/wordpress-now-powers-25-of-the-web/), or Drupal, possibly the most popular CMS used by public institutions: both are written in PHP, and rely on MySQL.
@@ -211,6 +216,3 @@ Once the interactive MariaDB console appears, you can execute SQL statements. Fo
     MariaDB> SET PASSWORD FOR 'root'@'%' = PASSWORD('newpass');
 
 *PS: About overlay networks.* Starting from Docker 1.9, a new feature was added to allow cross-host, isolated networking. By using overlay networks, it is not necessary to expose the ports used by Galera for replication on the host and you also do not need a DNS server in the infrastructure. As such, in the first iterations of this article I was actually testing with overlay networks; however, that did not work. For some unknown reasons (a bug?), the initial SST replication over an overlay network made the first host become completely unresponsive and the database crashed. Previous versions of this post on the git repository still show the code used, and I'm open to any comments.
-
-
-<small>*Cover photo by Rafael Edwards ([Flickr](https://flic.kr/p/poHKaF)) released under Creative Commons BY-NC*</small>

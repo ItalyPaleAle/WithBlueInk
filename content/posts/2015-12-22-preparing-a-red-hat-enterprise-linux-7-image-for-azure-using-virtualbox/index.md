@@ -6,6 +6,11 @@ author: "Alessandro Segala"
 image: "img/redhat7.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Todd Petit"
+  linkName: "Flickr"
+  linkURL: "https://flic.kr/p/2F9RUH"
+  license: "CC BY"
 ---
 
 In November 2015, Microsoft and Red Hat [announced](http://blogs.microsoft.com/blog/2015/11/04/microsoft-and-red-hat-partner-to-deliver-more-flexibility-and-choice/) a partnership to officially support Red Hat Enterprise Linux running inside Virtual Machines in Azure. Customers are now able to create their own RHEL image and upload it to Azure, bringing their own license.
@@ -193,6 +198,3 @@ At this point, we can start closing down the VM: remove the bash history and the
     $ logout
 
 Eventually, turn off the VM from the VirtualBox interface, sending an ACPI shut down command. As soon as the VM stops, its VHD file is in a consistent state and ready to be uploaded to Azure!
-
-
-<small>*Cover photo by Todd Petit ([Flickr](https://flic.kr/p/2F9RUH)) released under Creative Commons BY*</small>

@@ -8,6 +8,10 @@ author: "Alessandro Segala"
 image: "img/pie.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "Lucky Heath"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@capturebylucy"
 ---
 
 > *This article is an updated version of the one posted in December 2017, with instructions for the new Raspberry Pi 4 and Raspbian Buster. It has been updated again on July 26 after stable packages for Raspbian Buster were released.*
@@ -99,5 +103,3 @@ sudo pip3 install docker-compose
 ````
 
 With this, you now have a complete Raspberry Pi mini-server running Docker and ready to accept your containers.
-
-<small>*Cover photo by Lucky Heath ([Unsplash](https://unsplash.com/@capturebylucy))*</small>

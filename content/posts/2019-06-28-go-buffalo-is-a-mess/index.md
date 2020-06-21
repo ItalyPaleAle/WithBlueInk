@@ -6,6 +6,10 @@ author: "Alessandro Segala"
 image: "img/buffalo.jpg"
 comments: yes
 authorTwitter: "@ItalyPaleAle"
+coverImage:
+  author: "elCarito"
+  linkName: "Unsplash"
+  linkURL: "https://unsplash.com/@elcarito"
 ---
 
 In the last couple of months I've decided to use Go to build a new background service, with a RESTful API to control it (*at this point it's around 90% complete, but it's already in my GitHub repo if you're curious!*). Despite a few bumps at the beginning, picking up the language was relatively easy; choosing a web framework, however, not so much.
@@ -61,5 +65,3 @@ I found Gin to have much better documentation, with examples for almost everythi
 The maintainers of Buffalo have big goals: they want to create something like Django or Rails for Go. However, Buffalo so far seems optimized for small, monolithic websites that output complete HTML pages, rather than RESTful microservices. And they need to work on some core issues, making the framework leaner and more stable.
 
 As for the high-profile *gophers* who were strongly advocating for Buffalo: I spoke with a couple while writing this article, and they told me they've changed their mind themselves.
-
-<small>*Original cover photo by elCarito ([Unsplash](https://unsplash.com/@elcarito))*</small>
