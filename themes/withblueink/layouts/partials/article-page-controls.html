@@ -1,0 +1,38 @@
+{{ $hasNext := false }}
+
+{{ if .Next }}
+  {{ if .Next.Type }}
+    {{ $hasNext = (eq .Next.Type "posts") }}
+  {{ end}}
+{{ end }}
+
+{{ $hasPrev := false }}
+{{- if .Prev -}}
+  {{- if .Prev.Type -}}
+    {{- $hasPrev = (eq .Prev.Type "posts") -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if or $hasNext $hasPrev -}}
+  <div class="flex justify-between my-6 break-words">
+
+    {{- if $hasNext -}}
+      <a class="flex-none w-5/12" href="{{ .Next.RelPermalink }}">
+        <span class="font-bold">← Next Post</span><br/>
+        <span class="text-gray-700 text-sm">{{ .Next.Title }}</span>
+      </a>
+    {{- else -}}
+      <span>&nbsp;</span>
+    {{- end -}}
+    
+    {{- if $hasPrev -}}
+      <a class="flex-none w-5/12 text-right" href="{{ .Prev.RelPermalink }}">
+        <span class="font-bold">Previous Post →</span><br/>
+        <span class="text-gray-700 text-sm">{{ .Prev.Title }}</span>
+      </a>
+    {{- else -}}
+      <span>&nbsp;</span>
+    {{- end -}}
+
+  </div>
+{{- end -}}

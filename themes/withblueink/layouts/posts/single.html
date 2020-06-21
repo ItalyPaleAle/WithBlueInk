@@ -1,0 +1,9 @@
+{{ define "main" }}
+<article class="c-rich-text text-gray-700 font-serif text-lg leading-relaxed text-optimize-legibility my-8">
+    {{ .Content }}
+</article>
+<section>
+    {{ partial "article-page-controls.html" . }}
+    {{ partial "disqus.html" . }}
+</section>
+{{ end }}

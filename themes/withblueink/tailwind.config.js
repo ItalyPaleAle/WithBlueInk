@@ -2,7 +2,7 @@ module.exports = {
     theme: {
         extend: {},
         textShadow: {
-            'default': '0 2px 5px rgba(0, 0, 0, 0.5)',
+            'default': '0 1px 2px rgba(0, 0, 0, 0.375)',
             'lg': '0 2px 10px rgba(0, 0, 0, 0.5)',
             'xl': '2px 4px 8px rgba(0, 0, 0, 0.725)',
         },
@@ -61,11 +61,10 @@ module.exports = {
                 fontSize: theme('fontSize.lg'),
             },
             link: {
-                fontWeight: theme('fontWeight.bold'),
-                color: theme('colors.blue.400'),
+                textDecoration: 'underline',
+                color: theme('colors.blue.800'),
                 '&:hover': {
                     color: theme('colors.blue.600'),
-                    textDecoration: 'underline',
                 },
             },
             listing: {
@@ -84,21 +83,27 @@ module.exports = {
                 },
                 'h1': {
                     extends: 'h1',
+                    marginTop: theme('spacing.8'),
                 },
                 'h2': {
                     extends: 'h2',
+                    marginTop: theme('spacing.8'),
                 },
                 'h3': {
                     extends: 'h3',
+                    marginTop: theme('spacing.8'),
                 },
                 'h4': {
                     extends: 'h4',
+                    marginTop: theme('spacing.8'),
                 },
                 'h5': {
                     extends: 'h5',
+                    marginTop: theme('spacing.8'),
                 },
                 'h6': {
                     extends: 'h6',
+                    marginTop: theme('spacing.8'),
                 },
                 'ul': {
                     extends: 'listing',

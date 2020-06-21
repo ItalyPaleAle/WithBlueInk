@@ -1,13 +1,21 @@
-{{ if or .Paginator.HasPrev .Paginator.HasNext }}
-  <div class="clearfix">
+{{- if or .Paginator.HasPrev .Paginator.HasNext -}}
+  <div class="flex justify-between my-6 break-words">
 
-    {{ if .Paginator.HasPrev }}
-      <a class="btn btn-primary float-left" href="{{ .Paginator.Prev.URL }}">← Newer Posts</a>
-    {{ end }}
+    {{- if .Paginator.HasPrev -}}
+      <a class="flex-none w-5/12 font-bold" href="{{ .Paginator.Prev.URL }}">
+        ← Newer Post
+      </a>
+    {{- else -}}
+      <span>&nbsp;</span>
+    {{- end -}}
     
-    {{ if .Paginator.HasNext }}
-      <a class="btn btn-primary float-right" href="{{ .Paginator.Next.URL }}">Older Posts →</a>
-    {{ end }}
+    {{- if .Paginator.HasNext -}}
+      <a class="flex-none w-5/12 font-bold text-right" href="{{ .Paginator.Next.URL }}">
+        Older Posts →
+      </a>
+    {{- else -}}
+      <span>&nbsp;</span>
+    {{- end -}}
 
   </div>
-{{ end }}
+{{- end -}}
