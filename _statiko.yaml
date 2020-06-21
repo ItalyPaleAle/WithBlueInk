@@ -1,3 +1,4 @@
+page404: "404.html"
 rules:
   - file: "js"
     options:

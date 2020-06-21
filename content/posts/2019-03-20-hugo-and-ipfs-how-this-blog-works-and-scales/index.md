@@ -9,6 +9,8 @@ slug: "hugo-and-ipfs-how-this-blog-works-and-scales"
 authorTwitter: "@ItalyPaleAle"
 ---
 
+> **Update June 2020**: This blog is not served through IPFS anymore.
+
 **Fun fact: if you're reading this article, you're using the distributed web.** Since mid-February 2019, this blog, With Blue Ink, has been served through IPFS and the Cloudflare Distributed Web Gateway.
 
 Last November I blogged about how to [run a static website from IPFS]({{< ref "2018-11-14-distributed-web-host-your-website-with-ipfs-clusters-cloudflare-and-devops" >}}). I was already running a couple of apps in that way used by myself and my family, and I felt it was time to migrate my blog too. This took a bit longer than expected as I dealt with some issues, some of them explained below, but around a month ago I flipped the (DNS) switch and definitively turned off the single-instance VM that was hosting the blog.
