@@ -2,6 +2,7 @@ module.exports = {
     theme: {
         extend: {},
         textShadow: {
+            'sm': '0 1px 2px rgba(0, 0, 0, 0.25)',
             'default': '0 1px 2px rgba(0, 0, 0, 0.375)',
             'lg': '0 2px 10px rgba(0, 0, 0, 0.5)',
             'xl': '2px 4px 8px rgba(0, 0, 0, 0.725)',
@@ -29,6 +30,8 @@ module.exports = {
                 output: false,
                 fontWeight: theme('fontWeight.bold'),
                 lineHeight: theme('lineHeight.tight'),
+                fontFamily: theme('fontFamily.sans'),
+                color: theme('colors.gray.900'),
             },
             h1: {
                 extends: 'heading',
