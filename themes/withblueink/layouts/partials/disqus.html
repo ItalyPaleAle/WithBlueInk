@@ -1,22 +1,24 @@
-{{ if eq hugo.Environment "production" }}
-  {{ if .Page.Params.comments }}
-    <div id="disqus_thread"></div>
-    <script>
-    var disqus_config = function() {
-      this.page.title = '{{ .Page.Title }}';
-      this.page.url = '{{ .Page.Permalink }}';
-      this.page.identifier = '{{ .Page.RelPermalink }}';
-    };
-    (function() {
-      // DON'T EDIT BELOW THIS LINE
-      var d = document,
-        s = d.createElement("script");
-      s.src = "https://withblueink.disqus.com/embed.js";
-      s.setAttribute("data-timestamp", +new Date());
-      (d.head || d.body).appendChild(s);
-    })();
-    </script>
+<section id="comments">
+  {{ if eq hugo.Environment "production" }}
+    {{ if .Page.Params.comments }}
+      <div id="disqus_thread"></div>
+      <script>
+      var disqus_config = function() {
+        this.page.title = '{{ .Page.Title }}';
+        this.page.url = '{{ .Page.Permalink }}';
+        this.page.identifier = '{{ .Page.RelPermalink }}';
+      };
+      (function() {
+        // DON'T EDIT BELOW THIS LINE
+        var d = document,
+          s = d.createElement("script");
+        s.src = "https://withblueink.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+      </script>
+    {{ end }}
+  {{ else }}
+    <p>Comments disabled in development environment</p>
   {{ end }}
-{{ else }}
-  <p>Comments disabled in development environment</p>
-{{ end }}
+</section>

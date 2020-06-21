@@ -14,7 +14,7 @@
 {{- end -}}
 
 {{- if or $hasNext $hasPrev -}}
-  <div class="flex justify-between my-6 break-words">
+  <section id="pagecontrols" class="flex justify-between my-6 break-words">
 
     {{- if $hasNext -}}
       <a class="flex-none w-5/12" href="{{ .Next.RelPermalink }}">
@@ -34,5 +34,5 @@
       <span>&nbsp;</span>
     {{- end -}}
 
-  </div>
+    </section>
 {{- end -}}

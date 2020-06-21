@@ -1,9 +1,14 @@
 {{ define "main" }}
+
 <article class="c-rich-text text-gray-700 text-lg my-8">
     {{ .Content }}
 </article>
-<section>
-    {{ partial "article-page-controls.html" . }}
-    {{ partial "disqus.html" . }}
-</section>
+
+{{- with .Page.Params.coverImage -}}
+    {{ partial "cover-image-credits.html" . }}
+{{- end -}}
+
+{{ partial "article-page-controls.html" . }}
+{{ partial "disqus.html" . }}
+
 {{ end }}
