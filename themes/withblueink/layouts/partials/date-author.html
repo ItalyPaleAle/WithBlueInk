@@ -6,7 +6,7 @@
         <path d="M16 8 L16 16 20 20" />
     </svg>
     {{ .Page.PublishDate.Format "January 2, 2006" }}
-    {{with .Page.Params.author}}
+    {{ with .Page.Params.author }}
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="inline-block h-4 w-4 md:h-6 md:w-6">
             <!--Copyright (c) 2016 Dan Klammer: https://github.com/danklammer/bytesize-icons-->
             <title>Author</title>
@@ -14,5 +14,5 @@
         </svg>
         {{ .name }}
         (<a href="https://twitter.com/{{ .handle }}" class="underline hover:text-gray-900">@{{ .handle }}</a>)
-    {{end}}
+    {{ end }}
 </section>

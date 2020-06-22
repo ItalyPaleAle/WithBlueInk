@@ -1,24 +1,52 @@
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{{ block "title" . }}
-    {{- .Title }} - {{ .Site.Title -}}
-    {{ end }}</title>
-    {{- if .Description }}
-    <meta name="description" content="{{ .Description }}" />
-    {{ end -}}
-    {{- if .Keywords }}
-    <meta name="keywords" content="{{ delimit .Keywords "," }}" />
-    {{ end -}}
-    {{- if .Params.Author }}
-    <meta name="author" content="{{ .Params.Author}}" />
-    {{ end -}}
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    {{- $styles := resources.Get "css/styles.css" | postCSS -}}
-    {{- if .Site.IsServer }}
+	<!-- Canonical URL -->
+    <link rel="canonical" href="{{ .Page.Permalink | absURL }}">
+    <meta property="og:url" content="{{ .Page.Permalink | absURL }}">
+
+	<!-- Page title -->
+    <title>{{ if .Page.Title }}{{ .Page.Title }} | {{ .Site.Title }}{{ else }}{{ .Site.Title }}{{ end }}</title>
+    <meta property="og:title" content="{{ if .Page.Title }}{{ .Page.Title }} | {{ .Site.Title }}{{ else }}{{ .Site.Title }}{{ end }}">
+    
+    <!-- Open Graph and social -->
+    {{ with .Page.Description }}
+        <meta name="description" content="{{ . }}">
+        <meta property="og:description" content="{{ . }}">
+    {{ else }}
+        <meta name="description" content="{{ .Site.Params.description }}">
+        <meta property="og:description" content="{{ .Site.Params.description }}">
+    {{ end }}
+
+    <meta property="og:image" content="{{ if .Page.Params.image }}{{ .Page.Params.image | absURL }}{{ else }}{{ "/img/home-bg.jpg" | absURL }}{{ end }}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@ItalyPaleAle">
+    <meta name="twitter:creator" content="@ItalyPaleAle">
+    <meta property="fb:app_id" content="805968969565472">
+
+	{{ if eq .Page.Type "posts" }}
+        <meta property="og:type" content="article">
+        {{ with .Page.Params.author }}
+            <meta property="article:author" content="{{ .name }}">
+        {{ end }}
+        <meta property="article:published_time" content="{{ .Page.PublishDate.Format "2006-01-02T15:04:05Z07:00" }}">
+        {{ with .Page.Lastmod }}
+            <meta property="article:modified_time" content="{{ .Format "2006-01-02T15:04:05Z07:00" }}">
+        {{ end }}
+    {{ end }}
+
+    <!-- CSS -->
+    {{ $styles := resources.Get "css/styles.css" | postCSS }}
+    {{ if .Site.IsServer}}
         <link rel="stylesheet" href="{{ $styles.RelPermalink }}">
     {{ else }}
-        {{- $styles := $styles| minify | fingerprint | resources.PostProcess -}}
+        {{ $styles := $styles| minify | fingerprint | resources.PostProcess }}
         <link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}">
     {{ end -}}
+
+    <!-- RSS -->
+	<link rel="alternate" type="application/rss+xml" title="{{ .Site.Title }} RSS feed" href="{{ "/feed.xml" | absURL }}" />
 </head>

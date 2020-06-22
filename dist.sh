@@ -4,26 +4,29 @@ set -e
 
 echo "\033[0;1mBuilding for environment: \033[0;1;35mproduction\033[0;0m"
 
+echo "\033[0;1mHugo version\033[0;0m"
+hugo version
+
 # Remove old compiled data
 echo "\033[0;1mCleaning destination directory...\033[0;0m"
 rm -rf public
 
 # Install required dependencies
-#echo "\033[0;1mEnsure dependencies\033[0;0m"
+#echo "\033[0;1mEnsure dependencies...\033[0;0m"
 #npm install -g postcss-cli autoprefixer tailwindcss postcss-import
 
 # Run "npm install" in the theme folder
-echo "\033[0;1mRefreshing theme dependencies\033[0;0m"
+echo "\033[0;1mRefreshing theme dependencies...\033[0;0m"
 (cd themes/withblueink && npm ci)
 
 # Syntax highlighting CSS
-echo "\033[0;1mSyntax highlighting CSS \033[0;0m"
+echo "\033[0;1mSyntax highlighting CSS...\033[0;0m"
 hugo gen chromastyles --style=monokailight > themes/withblueink/assets/css/chroma-monokailight.css
 
 # Compile the code with the "production" environment
 echo "\033[0;1mBuilding...\033[0;0m"
 #hugo --environment=production --buildFuture
-hugo --environment=production
+hugo --environment=production --minify
 
 # Copy static files
 echo "\033[0;1mCopy static files...\033[0;0m"
