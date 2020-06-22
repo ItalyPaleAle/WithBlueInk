@@ -16,6 +16,9 @@ resources:
 trigger:
   - master
 
+# Do not trigger on PRs
+pr: none
+
 # Variables for the entire pipeline
 variables:
   # Sites
