@@ -8,6 +8,9 @@
 @import "font-lato.css";
 @import "font-merriweather.css";
 
+/* Chroma themes for syntax highlighting */
+@import "chroma-monokailight.css";
+
 /* Toggle menu with CSS */
 input#nav-toggle:checked~label#show-button {
     display: none;

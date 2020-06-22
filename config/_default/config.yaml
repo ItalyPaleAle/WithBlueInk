@@ -64,9 +64,10 @@ privacy:
 
 # Markup converters and syntax highlighter
 markup:
+  #defaultMarkdownHandler: blackFriday
   highlight:
     style: "monokailight"
-  #defaultMarkdownHandler: blackFriday
+    noClasses: false
   goldmark:
     renderer:
       unsafe: true
