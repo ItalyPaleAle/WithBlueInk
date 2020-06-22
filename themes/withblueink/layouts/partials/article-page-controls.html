@@ -17,18 +17,18 @@
   <section id="pagecontrols" class="flex flex-wrap justify-between my-6 break-words">
 
     {{- if $hasNext -}}
-      <a class="flex-none w-full md:w-5/12" href="{{ .Next.RelPermalink }}">
-        <span class="font-bold">← Next Post</span><br/>
-        <span class="text-gray-700 text-sm">{{ .Next.Title }}</span>
+      <a class="group flex-none w-full md:w-5/12 hover:text-blue-600" href="{{ .Next.RelPermalink }}">
+        <span class="font-bold text-blue-800 group-hover:text-blue-600">← Next Post</span><br/>
+        <span class="text-gray-700 text-sm group-hover:text-blue-600">{{ .Next.Title }}</span>
       </a>
     {{- else -}}
       <span>&nbsp;</span>
     {{- end -}}
     
     {{- if $hasPrev -}}
-      <a class="flex-none w-full md:w-5/12 md:text-right mt-2 pt-2 md:m-0 md:p-0 border-t md:border-0" href="{{ .Prev.RelPermalink }}">
-        <span class="font-bold">Previous Post →</span><br/>
-        <span class="text-gray-700 text-sm">{{ .Prev.Title }}</span>
+      <a class="group flex-none w-full md:w-5/12 md:text-right mt-2 pt-2 md:m-0 md:p-0 border-t md:border-0 hover:text-blue-600" href="{{ .Prev.RelPermalink }}">
+        <span class="font-bold text-blue-800 group-hover:text-blue-600">Previous Post →</span><br/>
+        <span class="text-gray-700 text-sm group-hover:text-blue-600">{{ .Prev.Title }}</span>
       </a>
     {{- else -}}
       <span>&nbsp;</span>

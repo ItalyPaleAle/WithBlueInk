@@ -2,7 +2,7 @@
   <div class="flex justify-between my-6 break-words">
 
     {{- if .Paginator.HasPrev -}}
-      <a class="flex-none w-5/12 font-bold" href="{{ .Paginator.Prev.URL }}">
+      <a class="flex-none w-5/12 font-bold text-blue-800 hover:text-blue-600" href="{{ .Paginator.Prev.URL }}">
         ← Newer Post
       </a>
     {{- else -}}
@@ -10,7 +10,7 @@
     {{- end -}}
     
     {{- if .Paginator.HasNext -}}
-      <a class="flex-none w-5/12 font-bold text-right" href="{{ .Paginator.Next.URL }}">
+      <a class="flex-none w-5/12 font-bold text-right text-blue-800 hover:text-blue-600" href="{{ .Paginator.Next.URL }}">
         Older Posts →
       </a>
     {{- else -}}

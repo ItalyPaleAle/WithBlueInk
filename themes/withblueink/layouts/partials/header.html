@@ -1,6 +1,6 @@
 <header>
     <nav class="container py-2 flex items-center justify-between flex-wrap">
-        <a href="{{ .Site.Home.RelPermalink }}" class="flex items-center text-blue-800 font-bold text-xl">
+        <a href="{{ .Site.Home.RelPermalink }}" class="flex items-center text-blue-800 font-bold text-xl hover:text-blue-600">
             {{ .Site.Title }}
         </a>
 
@@ -24,13 +24,13 @@
         <ul id="nav-menu" class="sm:flex w-full sm:w-auto hidden sm:block mt-2 sm:mt-0 sm:space-x-2 uppercase text-sm">
             {{ with .Site.GetPage "/about" }}
             <li>
-                <a href="{{ .RelPermalink }}" class="text-gray-700 hover:text-blue-700">{{ .Title }}</a>
+                <a href="{{ .RelPermalink }}" class="text-gray-700 hover:text-blue-600">{{ .Title }}</a>
             </li>
             {{ end }}
             {{ range .Site.Menus.Main }}
                 {{ if not (eq .Type "posts") }}
                 <li>
-                    <a href="{{ .RelPermalink }}" class="text-gray-700 hover:text-blue-700">{{ .Title }}</a>
+                    <a href="{{ .RelPermalink }}" class="text-gray-700 hover:text-blue-600">{{ .Title }}</a>
                 </li>
                 {{ end }}
             {{ end }}

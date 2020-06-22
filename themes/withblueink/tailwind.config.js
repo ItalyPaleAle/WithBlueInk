@@ -164,7 +164,9 @@ module.exports = {
             },
         }),
     },
-    variants: {},
+    variants: {
+        textColor: ['responsive', 'hover', 'focus', 'group-hover'],
+    },
     corePlugins: {
         // Disable the container class as we'll define our own
         container: false

@@ -1,5 +1,5 @@
 <section id="comments">
-  {{ if eq hugo.Environment "production" }}
+  {{ if .Site.Params.comments }}
     {{ if .Page.Params.comments }}
       <div id="disqus_thread"></div>
       <script>
@@ -19,6 +19,6 @@
       </script>
     {{ end }}
   {{ else }}
-    <p>Comments disabled in development environment</p>
+    <p class="mb-4 text-gray-700">Comments disabled in development environment</p>
   {{ end }}
 </section>
