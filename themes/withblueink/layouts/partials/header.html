@@ -21,15 +21,20 @@
             </svg>
         </label>
 
-        <ul id="nav-menu" class="sm:flex w-full sm:w-auto hidden sm:block mt-2 sm:mt-0 sm:space-x-2 uppercase text-sm">
+        <ul id="nav-menu" class="sm:flex w-full sm:w-auto hidden sm:block mt-2 sm:mt-0 sm:space-x-4 uppercase text-sm">
+            {{ with .Site.GetPage "/" }}
+            <li class="mb-2 sm:m-0">
+                <a href="{{ .RelPermalink }}" class="text-gray-700 hover:text-blue-600">{{ .Title }}</a>
+            </li>
+            {{ end }}
             {{ with .Site.GetPage "/about" }}
-            <li>
+            <li class="mb-2 sm:m-0">
                 <a href="{{ .RelPermalink }}" class="text-gray-700 hover:text-blue-600">{{ .Title }}</a>
             </li>
             {{ end }}
             {{ range .Site.Menus.Main }}
                 {{ if not (eq .Type "posts") }}
-                <li>
+                <li class="mb-2 sm:m-0">
                     <a href="{{ .RelPermalink }}" class="text-gray-700 hover:text-blue-600">{{ .Title }}</a>
                 </li>
                 {{ end }}
