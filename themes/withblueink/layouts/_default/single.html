@@ -1,11 +1,15 @@
 {{ define "main" }}
 
-<article class="c-rich-text text-gray-700 text-lg my-8">
-    {{ .Content }}
-</article>
+{{ partial "cover-image.html" . }}
 
-{{- with .Page.Params.coverImage -}}
-    {{ partial "cover-image-credits.html" . }}
-{{- end -}}
+<div class="container">
+    <article class="c-rich-text text-gray-700 text-lg my-8">
+        {{ .Content }}
+    </article>
+    
+    {{- with .Page.Params.coverImage -}}
+        {{ partial "cover-image-credits.html" . }}
+    {{- end -}}
+</div>
 
 {{ end }}

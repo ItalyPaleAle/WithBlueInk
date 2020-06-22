@@ -1,0 +1,27 @@
+{{- $relativeRoot := .Scratch.Get "relativeRoot" -}}
+{{- $coverBgColor := (index .Page.Params "coverColor" | default "#EDF2F7") -}}
+{{- $coverBg := printf "background-color: %s;" $coverBgColor -}}
+{{- if index .Page.Params "image" -}}
+    {{- $coverBg = printf "background-image: url('%s%s');" $relativeRoot .Page.Params.image -}}
+{{- end -}}
+
+{{- $paginator := .Scratch.Get "paginator" -}}
+{{- if $paginator -}}
+        {{- if gt $paginator.PageNumber 1 -}}
+            {{- $coverBg = printf "background-image: url('../../%s');" .Page.Params.image -}}
+        {{- end -}}
+{{- end -}}
+
+<div class="cover-image mb-6" style="{{ $coverBg | safeCSS }}">
+    <section class="container flex flex-col justify-center h-full text-white text-shadow-xl py-16">
+        {{- if eq .Page.Type "posts"}}
+            <h1 class="text-6xl font-bold">{{ .Page.Title }}</h1>
+            {{ with .Page.Description }}<div class="text-3xl font-bold mt-4">{{ . }}</div>{{ end }}
+        {{- else if eq .Page.Kind "home" -}}
+            <h1 class="text-7xl font-bold text-center">{{ .Page.Title }}</h1>
+        {{- else -}}
+            <h1 class="text-6xl font-bold text-center">{{ .Page.Title }}</h1>
+            {{ with .Page.Description }}<div class="text-4xl font-bold mt-4 text-center">{{ . }}</div>{{ end }}
+        {{- end -}}
+    </section>
+</div>

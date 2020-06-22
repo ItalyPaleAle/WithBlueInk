@@ -1,23 +1,31 @@
 {{ define "main" }}
 
-    {{ $paginator := .Paginate (where .Site.RegularPages "Type" "posts") }}
+    {{- $paginator := .Paginate (where .Site.RegularPages "Type" "posts") -}}
+    {{- .Scratch.Set "paginator" $paginator -}}
+
+    {{ partial "cover-image.html" . }}
 
     <!-- Main Content -->
-    <div class="container">
-        {{ range $paginator.Pages }}
-            <div class="post-preview">
-                <a href="{{ .RelPermalink }}">
-                    <h2 class="post-title">{{ .Title }}</h2>
+    <div class="container mt-4">
+        {{- range $paginator.Pages -}}
+            <a href="{{ .RelPermalink }}" class="block mb-4 pb-4 border-b-2 border-gray-200">
+                    <h1 class="font-bold text-2xl leading-tight mb-1">{{ .Title }}</h1>
                     {{ with .Description }}
-                        <h3 class="post-subtitle">{{ . }}</h3>
+                        <h2 class="leading-tight mb-1">{{ . }}</h2>
                     {{ end }}
-                </a>
                 {{ with .Date }}
-                    <p class="post-meta">Posted on {{ .Format "January 2, 2006" }} </p>
+                    <p class="text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="inline-block h-4 w-4">
+                            <!--Copyright (c) 2016 Dan Klammer: https://github.com/danklammer/bytesize-icons-->
+                            <title>Publishing date</title>
+                            <circle cx="16" cy="16" r="14" />
+                            <path d="M16 8 L16 16 20 20" />
+                        </svg>
+                        {{ .Format "January 2, 2006" }}
+                    </p>
                 {{ end }}
-            </div>
-            <hr>
-        {{ end }}
+            </a>
+        {{- end -}}
         {{ partial "page-controls.html" . }}
     </div>
 

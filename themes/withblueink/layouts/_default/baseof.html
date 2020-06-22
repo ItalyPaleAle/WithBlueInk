@@ -9,8 +9,8 @@
     <body class="flex flex-col min-h-screen text-gray-900 tracking-wide">
         {{- partial "dev-size-indicator.html" . -}}
         {{- partial "header.html" . -}}
-        <main class="flex-1 container">
-        {{- block "main" . }}{{- end }}
+        <main class="flex-1">
+            {{- block "main" . }}{{- end }}
         </main>
         {{- partial "dev-parameters.html" . -}}
         {{- partial "footer.html" . -}}

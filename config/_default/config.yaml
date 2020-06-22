@@ -41,8 +41,8 @@ permalinks:
 
 # Disable taxonomies
 disableKinds:
-  #- taxonomy
-  #- taxonomyTerm
+  - taxonomy
+  - taxonomyTerm
   - section
 
 # RSS
