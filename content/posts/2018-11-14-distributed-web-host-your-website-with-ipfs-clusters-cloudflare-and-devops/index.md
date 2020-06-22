@@ -27,9 +27,12 @@ To continue this article, you should to be at least somewhat **familiar with the
 
 > **What IPFS is and what it is not**
 >
-> This confused me at the beginning: *if IPFS is distributed, why do I need servers and high-availability?*. Turns out, I was looking at this the wrong way.<br />
-> IPFS is a *distribution protocol*, and not a storage service. It is more akin to a CDN than a NAS: you don't *upload* files to IPFS, but you *serve* files through it. <br />
-> The difference with a traditional CDN is that once a client has downloaded your data, it will seed it too for as long as it's online (and with the IPFS daemon running), making your content available faster.<br />
+> This confused me at the beginning: *if IPFS is distributed, why do I need servers and high-availability?*. Turns out, I was looking at this the wrong way.
+>
+> IPFS is a *distribution protocol*, and not a storage service. It is more akin to a CDN than a NAS: you don't *upload* files to IPFS, but you *serve* files through it.
+>
+> The difference with a traditional CDN is that once a client has downloaded your data, it will seed it too for as long as it's online (and with the IPFS daemon running), making your content available faster.
+>
 > This means that you need at least one node with the data you want to serve pinned in it (so it's not garbage-collected), up 24/7. For high availability, we'll deploy a cluster of nodes, and we'll make it geo-distributed because… well, why not!
 
 ## Prepare the infrastructure
@@ -523,12 +526,13 @@ sudo docker exec ipfs-cluster ipfs-cluster-ctl pin add $HASH
 
 ![Configure the SSH task](/assets/ipfs/pipelines-ssh-task.png)
 
-> The task above is missing one step: **changing the TXT DNS record** for the Cloudflare gateway to point to the new IPFS content id. How this can be accomplished depends on your domain name registrar (or DNS nameserver), and if they provide any API access. <br/>
+> The task above is missing one step: **changing the TXT DNS record** for the Cloudflare gateway to point to the new IPFS content id. How this can be accomplished depends on your domain name registrar (or DNS nameserver), and if they provide any API access.
+>
 > In my specific case, I'm using Cloudflare also as a DNS nameserver, and I can modify the script above to invoke the Cloudflare APIs. After getting the [API Key](https://support.cloudflare.com/hc/en-us/articles/200167836-Where-do-I-find-my-Cloudflare-API-key-) and the zone ID (in the CloudFlare portal, this is in the "Domain Summary" tab), I need to append these commands at the end of the previous script (make sure "jq" is installed in the system):
-> 
+>
 > ````sh
 > # Note: this updates an existing record; will fail if record doesn't already exist
-> 
+>
 > # Cloudflare API KEY here
 > CLOUDFLARE_API_KEY="1234567890abcdef"
 > # Email address of the Cloudflare account
@@ -537,13 +541,13 @@ sudo docker exec ipfs-cluster ipfs-cluster-ctl pin add $HASH
 > ZONE_ID="1234567890abcdef"
 > # Name of the TXT record
 > DOMAIN=_dnslink.ipfs-demo.withblueink.com
-> 
+>
 > RECORD_ID=$(curl -sS -X GET "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?type=TXT&name=$DOMAIN" \
 >      -H "Content-Type:application/json" \
 >      -H "X-Auth-Key:$CLOUDFLARE_API_KEY" \
 >      -H "X-Auth-Email:$CLOUDFLARE_EMAIL" \
 >          | jq -r '.result[0].id')
-> 
+>
 > curl -sS -X PUT "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$RECORD_ID" \
 >      -H "Content-Type:application/json" \
 >      -H "X-Auth-Key:$CLOUDFLARE_API_KEY" \

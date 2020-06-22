@@ -55,10 +55,6 @@ outputFormats:
 # Google Analytics
 GoogleAnalytics: "UA-72379106-1"
 
-# Syntax highlighting
-pygmentsCodeFences: true
-pygmentsStyle: "tango"
-
 # Privacy
 privacy:
   youtube:
@@ -66,9 +62,11 @@ privacy:
   twitter:
     enableDNT: true
 
-# Markup converters
+# Markup converters and syntax highlighter
 markup:
-  defaultMarkdownHandler: blackFriday
+  highlight:
+    style: "monokailight"
+  #defaultMarkdownHandler: blackFriday
   goldmark:
     renderer:
       unsafe: true

@@ -30,7 +30,7 @@ GMail inspired countless developers to dare doing more with the web. The problem
 Safari and Konqueror were the first browsers to pass the Acid2 test in 2005, proving full compliance with the HTML and CSS 2.1 specifications. Firefox followed one year later and Internet Explorer finally became "standards-compliant" (based on the Acid2 test) only with version 8 in 2009.
 
 ![Screenshot of Internet Explorer 8 passing the Acid2 test](/assets/jquery/ie8-acid2.png)
-<small>*Countless web developers—myself included—had that same smile when IE8 passed the Acid2 test.*</small>
+<figcaption>Countless web developers—myself included—had that same smile when IE8 passed the Acid2 test.</figcaption>
 
 In short, web development in the first decade of the twenty-first century was a mess. We were dealing with browsers that did not implement standards, rendered pages with disregards for specs, and added their own proprietary technologies on top. We also didn't have luxurious things such as HTML5, CSS3, ES2015 (ES6), or WebSockets; the APIs available were not as rich and powerful. On top of that, we had to deal with an abundance of plugins like Flash, often used for (unnecessary) eye candies, and sometimes out of necessity like playing videos.
 
@@ -131,7 +131,7 @@ In the late '00s, there were no frameworks and tools like Angular (which first a
 "2008-me" is guilty of that as well, and there's still a video on the Internet of what I built back then:
 
 {{< youtube ps5ohEhO3S4 >}}
-<small>*Here's a jQuery-powered "SPA" in front of a PHP 5 backend. I found again the source code, and yes it is an intricated mess of spaghetti code.*</small>
+<figcaption>Here's a jQuery-powered "SPA" in front of a PHP 5 backend. I found again the source code, and yes it is an intricated mess of spaghetti code.</figcaption>
 
 John Resig [built jQuery](https://www.khanacademy.org/computing/computer-programming/html-js-jquery/jquery-dom-access/a/history-of-jquery) to make it easy and fun to write JavaScript code that worked across browsers and invoked AJAX requests. Building "SPAs" was not his goal, and developers using jQuery for that were just abusing it. **So, if developers ended up writing very messy code while trying to build a SPA with jQuery, they have only themselves to blame, not the library.**
 

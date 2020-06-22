@@ -101,13 +101,13 @@ write_files:
     content: "[...]" # Content of mysql_server.cnf
 ````
 
-Linked files:<br />
-[docker-mariadb-galera.service](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.service)<br />
-[docker-mariadb-galera.sh](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.sh)<br />
-[docker-mariadb-waiter.service](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.service)<br />
-[docker-mariadb-waiter.sh](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.sh)<br />
-[etcd-waiter.service](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/etcd-waiter.service)<br />
-[etcd-waiter.sh](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/etcd-waiter.sh)<br />
+Linked files:  
+[docker-mariadb-galera.service](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.service)  
+[docker-mariadb-galera.sh](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.sh)  
+[docker-mariadb-waiter.service](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.service)  
+[docker-mariadb-waiter.sh](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.sh)  
+[etcd-waiter.service](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/etcd-waiter.service)  
+[etcd-waiter.sh](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/etcd-waiter.sh)  
 [mysql_server.cnf](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/mysql_server.cnf)
 
 A few notes about using the generated Cloud Config file:

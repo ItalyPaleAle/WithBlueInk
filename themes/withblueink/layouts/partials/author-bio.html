@@ -1,8 +1,0 @@
-{{- $relativeRoot := .Scratch.Get "relativeRoot" -}}
-
-<section id="author" class="italic text-gray-700">
-    <img src="{{ $relativeRoot }}img/authors/{{ .Page.Params.author.handle }}.jpg" />
-    Posted by {{ .Page.Params.author.name }}
-    (<a href="https://twitter.com/{{ .Page.Params.author.handle }}" class="underline hover:text-gray-900">@{{ .Page.Params.author.handle }}</a>)
-    on {{ .Page.PublishDate.Format "January 2, 2006" }}
-</section>

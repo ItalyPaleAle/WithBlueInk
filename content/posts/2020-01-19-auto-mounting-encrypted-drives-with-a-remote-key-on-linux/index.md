@@ -195,7 +195,8 @@ Try rebooting the system, and you'll see the partition being mounted automatical
 
 We're done! However, keep in mind a few things:
 
-1. To mount and un-mount the encrypted disk you must use `systemctl` rather than the usual `mount` and `umount` commands. <br/>Mount the disk with **`systemctl start mnt-data.mount`**, and un-mount with **`systemctl stop mnt-data.mount`**
+1. To mount and un-mount the encrypted disk you must use `systemctl` rather than the usual `mount` and `umount` commands.  
+   Mount the disk with **`systemctl start mnt-data.mount`**, and un-mount with **`systemctl stop mnt-data.mount`**
 2. The systemd units are executed only after the network and the other "normal" filesystems are mounted. If you have another service depending on the data disk's availability, you need to explicitly make its systemd unit depending on the `mnt-data.mount` unit (with `Requires=mnt-data.mount` and `After=mnt-data.mount`)
 3. As mentioned at the beginning, this solution can't be used with the root filesystem, but only with secondary data disks.
 

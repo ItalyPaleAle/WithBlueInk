@@ -127,6 +127,11 @@ module.exports = {
                 'i, em': {
                     fontStyle: 'italic',
                 },
+                'figcaption': {
+                    fontStyle: 'italic',
+                    fontSize: theme('fontSize.sm'),
+                    textAlign: 'center',
+                },
                 'p > code, li > code': {
                     marginLeft: theme('spacing.1'),
                     marginRight: theme('spacing.1'),
@@ -151,6 +156,10 @@ module.exports = {
                 },
                 'blockquote i, blockquote em': {
                     fontStyle: 'normal'
+                },
+                'blockquote p': {
+                    marginTop: theme('spacing.4'),
+                    marginBottom: theme('spacing.4')
                 }
             },
         }),
