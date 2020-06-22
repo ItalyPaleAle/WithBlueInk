@@ -28,16 +28,18 @@ input#nav-toggle:checked~#nav-menu {
 /* Full-width, tall image */
 .cover-image {
     width: 100%;
-    height: 22rem;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-size: cover;
 }
+.cover-image .container {
+    min-height: 22rem;
+}
 
 @media (min-width: 768px) {
     /* Medium (md) or higher */
-    .cover-image {
+    .cover-image .container {
         min-height: 30rem;
     }
 }

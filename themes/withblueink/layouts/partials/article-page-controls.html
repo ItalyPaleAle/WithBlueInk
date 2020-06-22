@@ -14,10 +14,10 @@
 {{- end -}}
 
 {{- if or $hasNext $hasPrev -}}
-  <section id="pagecontrols" class="flex justify-between my-6 break-words">
+  <section id="pagecontrols" class="flex flex-wrap justify-between my-6 break-words">
 
     {{- if $hasNext -}}
-      <a class="flex-none w-5/12" href="{{ .Next.RelPermalink }}">
+      <a class="flex-none w-full md:w-5/12" href="{{ .Next.RelPermalink }}">
         <span class="font-bold">← Next Post</span><br/>
         <span class="text-gray-700 text-sm">{{ .Next.Title }}</span>
       </a>
@@ -26,7 +26,7 @@
     {{- end -}}
     
     {{- if $hasPrev -}}
-      <a class="flex-none w-5/12 text-right" href="{{ .Prev.RelPermalink }}">
+      <a class="flex-none w-full md:w-5/12 md:text-right mt-2 pt-2 md:m-0 md:p-0 border-t md:border-0" href="{{ .Prev.RelPermalink }}">
         <span class="font-bold">Previous Post →</span><br/>
         <span class="text-gray-700 text-sm">{{ .Prev.Title }}</span>
       </a>

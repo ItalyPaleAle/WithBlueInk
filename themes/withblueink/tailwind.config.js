@@ -9,7 +9,7 @@ module.exports = {
         },
         fontSize: {
             'xs': ['.75rem', '1'],
-            'sm': ['.875rem', '1'],
+            'sm': ['.875rem', '1.25'],
             'base': ['1rem', '1.5'],
             'lg': ['1.125rem', '1.5'],
             'xl': ['1.25rem', '1.5'],
@@ -135,7 +135,22 @@ module.exports = {
                 },
                 'pre': {
                     width: '100%',
-                    overflowY: 'scroll'
+                    overflowY: 'scroll',
+                    fontSize: theme('fontSize.sm'),
+                    '@screen md': {
+                        fontSize: theme('fontSize.base'),
+                    },
+                },
+                'blockquote': {
+                    marginLeft: theme('spacing.4'),
+                    paddingLeft: theme('spacing.4'),
+                    borderLeftWidth: '4px',
+                    borderColor: theme('colors.gray.400'),
+                    color: theme('colors.gray.600'),
+                    fontStyle: 'italic',
+                },
+                'blockquote i, blockquote em': {
+                    fontStyle: 'normal'
                 }
             },
         }),
