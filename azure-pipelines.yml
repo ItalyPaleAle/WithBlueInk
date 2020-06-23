@@ -23,10 +23,11 @@ pr: none
 variables:
   # Sites
   SITE_PRODUCTION: 'withblue.ink'
+  SITE_STAGING: 'staging.withblue.ink'
   # DNSLink DNS record to update (for IPFS)
   CLOUDFLARE_DOMAIN: '_dnslink.withblue.ink'
   # Version of Hugo to use
-  HUGO_VERSION: 0.65.2
+  HUGO_VERSION: 0.72.0
 
 # Stages
 stages:
@@ -72,15 +73,15 @@ stages:
             displayName: 'Publish Artifact: public'
             artifact: 'public'
 
-  # Deploy to production
-  - stage: production
-    displayName: 'Deploy to production'
+  # Stage app stage
+  - stage: staging
+    displayName: 'Stage app'
     jobs:
 
-      # Deploy to production
-      - deployment: production
-        environment: Production
-        displayName: 'Deploy to production'
+      # Stage app job
+      - deployment: staging
+        environment: Staging
+        displayName: 'Stage app'
 
         # Run on the self-hosted agent in the LAN
         pool:
@@ -100,6 +101,7 @@ stages:
                 # Download pipeline artifact
                 - download: current
                   artifact: 'public'
+                  displayName: 'Download public artifact'
 
                 # Install and configure stkcli
                 - bash: |
@@ -174,6 +176,82 @@ stages:
                 - publish: $(Pipeline.Workspace)/variables
                   artifact: variables
                   displayName: 'Publish pipeline artifacts'
+
+                # Deploy app to staging on Statiko
+                - script: |
+                    set -e
+
+                    # Deploy app
+                    ./stkcli deploy \
+                      -d $(SITE_STAGING) \
+                      -a withblueink-$(Build.BuildNumber)
+                  displayName: 'Deploy app to staging on Statiko'
+                  env:
+                    NODE_KEY: $(NODE_KEY)
+
+                # Post-build cleanup
+                # Necessary only for self-hosted pipelines
+                - bash: |
+                    # Delete files from disk
+                    rm -rv ~/.stkcli/config.yaml
+                    rm -rvf $(Agent.BuildDirectory) || true
+                    rm -rvf $(Build.SourcesDirectory) || true
+                    rm -rvf $(Build.ArtifactStagingDirectory) || true
+                  displayName: "Post-build cleanup"
+                  # This step always runs, even if the pipeline failed
+                  condition: always()
+
+  # Deploy to production
+  - stage: production
+    displayName: 'Deploy to production'
+    jobs:
+
+      # Deploy to production
+      - deployment: production
+        environment: Production
+        displayName: 'Deploy to production'
+
+        # Run on the self-hosted agent in the LAN
+        pool:
+          name: Default
+          demands:
+            - network -equals lacasetta
+
+        # Deployment strategy is "runOnce"
+        strategy:
+          runOnce:
+            deploy:
+              # Steps
+              steps:
+                # Do not checkout source
+                - checkout: none
+
+                # Download pipeline artifact
+                - download: current
+                  artifact: 'variables'
+                  displayName: 'Download variables artifact'
+
+                # Install and configure stkcli
+                - bash: |
+                    set -e
+                    # Download stkcli
+                    TAG_NAME=$(curl -s https://api.github.com/repos/Statiko-dev/stkcli/releases/latest -H "Accept: application/vnd.github.v3+json" \
+                      | jq -r ".tag_name")
+                    URL="https://github.com/Statiko-dev/stkcli/releases/download/${TAG_NAME}/stkcli-${TAG_NAME}-linux-arm32v7.tar.gz"
+                    echo "Downloading stkcli: $URL"
+                    curl -L "$URL" -o stkcli.tar.gz
+                    tar -xvzf stkcli.tar.gz
+                    cp stkcli-${TAG_NAME}-*/stkcli .
+                    rm -rvf stkcli-${TAG_NAME}-* stkcli.tar.gz
+
+                    # Configure stkcli
+                    cat /dev/null > ~/.stkcli/config.yaml
+                    echo "node: '$(NODE_ADDRESS)'" >> ~/.stkcli/config.yaml
+                    echo "insecure: true" >> ~/.stkcli/config.yaml
+
+                    # Show version
+                    ./stkcli version
+                  displayName: "Install stkcli"
                 
                 # Deploy app to production on Statiko
                 - script: |
