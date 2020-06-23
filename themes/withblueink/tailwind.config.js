@@ -1,6 +1,20 @@
 module.exports = {
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                'background': 'var(--color-background)',
+                'border': 'var(--color-border)',
+                'shade-100': 'var(--color-shade-100)',
+                'shade-200': 'var(--color-shade-200)',
+                'shade-300': 'var(--color-shade-300)',
+                'shade-400': 'var(--color-shade-400)',
+                'shade-500': 'var(--color-shade-500)',
+                'shade-600': 'var(--color-shade-600)',
+                'accent-100': 'var(--color-accent-100)',
+                'accent-200': 'var(--color-accent-200)',
+                'accent-300': 'var(--color-accent-300)',
+            }
+        },
         textShadow: {
             'sm': '0 1px 2px rgba(0, 0, 0, 0.25)',
             'default': '0 1px 2px rgba(0, 0, 0, 0.375)',
@@ -31,7 +45,7 @@ module.exports = {
                 fontWeight: theme('fontWeight.bold'),
                 lineHeight: theme('lineHeight.tight'),
                 fontFamily: theme('fontFamily.sans'),
-                color: theme('colors.gray.900'),
+                color: theme('colors.shade.600'),
             },
             h1: {
                 extends: 'heading',
@@ -65,9 +79,9 @@ module.exports = {
             },
             link: {
                 textDecoration: 'underline',
-                color: theme('colors.blue.800'),
+                color: theme('colors.accent.300'),
                 '&:hover': {
-                    color: theme('colors.blue.600'),
+                    color: theme('colors.accent.200'),
                 },
             },
             listing: {
@@ -81,7 +95,7 @@ module.exports = {
                 fontFamily: theme('fontFamily.serif'),
                 lineHeight: theme('lineHeight.relaxed'),
                 letterSpacing: theme('letterSpacing.wider'),
-                color: theme('colors.gray.800'),
+                color: theme('colors.shade.500'),
                 '> * + *': {
                     marginTop: theme('spacing.6'),
                     marginBottom: theme('spacing.6')
@@ -135,7 +149,7 @@ module.exports = {
                 'p > code, li > code': {
                     marginLeft: theme('spacing.1'),
                     marginRight: theme('spacing.1'),
-                    color: theme('colors.red.900'), //theme('colors.teal.700')
+                    color: theme('colors.altaccent.300'), //theme('colors.teal.700')
                     overflowWrap: 'break-word'
                 },
                 'pre': {
@@ -150,8 +164,8 @@ module.exports = {
                     marginLeft: theme('spacing.4'),
                     paddingLeft: theme('spacing.4'),
                     borderLeftWidth: '4px',
-                    borderColor: theme('colors.gray.400'),
-                    color: theme('colors.gray.600'),
+                    borderColor: theme('colors.shade.100'),
+                    color: theme('colors.shade.300'),
                     fontStyle: 'italic',
                 },
                 'blockquote i, blockquote em': {

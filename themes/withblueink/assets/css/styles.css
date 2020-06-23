@@ -11,6 +11,10 @@
 /* Chroma themes for syntax highlighting */
 @import "chroma-monokailight.css";
 
+/* Themes */
+/*@import "theme-dark.css";*/
+@import "theme-light.css";
+
 /* Toggle menu with CSS */
 input#nav-toggle:checked~label#show-button {
     display: none;
@@ -24,8 +28,8 @@ input#nav-toggle:checked~#nav-menu {
 
 /* Text selection */
 ::selection {
-    background-color: #319795; /* teal-600 */
-    color: white;
+    background-color: var(--color-selection-bg);
+    color: var(--color-selection-text);
 }
 
 /* Full-width, tall image */

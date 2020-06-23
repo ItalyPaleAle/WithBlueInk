@@ -1,9 +1,9 @@
 {{- $hasURL := and (index . "linkName") (index . "linkURL") -}}
 
-<section id="photocredits" class="text-sm italic text-gray-700">
+<section id="photocredits" class="text-sm italic text-shade-400">
     Cover photo by {{ .author }}
     {{ if $hasURL }}
-        (<a href="{{ .linkURL }}" rel="nofollow" class="text-gray-700 underline hover:text-gray-900">{{ .linkName }}</a>)
+        (<a href="{{ .linkURL }}" rel="nofollow" class="text-shade-400 underline hover:text-shade-600">{{ .linkName }}</a>)
     {{ end }}
     {{ with .license }}
         released under {{ . }}
