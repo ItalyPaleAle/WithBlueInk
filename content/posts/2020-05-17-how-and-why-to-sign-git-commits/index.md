@@ -176,9 +176,9 @@ echo "hello world" | gpg --clearsign
 > If your GPG agent is having issues, you can restart it with:
 >
 > ```sh
-gpgconf --kill gpg-agent
-gpgconf --launch gpg-agent
-```
+> gpgconf --kill gpg-agent
+> gpgconf --launch gpg-agent
+> ```
 
 ### Adding multiple emails
 
