@@ -38,9 +38,6 @@
         {{ end }}
     {{ end }}
 
-    <!-- IE11 CSS polyfill -->
-    <script>window.MSInputMethodContext && document.documentMode && document.write('<script src="/js/ie11CustomProperties-4.0.1.min.js"><\x2fscript>');</script>
-
     <!-- CSS -->
     {{ $styles := resources.Get "css/styles.css" | postCSS }}
     {{ if .Site.IsServer}}
