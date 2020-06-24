@@ -1,0 +1,20 @@
+{{ define "main" }}
+
+{{ partial "cover-image.html" . }}
+
+<div class="container">
+    {{ partial "date-author.html" . }}
+    
+    <article class="c-rich-text text-shade-400 text-lg my-6">
+        {{ .Content }}
+    </article>
+    
+    {{- with .Page.Params.coverImage -}}
+        {{ partial "cover-image-credits.html" . }}
+    {{- end -}}
+    
+    {{ partial "article-page-controls.html" . }}
+    {{ partial "commento.html" . }}
+</div>
+
+{{ end }}

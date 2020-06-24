@@ -1,0 +1,52 @@
+/* Tailwind CSS */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Fonts */
+@import "font-cascadia-code.css";
+@import "font-lato.css";
+@import "font-merriweather.css";
+
+/* Chroma themes for syntax highlighting */
+@import "chroma-monokailight.css";
+
+/* Themes */
+/*@import "theme-dark.css";*/
+@import "theme-light.css";
+
+/* Toggle menu with CSS */
+input#nav-toggle:checked~label#show-button {
+    display: none;
+}
+input#nav-toggle:checked~label#hide-button {
+    display: flex;
+}
+input#nav-toggle:checked~#nav-menu {
+    display: block;
+}
+
+/* Text selection */
+::selection {
+    background-color: var(--color-selection-bg);
+    color: var(--color-selection-text);
+}
+
+/* Full-width, tall image */
+.cover-image {
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+}
+.cover-image .container {
+    min-height: 22rem;
+}
+
+@media (min-width: 768px) {
+    /* Medium (md) or higher */
+    .cover-image .container {
+        min-height: 30rem;
+    }
+}

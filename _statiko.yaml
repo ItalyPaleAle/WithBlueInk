@@ -9,6 +9,9 @@ rules:
   - file: "_images"
     options:
       clientCaching: 2w
+  - file: "_fonts"
+    options:
+      clientCaching: 30d
   - file: "html"
     options:
       clientCaching: 30m

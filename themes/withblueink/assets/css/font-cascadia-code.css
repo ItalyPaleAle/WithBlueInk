@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'Cascadia Code';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local('Cascadia Code'),
+        local('Cascadia-Code'),
+        url(../fonts/CascadiaCode.woff2) format('woff2'),
+        url(../fonts/CascadiaCode.ttf) format('truetype');
+    text-rendering: optimizeLegibility;
+}

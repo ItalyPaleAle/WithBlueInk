@@ -1,0 +1,12 @@
+name = "withblueink"
+license = "MIT"
+licenselink = "https://github.com/ItalyPaleAle/WithBlueInk/blob/master/LICENSE"
+description = "Based on hugo-theme-tailwindcss-starter"
+homepage = "https://github.com/ItalyPaleAle/WithBlueInk"
+tags = []
+features = []
+min_version = "0.72"
+
+[author]
+  name = "Alessandro Segala"
+  homepage = "https://github.com/ItalyPaleAle/"

@@ -1,0 +1,75 @@
+# Base URL
+baseURL: "https://withblue.ink/"
+
+# Ignore files
+ignoreFiles:
+  - "\\.sh$"
+  - "Makefile"
+  - "Dockerfile"
+
+# Default language
+languageCode: "en-us"
+
+# Basic metadata
+title: "With Blue Ink"
+copyright: "Unless otherwise noted, all blog posts, photos, graphics, presentations and other media are published under a Creative Commons Attribution-NonCommercial (CC BY-NC) license. Unless otherwise noted, all code snippets are available under the Unlicense."
+author: "Alessandro Segala"
+
+# Custom params
+params:
+  # Enable debug views
+  debugView: false
+  # Enable comments
+  comments: true
+  # Site description
+  description: "A blog by Alessandro Segala (@ItalyPaleAle)"
+  # Fathom Analytics
+  FathomAnalytics:
+    Endpoint: st.italypaleale.me
+    SiteID: PGLNG
+
+# Theme configuration
+theme: "withblueink"
+paginate: 15
+
+# Enable all URLs to be relative, and make them end with ".html"
+relativeURLs: true
+canonifyURLs: false
+uglyurls: true
+
+# Format for posts' permalinks
+permalinks:
+  posts: /:year/:month/:day/:slug
+
+# Disable taxonomies
+disableKinds:
+  - taxonomy
+  - taxonomyTerm
+  - section
+
+# RSS
+rssLimit: 10
+outputFormats:
+  RSS:
+    mediatype: "application/rss"
+    baseName: "feed"
+
+# Google Analytics
+GoogleAnalytics: "UA-72379106-1"
+
+# Privacy
+privacy:
+  youtube:
+    privacyEnhanced: true
+  twitter:
+    enableDNT: true
+
+# Markup converters and syntax highlighter
+markup:
+  #defaultMarkdownHandler: blackFriday
+  highlight:
+    style: "monokailight"
+    noClasses: false
+  goldmark:
+    renderer:
+      unsafe: true

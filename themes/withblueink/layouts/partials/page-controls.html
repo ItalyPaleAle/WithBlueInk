@@ -1,0 +1,21 @@
+{{- if or .Paginator.HasPrev .Paginator.HasNext -}}
+  <div class="flex justify-between my-6 break-words">
+
+    {{- if .Paginator.HasPrev -}}
+      <a class="flex-none w-5/12 font-bold text-accent-300 hover:text-accent-200" href="{{ .Paginator.Prev.URL }}">
+        ← Newer Post
+      </a>
+    {{- else -}}
+      <span>&nbsp;</span>
+    {{- end -}}
+    
+    {{- if .Paginator.HasNext -}}
+      <a class="flex-none w-5/12 font-bold text-right text-accent-300 hover:text-accent-200" href="{{ .Paginator.Next.URL }}">
+        Older Posts →
+      </a>
+    {{- else -}}
+      <span>&nbsp;</span>
+    {{- end -}}
+
+  </div>
+{{- end -}}

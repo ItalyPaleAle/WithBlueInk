@@ -1,0 +1,24 @@
+<section id="comments">
+  {{ if .Site.Params.comments }}
+    {{ if .Page.Params.comments }}
+      <div id="disqus_thread"></div>
+      <script>
+      var disqus_config = function() {
+        this.page.title = '{{ .Page.Title }}';
+        this.page.url = '{{ .Page.Permalink }}';
+        this.page.identifier = '{{ .Page.RelPermalink }}';
+      };
+      (function() {
+        // DON'T EDIT BELOW THIS LINE
+        var d = document,
+          s = d.createElement("script");
+        s.src = "https://withblueink.disqus.com/embed.js";
+        s.setAttribute("data-timestamp", +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+      </script>
+    {{ end }}
+  {{ else }}
+    <p class="mb-4 text-shade-400">Comments disabled in development environment</p>
+  {{ end }}
+</section>
