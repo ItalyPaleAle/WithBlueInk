@@ -15,7 +15,8 @@ coverImage:
   linkURL: "https://unsplash.com/@capturebylucy"
 ---
 
-> *This article is an updated version of the one posted in December 2017, with instructions for the new Raspberry Pi 4 and Raspbian Buster. It has been updated again on July 26 after stable packages for Raspbian Buster were released.*
+> **Update:** There is a new official OS for Raspberry Pi boards: Raspberry Pi OS, which is available in both 32-bit and 64-bit variants.  
+> Check out how to install Docker and Docker Compose on Raspberry Pi OS in the [updated article](({{< ref "2018-11-14-distributed-web-host-your-website-with-ipfs-clusters-cloudflare-and-devops" >}})).
 
 This post is the definitive guide on using Docker on a Raspberry Pi, something I wish I had one week ago. I have a couple of Raspberry Pi's to provide services for my home and using Docker seemed the simplest way to deploy them. However, the number of guides for doing that on the internet is relatively low.
 
