@@ -150,7 +150,8 @@ module.exports = {
                     marginLeft: theme('spacing.1'),
                     marginRight: theme('spacing.1'),
                     color: theme('colors.altaccent.300'), //theme('colors.teal.700')
-                    overflowWrap: 'break-word'
+                    overflowWrap: 'break-word',
+                    wordBreak: 'break-word',
                 },
                 'pre': {
                     width: '100%',

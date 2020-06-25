@@ -17,8 +17,8 @@
     <div class="cover-image mb-6" style="{{ $coverBg | safeCSS }}">
         <section class="container flex flex-col justify-center h-full text-white text-shadow-xl py-16">
             {{- if eq .Page.Type "posts"}}
-                <h1 class="text-6xl font-bold">{{ .Page.Title }}</h1>
-                {{ with .Page.Description }}<div class="text-3xl font-bold mt-4">{{ . }}</div>{{ end }}
+                <h1 class="text-5xl md:text-6xl font-bold">{{ .Page.Title }}</h1>
+                {{ with .Page.Description }}<div class="text-2xl md:text-3xl font-bold mt-4">{{ . }}</div>{{ end }}
             {{- else if eq .Page.Kind "home" -}}
                 <h1 class="text-7xl font-bold text-center">{{ .Page.Title }}</h1>
             {{- else -}}
