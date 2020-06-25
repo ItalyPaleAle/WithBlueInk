@@ -167,7 +167,7 @@ After=unlock-data.service
 What=/dev/mapper/data
 Where=/mnt/data
 Type=ext4
-Options=defaults,noatime
+Options=defaults,noatime,_netdev
 
 [Install]
 WantedBy=multi-user.target
