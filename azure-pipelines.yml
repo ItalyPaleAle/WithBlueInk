@@ -103,37 +103,18 @@ stages:
                   artifact: 'public'
                   displayName: 'Download public artifact'
 
-                # Install and configure stkcli
+                # Configure stkcli
                 - bash: |
                     set -e
-                    # Download stkcli
-                    TAG_NAME=$(curl -s https://api.github.com/repos/Statiko-dev/stkcli/releases/latest -H "Accept: application/vnd.github.v3+json" \
-                      | jq -r ".tag_name")
-                    URL="https://github.com/Statiko-dev/stkcli/releases/download/${TAG_NAME}/stkcli-${TAG_NAME}-linux-arm32v7.tar.gz"
-                    echo "Downloading stkcli: $URL"
-                    curl -L "$URL" -o stkcli.tar.gz
-                    tar -xvzf stkcli.tar.gz
-                    cp stkcli-${TAG_NAME}-*/stkcli .
-                    rm -rvf stkcli-${TAG_NAME}-* stkcli.tar.gz
+
+                    # Show version
+                    stkcli version
 
                     # Configure stkcli
                     cat /dev/null > ~/.stkcli/config.yaml
                     echo "node: '$(NODE_ADDRESS)'" >> ~/.stkcli/config.yaml
                     echo "insecure: true" >> ~/.stkcli/config.yaml
-
-                    # Show version
-                    ./stkcli version
-                  displayName: "Install stkcli"
-
-                # Install pinatapinner
-                - bash: |
-                    set -e
-                    URL=$(curl -s https://api.github.com/repos/ItalyPaleAle/pinatapinner/releases/latest -H "Accept: application/vnd.github.v3+json" \
-                      | jq -r ".assets[] | select(.name | test(\"linux_arm$\", \"xs\")) | .browser_download_url")
-                    echo "Downloading pinatapinner: $URL"
-                    curl -L "$URL" -o pinatapinner
-                    chmod +x pinatapinner
-                  displayName: "Install pinatapinner"
+                  displayName: "Configure stkcli"
 
                 # Upload app to Statiko
                 - bash: |
@@ -146,7 +127,7 @@ stages:
                     ls -l $(Pipeline.Workspace)/public
 
                     # Upload the app
-                    ./stkcli app upload \
+                    stkcli app upload \
                       -a withblueink-$(Build.BuildNumber) \
                       -f $(Pipeline.Workspace)/public
                   displayName: "Upload app to Statiko"
@@ -156,7 +137,7 @@ stages:
                 # Pin on Pinata
                 - script: |
                     set -e
-                    ./pinatapinner $(Pipeline.Workspace)/public "WithBlueInk-${BUILD_BUILDID}" | tee out.tmp
+                    pinatapinner $(Pipeline.Workspace)/public "WithBlueInk-${BUILD_BUILDID}" | tee out.tmp
                     IPFS_HASH=$(cat out.tmp | jq -r ".IpfsHash")
                     echo "##vso[task.setvariable variable=IPFS_HASH]$IPFS_HASH"
                   displayName: 'Pin on Pinata'
@@ -182,7 +163,7 @@ stages:
                     set -e
 
                     # Deploy app
-                    ./stkcli deploy \
+                    stkcli deploy \
                       -d $(SITE_STAGING) \
                       -a withblueink-$(Build.BuildNumber)
                   displayName: 'Deploy app to staging on Statiko'
@@ -231,34 +212,25 @@ stages:
                   artifact: 'variables'
                   displayName: 'Download variables artifact'
 
-                # Install and configure stkcli
+                # Configure stkcli
                 - bash: |
                     set -e
-                    # Download stkcli
-                    TAG_NAME=$(curl -s https://api.github.com/repos/Statiko-dev/stkcli/releases/latest -H "Accept: application/vnd.github.v3+json" \
-                      | jq -r ".tag_name")
-                    URL="https://github.com/Statiko-dev/stkcli/releases/download/${TAG_NAME}/stkcli-${TAG_NAME}-linux-arm32v7.tar.gz"
-                    echo "Downloading stkcli: $URL"
-                    curl -L "$URL" -o stkcli.tar.gz
-                    tar -xvzf stkcli.tar.gz
-                    cp stkcli-${TAG_NAME}-*/stkcli .
-                    rm -rvf stkcli-${TAG_NAME}-* stkcli.tar.gz
+
+                    # Show version
+                    stkcli version
 
                     # Configure stkcli
                     cat /dev/null > ~/.stkcli/config.yaml
                     echo "node: '$(NODE_ADDRESS)'" >> ~/.stkcli/config.yaml
                     echo "insecure: true" >> ~/.stkcli/config.yaml
-
-                    # Show version
-                    ./stkcli version
-                  displayName: "Install stkcli"
+                  displayName: "Configure stkcli"
                 
                 # Deploy app to production on Statiko
                 - script: |
                     set -e
 
                     # Deploy app
-                    ./stkcli deploy \
+                    stkcli deploy \
                       -d $(SITE_PRODUCTION) \
                       -a withblueink-$(Build.BuildNumber)
 
