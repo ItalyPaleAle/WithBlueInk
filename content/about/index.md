@@ -9,4 +9,10 @@ image: "img/about-bg.jpg"
 noCover: true
 ---
 
-My name is **Alessandro Segala**, and I am currently working for Microsoft as Product Marketing Manager for Open Source Software on Azure, helping developers writing code in Node.js, Golang, PHP and more to leverage our cloud! Previously, I was an Azure Technnology Solutions Professional (i.e. *Azure ninja*) for Microsoft Canada, and I have worked in various startups as full-stack developer and product manager.
+Hi! I'm **Alessandro Segala**, and I'm currently working for Microsoft as a Product Marketing Manager for developer tools and open source software on Azure.
+
+I'm also an author, having published my first book with Packt in September 2020: [**Svelte 3 Up and Running**](https://www.amazon.com/Svelte-Up-Running-practical-production-ready-ebook/dp/B08D6T6BKS).
+
+Among the products I'm lucky to be working on at Microsoft is Visual Studio Code. I am also helping developers building apps with JavaScript/Node.js and Python on our Azure cloud platform.
+
+I've been writing software, professionally and as a hobby, for over 15 years, using technologies including JavaScript/Node.js, Go, and previously PHP. I have experience building full-stack apps, and even had a stint building apps for iOS and macOS.
