@@ -1,10 +1,8 @@
 # Required variables:
 # NODE_ADDRESS: Address (IP or hostname) of the Statiko node to connect to (must be able to accept connections on port 2265 from the Azure Pipelines agent)
 # NODE_KEY (secret): pre-shared key for authenticating with the Statiko node
-# PINATA_API_KEY: API key for Pinata
-# PINATA_SECRET_KEY (secret): Secret key for Pinata
 # CLOUDFLARE_ZONE_ID: ID of the Cloudflare zone
-# CLOUDFLARE_API_TOKEN (secret): API token for updating the DNS zone on Cloudflare
+# CLOUDFLARE_API_TOKEN (secret): API token for purging the Cloudflare cache
 
 # Site is published on both the Statiko platform and on IPFS (via Pinata)
 
@@ -24,8 +22,6 @@ variables:
   # Sites
   SITE_PRODUCTION: 'withblue.ink'
   SITE_STAGING: 'staging.withblue.ink'
-  # DNSLink DNS record to update (for IPFS)
-  CLOUDFLARE_DOMAIN: '_dnslink.withblue.ink'
   # Version of Hugo to use
   HUGO_VERSION: 0.72.0
 
@@ -43,7 +39,7 @@ stages:
 
         # Run on Linux (Ubuntu 18.04)
         pool:
-          vmImage: 'Ubuntu-18.04'
+          vmImage: 'Ubuntu-20.04'
 
         # Steps
         steps:
@@ -134,30 +130,6 @@ stages:
                   env:
                     NODE_KEY: $(NODE_KEY)
 
-                # Pin on Pinata
-                - script: |
-                    set -e
-                    pinatapinner $(Pipeline.Workspace)/public "WithBlueInk-${BUILD_BUILDID}" | tee out.tmp
-                    IPFS_HASH=$(cat out.tmp | jq -r ".IpfsHash")
-                    echo "##vso[task.setvariable variable=IPFS_HASH]$IPFS_HASH"
-                  displayName: 'Pin on Pinata'
-                  env:
-                    PINATA_API_KEY: $(PINATA_API_KEY)
-                    PINATA_SECRET_KEY: $(PINATA_SECRET_KEY)
-
-                # Write IPFS hash to file
-                - script: |
-                    set -e
-                    echo "IPFS Hash is: $IPFS_HASH"
-                    mkdir -p $(Pipeline.Workspace)/variables
-                    echo "$IPFS_HASH" > $(Pipeline.Workspace)/variables/IPFS_HASH
-                  displayName: 'Write IPFS hash to file'
-
-                # Publish the variables artifact
-                - publish: $(Pipeline.Workspace)/variables
-                  artifact: variables
-                  displayName: 'Publish pipeline artifacts'
-
                 # Deploy app to staging on Statiko
                 - script: |
                     set -e
@@ -207,11 +179,6 @@ stages:
                 # Do not checkout source
                 - checkout: none
 
-                # Download pipeline artifact
-                - download: current
-                  artifact: 'variables'
-                  displayName: 'Download variables artifact'
-
                 # Configure stkcli
                 - bash: |
                     set -e
@@ -242,27 +209,6 @@ stages:
                   displayName: 'Deploy app to production on Statiko'
                   env:
                     NODE_KEY: $(NODE_KEY)
-
-                # Update DNSLink record
-                - script: |
-                    set -e
-
-                    IPFS_HASH=$(cat $(Pipeline.Workspace)/variables/IPFS_HASH)
-                    
-                    echo "Updating DNSLink to ${IPFS_HASH}"
-
-                    [[ -z "$IPFS_HASH" ]] && { echo "Variable IPFS_HASH is empty" ; exit 1; }
-
-                    RECORD_ID=$(curl -sS -X GET "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE_ID)/dns_records?type=TXT&name=$(CLOUDFLARE_DOMAIN)" \
-                          -H "Content-Type:application/json" \
-                          -H "Authorization:Bearer $(CLOUDFLARE_API_TOKEN)" \
-                              | jq -r '.result[0].id')
-                    
-                    curl -sS -X PUT "https://api.cloudflare.com/client/v4/zones/$(CLOUDFLARE_ZONE_ID)/dns_records/$RECORD_ID" \
-                          -H "Content-Type:application/json" \
-                          -H "Authorization:Bearer $(CLOUDFLARE_API_TOKEN)" \
-                          --data "{\"type\":\"TXT\",\"name\":\"$(CLOUDFLARE_DOMAIN)\",\"content\":\"dnslink=/ipfs/$IPFS_HASH\",\"ttl\":120,\"priority\":10,\"proxied\":false}"
-                  displayName: 'Update DNSLink record'
 
                 # Post-build cleanup
                 # Necessary only for self-hosted pipelines
