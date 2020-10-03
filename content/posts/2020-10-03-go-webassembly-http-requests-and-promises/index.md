@@ -1,6 +1,6 @@
 ---
 title: "Go, WebAssembly, HTTP requests and Promises"
-description: "Learnings from using Go and WebAssembly"
+description: "A guide to interacting with JavaScript from Go/Wasm"
 date: 2020-10-03 00:00:00
 author:
   name: "Alessandro Segala"
