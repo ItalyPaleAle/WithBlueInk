@@ -51,7 +51,36 @@ For example, the following Go code defines a function called `MyGoFunc` that can
 
 > For instructions of how to compile Go code into WebAssembly, check out the [Getting Started section](https://github.com/golang/go/wiki/WebAssembly#getting-started) of the Wiki.
 
-{{< gist ItalyPaleAle 8bded1641bdf734bbd14249cb3f3eb44 "js-dictionary-from-wasm.go" >}}
+```go
+// Copyright (C) 2020 Alessandro Segala (ItalyPaleAle)
+// License: MIT
+
+package main
+
+// Import the package to access the Wasm environment
+import (
+	"syscall/js"
+)
+
+// Main function: it sets up our Wasm application
+func main() {
+	// Define the function "MyGoFunc" in the JavaScript scope
+	js.Global().Set("MyGoFunc", MyGoFunc())
+	// Prevent the function from returning, which is required in a wasm module
+	select {}
+}
+
+// MyGoFunc returns a JavaScript function
+func MyGoFunc() js.Func {
+	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		// Return a JS dictionary with two keys (of heterogeneous type)
+		return map[string]interface{}{
+			"hello":  "world",
+			"answer": 42,
+		}
+	})
+}
+```
 
 After having compiled the code into WebAssembly and having imported it in the JavaScript code, you can call `MyGoFunc()` from JavaScript to see the result. For example:
 
@@ -76,8 +105,24 @@ dateConstructor.New("2020-10-01")
 
 So, we can modify our `MyGoFunc` to return the current date as computed in Go:
 
-{{< gist ItalyPaleAle 8bded1641bdf734bbd14249cb3f3eb44 "js-native-object-from-wasm.go" >}}
+```go
+// Copyright (C) 2020 Alessandro Segala (ItalyPaleAle)
+// License: MIT
 
+// MyGoFunc returns a Go time.Time to JavaScript
+func MyGoFunc() js.Func {
+	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		// Get the current time as a Go time.Time object
+		now := time.Now()
+		// Get the Date object constructor from JavaScript
+		dateConstructor := js.Global().Get("Date")
+		// Return a new JS "Date" object with the time from the Go "now" variable
+		// We're passing the UNIX timestamp to the "Date" constructor
+		// Because JS uses milliseconds for UNIX timestamp, we need to multiply the timestamp by 1000
+		return dateConstructor.New(now.Unix() * 1000)
+	})
+}
+```
 Invoking `MyGoFunc()` in the JavaScript code will now return a `Date` object:
 
 ```js
@@ -142,7 +187,40 @@ We saw in the previous section that we can create custom JavaScript objects from
 
 Here's an updated `MyGoFunc` that resolves with a message ([another Italian tongue twister!](http://www.bbc.co.uk/languages/yoursay/tongue_twisters/italian/trotting_trentonians.shtml)) after 3 seconds:
 
-{{< gist ItalyPaleAle 8bded1641bdf734bbd14249cb3f3eb44 "js-promise-from-wasm.go" >}}
+```go
+// Copyright (C) 2020 Alessandro Segala (ItalyPaleAle)
+// License: MIT
+
+// MyGoFunc returns a Promise that resolves after 3 seconds with a message
+func MyGoFunc() js.Func {
+	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		// Handler for the Promise: this is a JS function
+		// It receives two arguments, which are JS functions themselves: resolve and reject
+		handler := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+			resolve := args[0]
+			// Commented out because this Promise never fails
+			//reject := args[1]
+
+			// Now that we have a way to return the response to JS, spawn a goroutine
+			// This way, we don't block the event loop and avoid a deadlock
+			go func() {
+				// Block the goroutine for 3 seconds
+				time.Sleep(3 * time.Second)
+				// Resolve the Promise, passing anything back to JavaScript
+				// This is done by invoking the "resolve" function passed to the handler
+				resolve.Invoke("Trentatré Trentini entrarono a Trento, tutti e trentatré trotterellando")
+			}()
+
+			// The handler of a Promise doesn't return any value
+			return nil
+		})
+
+		// Create and return the Promise object
+		promiseConstructor := js.Global().Get("Promise")
+		return promiseConstructor.New(handler)
+	})
+}
+```
 
 To invoke this from JavaScript:
 
@@ -167,7 +245,50 @@ Result:
 
 If your Go code errors, you can throw exceptions to JavaScript by using the `reject` function instead. For example:
 
-{{< gist ItalyPaleAle 8bded1641bdf734bbd14249cb3f3eb44 "js-promise-with-errors-from-wasm.go" >}}
+```go
+// Copyright (C) 2020 Alessandro Segala (ItalyPaleAle)
+// License: MIT
+
+// MyGoFunc returns a Promise that fails with an exception about 50% of times
+func MyGoFunc() js.Func {
+	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		// Handler for the Promise
+		handler := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+			resolve := args[0]
+			reject := args[1]
+
+			// Run this code asynchronously
+			go func() {
+				// Cause a failure 50% of times
+				if rand.Int()%2 == 0 {
+					// Invoke the resolve function passing a plain JS object/dictionary
+					resolve.Invoke(map[string]interface{}{
+						"message": "Hooray, it worked!",
+						"error":   nil,
+					})
+				} else {
+					// Assume this were a Go error object
+					err := errors.New("Nope, it failed")
+
+					// Create a JS Error object and pass it to the reject function
+					// The constructor for Error accepts a string,
+					// so we need to get the error message as string from "err"
+					errorConstructor := js.Global().Get("Error")
+					errorObject := errorConstructor.New(err.Error())
+					reject.Invoke(errorObject)
+				}
+			}()
+
+			// The handler of a Promise doesn't return any value
+			return nil
+		})
+
+		// Create and return the Promise object
+		promiseConstructor := js.Global().Get("Promise")
+		return promiseConstructor.New(handler)
+	})
+}
+```
 
 When you invoke this from JavaScript, you will see the returned object about half of the times, and you'll get an exception the other half. Note that we're invoking the `reject` function with an actual JavaScript `Error` object, as best practice in JavaScript!
 
@@ -199,7 +320,70 @@ There are two important things to keep in mind:
 
 Here's an example:
 
-{{< gist ItalyPaleAle 8bded1641bdf734bbd14249cb3f3eb44 "http-request-wasm.go" >}}
+```go
+// Copyright (C) 2020 Alessandro Segala (ItalyPaleAle)
+// License: MIT
+
+// MyGoFunc fetches an external resource by making a HTTP request from Go
+// The JavaScript method accepts one argument, which is the URL to request
+func MyGoFunc() js.Func {
+	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		// Get the URL as argument
+		// args[0] is a js.Value, so we need to get a string out of it
+		requestUrl := args[0].String()
+
+		// Handler for the Promise
+		// We need to return a Promise because HTTP requests are blocking in Go
+		handler := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+			resolve := args[0]
+			reject := args[1]
+
+			// Run this code asynchronously
+			go func() {
+				// Make the HTTP request
+				res, err := http.DefaultClient.Get(requestUrl)
+				if err != nil {
+					// Handle errors: reject the Promise if we have an error
+					errorConstructor := js.Global().Get("Error")
+					errorObject := errorConstructor.New(err.Error())
+					reject.Invoke(errorObject)
+					return
+				}
+				defer res.Body.Close()
+
+				// Read the response body
+				data, err := ioutil.ReadAll(res.Body)
+				if err != nil {
+					// Handle errors here too
+					errorConstructor := js.Global().Get("Error")
+					errorObject := errorConstructor.New(err.Error())
+					reject.Invoke(errorObject)
+					return
+				}
+
+				// "data" is a byte slice, so we need to convert it to a JS Uint8Array object
+				arrayConstructor := js.Global().Get("Uint8Array")
+				dataJS := arrayConstructor.New(len(data))
+				js.CopyBytesToJS(dataJS, data)
+
+				// Create a Response object and pass the data
+				responseConstructor := js.Global().Get("Response")
+				response := responseConstructor.New(dataJS)
+
+				// Resolve the Promise
+				resolve.Invoke(response)
+			}()
+
+			// The handler of a Promise doesn't return any value
+			return nil
+		})
+
+		// Create and return the Promise object
+		promiseConstructor := js.Global().Get("Promise")
+		return promiseConstructor.New(handler)
+	})
+}
+```
 
 We can then use it in our JavaScript code to invoke any REST API and get the result as if it were a `fetch` request. For example, in the code below we're making a call to the [taylor.rest](https://taylor.rest) API, which returns a random quote from Taylor Swift:
 
@@ -234,7 +418,123 @@ In this line, we're reading the entire response's body in memory, before returni
 
 Thankfully, we can stream the response back. Sadly, because of JavaScript's relatively immature support for streams (outside of Node.js), it's not as straightforward. The solution involves creating a [`ReadableStream`](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream) JS object in the WebAssembly code, and then using its APIs to pass data as soon as it's available in the stream.
 
-{{< gist ItalyPaleAle 8bded1641bdf734bbd14249cb3f3eb44 "http-streaming-request-wasm.go" >}}
+```go
+// Copyright (C) 2020 Alessandro Segala (ItalyPaleAle)
+// License: MIT
+
+// MyGoFunc fetches an external resource by making a HTTP request from Go
+// The JavaScript method accepts one argument, which is the URL to request
+func MyGoFunc() js.Func {
+	return js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+		// Get the URL as argument
+		// args[0] is a js.Value, so we need to get a string out of it
+		requestUrl := args[0].String()
+
+		// Handler for the Promise
+		// We need to return a Promise because HTTP requests are blocking in Go
+		handler := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+			resolve := args[0]
+			reject := args[1]
+
+			// Run this code asynchronously
+			go func() {
+				// Make the HTTP request
+				res, err := http.DefaultClient.Get(requestUrl)
+				if err != nil {
+					// Handle errors: reject the Promise if we have an error
+					errorConstructor := js.Global().Get("Error")
+					errorObject := errorConstructor.New(err.Error())
+					reject.Invoke(errorObject)
+					return
+				}
+				// We're not calling res.Body.Close() here, because we are reading it asynchronously
+
+				// Create the "underlyingSource" object for the ReadableStream constructor
+				// See: https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream/ReadableStream
+				underlyingSource := map[string]interface{}{
+					// start method
+					"start": js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+						// The first and only arg is the controller object
+						controller := args[0]
+
+						// Process the stream in yet another background goroutine,
+						// because we can't block on a goroutine invoked by JS in Wasm
+						// that is dealing with HTTP requests
+						go func() {
+							// Close the response body at the end of this method
+							defer res.Body.Close()
+
+							// Read the entire stream and pass it to JavaScript
+							for {
+								// Read up to 16KB at a time
+								buf := make([]byte, 16384)
+								n, err := res.Body.Read(buf)
+								if err != nil && err != io.EOF {
+									// Tell the controller we have an error
+									// We're ignoring "EOF" however, which means the stream was done
+									errorConstructor := js.Global().Get("Error")
+									errorObject := errorConstructor.New(err.Error())
+									controller.Call("error", errorObject)
+									return
+								}
+								if n > 0 {
+									// If we read anything, send it to JavaScript using the "enqueue" method on the controller
+									// We need to convert it to a Uint8Array first
+									arrayConstructor := js.Global().Get("Uint8Array")
+									dataJS := arrayConstructor.New(n)
+									js.CopyBytesToJS(dataJS, buf[0:n])
+									controller.Call("enqueue", dataJS)
+								}
+								if err == io.EOF {
+									// Stream is done, so call the "close" method on the controller
+									controller.Call("close")
+									return
+								}
+							}
+						}()
+
+						return nil
+					}),
+					// cancel method
+					"cancel": js.FuncOf(func(this js.Value, args []js.Value) interface{} {
+						// If the request is canceled, just close the body
+						res.Body.Close()
+
+						return nil
+					}),
+				}
+
+				// Create a ReadableStream object from the underlyingSource object
+				readableStreamConstructor := js.Global().Get("ReadableStream")
+				readableStream := readableStreamConstructor.New(underlyingSource)
+
+				// Create the init argument for the Response constructor
+        			// This allows us to pass a custom status code (and optionally headers and more)
+        			// See: https://developer.mozilla.org/en-US/docs/Web/API/Response/Response
+				responseInitObj := map[string]interface{}{
+					"status":     http.StatusOK,
+					"statusText": http.StatusText(http.StatusOK),
+				}
+
+				// Create a Response object with the stream inside
+				responseConstructor := js.Global().Get("Response")
+				response := responseConstructor.New(readableStream, responseInitObj)
+
+				// Resolve the Promise
+				resolve.Invoke(response)
+			}()
+
+			// The handler of a Promise doesn't return any value
+			return nil
+		})
+
+    		// Create and return the Promise object
+    		// The Promise will resolve with a Response object
+		promiseConstructor := js.Global().Get("Promise")
+		return promiseConstructor.New(handler)
+	})
+}
+```
 
 This last iteration of `MyGoFunc(url)` can be used to retrieve data as a stream. For example, in our JavaScript code, we can request an image and see it arriving in chunks:
 
