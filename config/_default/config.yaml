@@ -27,6 +27,10 @@ params:
   FathomAnalytics:
     Endpoint: st.italypaleale.me
     SiteID: PGLNG
+  # Plausible Analytics
+  PlausibleAnalytics:
+    Endpoint: pls.italypaleale.me
+    Domain: withblue.ink
 
 # Theme configuration
 theme: "withblueink"
@@ -55,7 +59,7 @@ outputFormats:
     baseName: "feed"
 
 # Google Analytics
-GoogleAnalytics: "UA-72379106-1"
+#GoogleAnalytics: "UA-72379106-1"
 
 # Privacy
 privacy:
