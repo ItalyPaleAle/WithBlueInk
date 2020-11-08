@@ -1,0 +1,58 @@
+.chroma-monokai {
+    --chroma-text:                  #f8f8f2;
+	--chroma-error:                 #960050;
+	--chroma-error-background:      #1e0010;
+	--chroma-comment:               #75715e;
+	--chroma-keyword:               #66d9ef;
+	--chroma-keyword-namespace:     #f92672;
+	--chroma-line-highlight:        #ffffcc;
+	--chroma-line-numbers:          #7f7f7f;
+	--chroma-operator:              #f92672;
+	--chroma-punctuation:           #f8f8f2;
+	--chroma-name:                  #f8f8f2;
+	--chroma-name-attribute:        #a6e22e;
+	--chroma-name-class:            #a6e22e;
+	--chroma-name-constant:         #66d9ef;
+	--chroma-name-decorator:        #a6e22e;
+	--chroma-name-exception:        #a6e22e;
+	--chroma-name-function:         #a6e22e;
+	--chroma-name-other:            #a6e22e;
+	--chroma-name-tag:              #f92672;
+	--chroma-literal:               #ae81ff;
+	--chroma-literal-date:          #e6db74;
+	--chroma-literal-number:        #ae81ff;
+	--chroma-literal-string:        #e6db74;
+	--chroma-literal-string-escape: #ae81ff;
+	--chroma-generic-deleted:       #f92672;
+	--chroma-generic-inserted:      #a6e22e;
+	--chroma-generic-subheading:    #75715e;
+	--chroma-background:            #272822;
+}
+
+.chroma-monokailight {
+    --chroma-text:                  #272822;
+	--chroma-error:                 #960050;
+	--chroma-error-background:      #1e0010;
+	--chroma-comment:               #75715e;
+	--chroma-keyword:               #00a8c8;
+	--chroma-keyword-namespace:     #f92672;
+	--chroma-line-highlight:        #ffffcc;
+	--chroma-line-numbers:          #7f7f7f;
+	--chroma-operator:              #f92672;
+	--chroma-punctuation:           #111111;
+	--chroma-name:                  #111111;
+	--chroma-name-attribute:        #75af00;
+	--chroma-name-class:            #75af00;
+	--chroma-name-constant:         #00a8c8;
+	--chroma-name-decorator:        #75af00;
+	--chroma-name-exception:        #75af00;
+	--chroma-name-function:         #75af00;
+	--chroma-name-other:            #75af00;
+	--chroma-name-tag:              #f92672;
+	--chroma-literal:               #ae81ff;
+	--chroma-literal-date:          #d88200;
+	--chroma-literal-number:        #ae81ff;
+	--chroma-literal-string:        #d88200;
+	--chroma-literal-string-escape: #8045ff;
+	--chroma-background:            #fafafa;
+}

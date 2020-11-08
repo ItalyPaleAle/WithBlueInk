@@ -143,6 +143,7 @@ module.exports = {
                 },
                 'img': {
                     margin: '0 auto',
+                    backgroundColor: '#ffffff',
                 },
                 'figcaption': {
                     fontStyle: 'italic',
@@ -163,6 +164,7 @@ module.exports = {
                     '@screen md': {
                         fontSize: theme('fontSize.base'),
                     },
+                    tabSize: '6',
                 },
                 'blockquote': {
                     marginLeft: theme('spacing.4'),

@@ -9,10 +9,10 @@
 @import "font-merriweather.css";
 
 /* Chroma themes for syntax highlighting */
-@import "chroma-monokailight.css";
+@import "chroma.css";
 
 /* Themes */
-/*@import "theme-dark.css";*/
+@import "theme-dark.css";
 @import "theme-light.css";
 
 /* Toggle menu with CSS */

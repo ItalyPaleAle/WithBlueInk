@@ -16,10 +16,6 @@ npm ci
 echo "\033[0;1mRefreshing theme dependencies...\033[0;0m"
 (cd themes/withblueink && npm install)
 
-# Syntax highlighting CSS
-echo "\033[0;1mSyntax highlighting CSS...\033[0;0m"
-hugo gen chromastyles --style=monokailight > themes/withblueink/assets/css/chroma-monokailight.css
-
 # Compile the code with the "production" environment
 echo "\033[0;1mBuilding and starting web server...\033[0;0m"
 hugo serve --environment=development --buildFuture --buildDrafts --disableFastRender
