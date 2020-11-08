@@ -47,6 +47,7 @@ permalinks:
 
 # Disable taxonomies
 disableKinds:
+  - term
   - taxonomy
   - taxonomyTerm
   - section
@@ -72,7 +73,6 @@ privacy:
 markup:
   #defaultMarkdownHandler: blackFriday
   highlight:
-    style: "monokailight"
     noClasses: false
   goldmark:
     renderer:

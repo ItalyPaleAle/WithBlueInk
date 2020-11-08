@@ -23,7 +23,7 @@ variables:
   SITE_PRODUCTION: 'withblue.ink'
   SITE_STAGING: 'staging.withblue.ink'
   # Version of Hugo to use
-  HUGO_VERSION: 0.72.0
+  HUGO_VERSION: 0.78.1
 
 # Stages
 stages:
