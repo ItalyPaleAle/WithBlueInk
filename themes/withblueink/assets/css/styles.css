@@ -3,6 +3,8 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+/*! purgecss start ignore */
+
 /* Fonts */
 @import "font-cascadia-code.css";
 @import "font-lato.css";
@@ -13,6 +15,8 @@
 
 /* Themes */
 @import "themes.css";
+
+/*! purgecss end ignore */
 
 /* Toggle menu with CSS */
 input#nav-toggle:checked~label#show-button {
