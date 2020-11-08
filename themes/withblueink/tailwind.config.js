@@ -178,7 +178,17 @@ module.exports = {
                 'blockquote p': {
                     marginTop: theme('spacing.4'),
                     marginBottom: theme('spacing.4')
-                }
+                },
+                'hr': {
+                    border: 'none',
+                    borderColor: theme('colors.shade.100'),
+                    borderTop: '2px dashed',
+                    width: '25%',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    marginTop: theme('spacing.12'),
+                    marginBottom: theme('spacing.12'),
+                },
             },
         }),
     },
