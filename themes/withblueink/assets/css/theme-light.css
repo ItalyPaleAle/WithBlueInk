@@ -18,4 +18,8 @@
 
     --color-selection-bg: #319795; /* teal-600 */
     --color-selection-text: #FFFFFF; /* white */
+
+    /* For the GitHub icon in the footer */
+    --color-github-bg: #181717;
+    --color-github-fill: #ffffff;
 }

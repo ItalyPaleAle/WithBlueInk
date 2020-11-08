@@ -1,5 +1,5 @@
 .theme-dark {
-    --color-background: #1c222c; /* custom, based on gray-900 */ 
+    --color-background: #12161C; /* custom, based on gray-900 */ 
 
     --color-border: #2D3748; /* gray-800 */
 
@@ -8,7 +8,7 @@
     --color-shade-300: #E2E8F0; /* gray-300 */
     --color-shade-400: #CBD5E0; /* gray-400 */
     --color-shade-500: #A0AEC0; /* gray-500 */
-    --color-shade-600: #CBD5E0; /* gray-400 */
+    --color-shade-600: #718096; /* gray-600 */
 
     --color-accent-100: #2C5282; /* blue-800 */
     --color-accent-200: #3182CE; /* blue-600 */
@@ -17,5 +17,9 @@
     --color-altaccent-300: #E53E3E; /* red-600 */
 
     --color-selection-bg: #285E61; /* teal-800 */
-    --color-selection-text: #FFFFFF; /* white */
+    --color-selection-text: #FAFAFA; /* off-white */
+
+    /* For the GitHub icon in the footer */
+    --color-github-bg: #FAFAFA;
+    --color-github-fill: #181717;
 }
