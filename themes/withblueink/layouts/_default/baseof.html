@@ -6,7 +6,7 @@
 {{- .Scratch.Set "relativeRoot" $relativeRoot -}}
 <html lang='{{ .Site.LanguageCode }}'>
     {{ partial "head.html" . }}
-    <body class="theme-light bg-background flex flex-col min-h-screen text-shade-600 tracking-wide">
+    <body class="flex flex-col min-h-screen tracking-wide theme-auto bg-background text-shade-600">
         {{- partial "dev-size-indicator.html" . -}}
         {{- partial "header.html" . -}}
         <main class="flex-1">

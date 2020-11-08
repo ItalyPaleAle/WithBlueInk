@@ -12,8 +12,7 @@
 @import "chroma.css";
 
 /* Themes */
-@import "theme-dark.css";
-@import "theme-light.css";
+@import "themes.css";
 
 /* Toggle menu with CSS */
 input#nav-toggle:checked~label#show-button {

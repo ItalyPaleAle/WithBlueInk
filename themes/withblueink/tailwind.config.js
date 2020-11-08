@@ -165,6 +165,7 @@ module.exports = {
                         fontSize: theme('fontSize.base'),
                     },
                     tabSize: '6',
+                    padding: theme('spacing.1'),
                 },
                 'blockquote': {
                     marginLeft: theme('spacing.4'),

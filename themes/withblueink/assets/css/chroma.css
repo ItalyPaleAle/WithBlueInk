@@ -1,5 +1,3 @@
-@import "chroma-colors.css";
-
 /* Background */ .chroma { color: var(--chroma-text); background-color: var(--chroma-background) }
 /* Other */ .chroma .x {  }
 /* Error */ .chroma .err { color: var(--chroma-error); background-color: var(--chroma-error-background) }
