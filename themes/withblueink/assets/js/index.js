@@ -12,14 +12,14 @@ window.setTheme = (theme) => {
     localStorage.setItem('theme', theme)
 }
 
-;(() => {
-    // Check if we already have a favorite theme
-    let theme = localStorage.getItem('theme')
-    if (!theme || themes.indexOf('theme-' + theme) < 0) {
-        // Default is auto
-        theme = 'auto'
-    }
 
-    // Set the theme
-    setTheme(theme)
-})()
+ // Check if we already have a favorite theme
+ let theme = localStorage.getItem('theme')
+ if (!theme || themes.indexOf('theme-' + theme) < 0) {
+     // Default is auto
+     theme = 'auto'
+ }
+
+ // Set the theme
+ setTheme(theme)
+ 
