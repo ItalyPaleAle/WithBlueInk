@@ -3,15 +3,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-	<!-- Canonical URL -->
-    <link rel="canonical" href="{{ .Page.Permalink | absURL }}">
-    <meta property="og:url" content="{{ .Page.Permalink | absURL }}">
-
+    <!-- Canonical URL -->
+    {{ if .Page.Params.canonicalUrl }}
+        <link rel="canonical" href="{{ .Page.Params.canonicalUrl }}">
+    {{ else }}
+        <link rel="canonical" href="{{ .Page.Permalink | absURL }}">
+    {{ end }}
+    
 	<!-- Page title -->
     <title>{{ if .Page.Title }}{{ .Page.Title }} | {{ .Site.Title }}{{ else }}{{ .Site.Title }}{{ end }}</title>
     <meta property="og:title" content="{{ if .Page.Title }}{{ .Page.Title }} | {{ .Site.Title }}{{ else }}{{ .Site.Title }}{{ end }}">
     
     <!-- Open Graph and social -->
+    <meta property="og:url" content="{{ .Page.Permalink | absURL }}">
     {{ with .Page.Description }}
         <meta name="description" content="{{ . }}">
         <meta property="og:description" content="{{ . }}">
