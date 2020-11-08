@@ -141,6 +141,9 @@ module.exports = {
                 'i, em': {
                     fontStyle: 'italic',
                 },
+                'img': {
+                    margin: '0 auto',
+                },
                 'figcaption': {
                     fontStyle: 'italic',
                     fontSize: theme('fontSize.sm'),
