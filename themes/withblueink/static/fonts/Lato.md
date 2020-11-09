@@ -5,7 +5,7 @@
 
 ## License
 
-```
+```text
 Copyright (c) 2010-2015, Łukasz Dziedzic (dziedzic@typoland.com),
 with Reserved Font Name Lato.
 

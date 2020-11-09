@@ -1,11 +1,12 @@
+/* Using the Mono variant that doesn't include ligatures */
 @font-face {
-    font-family: 'Cascadia Code';
+    font-family: 'Cascadia Mono';
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: local('Cascadia Code'),
-        local('Cascadia-Code'),
-        url(../fonts/CascadiaCode.woff2) format('woff2'),
-        url(../fonts/CascadiaCode.ttf) format('truetype');
+    src: local('Cascadia Mono'),
+        local('Cascadia-Mono'),
+        url(../fonts/CascadiaMono.woff2) format('woff2'),
+        url(../fonts/CascadiaMono.ttf) format('truetype');
     text-rendering: optimizeLegibility;
 }

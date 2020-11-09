@@ -1,11 +1,13 @@
 # Cascadia Code
 
+Using the Mono variant, that doesn't include ligatures
+
 - Source: https://github.com/microsoft/cascadia-code
-- Version: 2005.15
+- Version: 2009.22
 
 ## License
 
-```
+```text
 Copyright (c) 2019 - Present, Microsoft Corporation,
 with Reserved Font Name Cascadia Code.
 
