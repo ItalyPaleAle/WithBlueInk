@@ -2,9 +2,17 @@
 
 Different licenses apply to parts of this blog.
 
-## Blog content (Creative Commons Attribution 4.0 International)
+## Blog posts and articles
 
-Unless otherwise noted, all blog posts, photos, graphics, presentations and other media are published under a [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC)](https://creativecommons.org/licenses/by-nc/4.0/) license.
+Unless otherwise noted, the following applies to all:
+
+- Blog posts and their content and text
+- Photos
+- Graphics,
+- Presentations
+- Other media and assets
+
+Copyright (c) 2015-present Alessandro Segala (ItalyPaleAle). All rights reserved.
 
 ## Code samples and snippets
 

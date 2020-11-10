@@ -6,4 +6,4 @@ This repository contains the full source code for the With Blue Ink website, at 
 
 HTML files are generated using [Hugo](http://gohugo.io).
 
-Please see LICENSE.md file for license.
+Please see [the LICENSE file](/LICENSE.md) file for license.
