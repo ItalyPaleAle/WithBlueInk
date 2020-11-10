@@ -1,16 +1,17 @@
+page404: "404.html"
 rules:
   - file: "js"
     options:
-      clientCaching: "6h"
+      clientCaching: 6h
   - file: "css"
     options:
-      clientCaching: "6h"
+      clientCaching: 6h
   - file: "_images"
     options:
-      clientCaching: "2w"
+      clientCaching: 2w
   - file: "_fonts"
     options:
-      clientCaching: "30d"
+      clientCaching: 30d
   - file: "html"
     options:
-      clientCaching: "30m"
+      clientCaching: 30m
