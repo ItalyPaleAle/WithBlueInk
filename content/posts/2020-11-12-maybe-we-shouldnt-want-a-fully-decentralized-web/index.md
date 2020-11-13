@@ -1,6 +1,6 @@
 ---
 title: "Maybe we shouldn't want a fully decentralized web"
-description: "Why I have stopped with IPFS and the distributed web"
+description: "Why I have stopped working with IPFS and the distributed web"
 date: 2020-11-12 00:00:00
 author:
   name: "Alessandro Segala"
