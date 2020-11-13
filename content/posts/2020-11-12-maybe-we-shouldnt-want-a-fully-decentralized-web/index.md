@@ -31,7 +31,7 @@ Coming from a background in which I am always thinking about SLAs, number of nin
 
 What happened next for me was a reckoning with the reality of what many people behind the IPFS core project and the community around it saw: the dream of a radically open, unfiltered, and by-design un-censorable platform.
 
-I have recently opened up about my experience, over a decade ago, with building an app with good intentions but that was then misused ([*That time I accidentally built a spying app*](https://medium.com/the-innovation/that-time-i-accidentally-built-a-spying-app-79232f23f3c2)). I learned early on in my life and (pre-)professional career about the importance of ethics in software development, and I am now a proponent of the idea that just because something *can* be built, it doesn't mean it *should* be built.
+I have recently opened up about my experience, over a decade ago, with building an app with good intentions but that was then misused ([*That time I accidentally built a spying app*](https://withblue.ink/2020/09/24/that-time-i-accidentally-built-a-spying-app.html)). I learned early on in my life and (pre-)professional career about the importance of ethics in software development, and I am now a proponent of the idea that just because something *can* be built, it doesn't mean it *should* be built.
 
 And that brings me back to why, after spending some time in the world of the decentralized web, I have called myself out, and why I think that should things like IPFS actually become mainstream, they might cause more harm than good in the world.
 
