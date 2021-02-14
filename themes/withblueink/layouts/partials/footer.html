@@ -27,7 +27,6 @@
 </footer>
 
 {{ partial "google-analytics" . }}
-{{ partial "fathom-analytics" . }}
 {{ partial "plausible-analytics" . }}
 
 {{ $built := resources.Get "js/index.js" | js.Build "main.js" }}

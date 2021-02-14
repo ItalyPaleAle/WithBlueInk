@@ -23,10 +23,6 @@ params:
   comments: true
   # Site description
   description: "A blog by Alessandro Segala (@ItalyPaleAle)"
-  # Fathom Analytics
-  FathomAnalytics:
-    Endpoint: st.italypaleale.me
-    SiteID: PGLNG
   # Plausible Analytics
   PlausibleAnalytics:
     Endpoint: pls.italypaleale.me
