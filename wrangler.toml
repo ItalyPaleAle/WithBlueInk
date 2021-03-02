@@ -1,0 +1,25 @@
+type = "webpack"
+name = "withblueink-dev"
+# Dev environment is deployed to a workers.dev domain
+workers_dev = true
+# Use CF_ACCOUNT_ID instead
+#account_id = ""
+# Use CF_ZONE_ID instead
+#zone_id = ""
+vars = {STORAGE_CONTAINER = "withblueink-dev", DOMAINS = "withblueink-dev.italypaleale.workers.dev"}
+
+[site]
+bucket = "./public"
+entry-point = "workers-site"
+
+[env.staging]
+name = "withblueink-staging"
+workers_dev = true
+route = "staging.withblue.ink/*"
+vars = {STORAGE_CONTAINER = "withblueink-staging", DOMAINS = "staging.withblue.ink"}
+
+[env.production]
+name = "withblueink"
+workers_dev = true
+route = "*withblue.ink/*"
+vars = {STORAGE_CONTAINER = "withblueink-prod", DOMAINS = "withblue.ink"}
