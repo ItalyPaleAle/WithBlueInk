@@ -25,10 +25,10 @@ Turns out, there's a relatively simple solution, which requires just two systemd
 
 ## Step 1: Generate and store the keyfile
 
-The first thing we need to do is to generate a keyfile. This should be 256-bytes long, and can be generated with:
+The first thing we need to do is to generate a keyfile. This should be 256-bit (32 bytes) long, and can be generated with:
 
 ````sh
-dd bs=256 count=1 if=/dev/random | base64 > keyfile
+dd bs=32 count=1 if=/dev/random | base64 > keyfile
 ````
 
 I'm piping the encryption key through base64 so we don't have to deal with binary files, making things more manageable.
