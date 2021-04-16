@@ -1,3 +1,5 @@
+.PHONY: all clean dist serve
+
 all: serve
 
 clean:
