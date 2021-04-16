@@ -113,7 +113,12 @@ async function requestFromKV(event) {
     }
 
     try {
-        return await getAssetFromKV(event, options)
+        const response = await getAssetFromKV(event, options)
+
+        // Opt out of the FLoC network
+        flocOptOut(response.headers)
+
+        return response
     }
     catch (e) {
         // If an error is thrown try to serve the asset at 404.html
@@ -164,8 +169,21 @@ async function requestAsset(useAsset) {
         response.headers.set('Cache-Control', 'max-age=' + useAsset.browserTTL)
     }
 
+    // Opt out of the FLoC network
+    flocOptOut(response.headers)
+
     // Return the data we requested (and cached)
     return response
+}
+
+/**
+ * Sets the value in the Permissions-Policy header to opt out of the FLoC network
+ * @param {Headers} headers 
+ */
+function flocOptOut(headers) {
+    let policy = headers.get('Permissions-Policy')
+    policy = (policy ? policy + '; ' : '') + 'interest-cohort=()'
+    headers.set('Permissions-Policy', policy)
 }
 
 /**
