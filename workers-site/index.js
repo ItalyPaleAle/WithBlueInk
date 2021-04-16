@@ -1,7 +1,7 @@
 import {getAssetFromKV} from '@cloudflare/kv-asset-handler'
 import assets from './assets'
 
-/* global STORAGE_ACCOUNT, STORAGE_CONTAINER, DOMAINS */
+/* global STORAGE_ACCOUNT, STORAGE_CONTAINER, DOMAINS, PLAUSIBLE_ANALYTICS */
 
 /**
  * The DEBUG flag will do two things that help during development:
@@ -39,9 +39,20 @@ async function handleEvent(event) {
     }
 
     // Check if the URL points to a static asset on Azure Storage
-    const useAsset = isAsset(event.request.url)
+    const reqUrl = new URL(event.request.url)
+    const useAsset = isAsset(reqUrl)
     if (useAsset) {
         return requestAsset(useAsset)
+    }
+
+    // Check if the URL is for the Plausible Analytics script
+    if (PLAUSIBLE_ANALYTICS && reqUrl.pathname == '/pls.js') {
+        return requestAsset({
+            url: PLAUSIBLE_ANALYTICS,
+            // Cache in the edge and browser for 1 week
+            edgeTTL: 86400 * 7,
+            browserTTL: 86400 * 7
+        })
     }
 
     // Request from the KV
@@ -188,10 +199,9 @@ function flocOptOut(headers) {
 
 /**
  * Check if the requested URL corresponds to an asset in Azure Storage
- * @param {string} urlStr - URL of the original request, as string
+ * @param {URL} url - URL of the original request
  */
-function isAsset(urlStr) {
-    const url = new URL(urlStr)
+function isAsset(url) {
     for (let i = 0; i < assets.length; i++) {
         const e = assets[i]
         if (!e || !e.match) {
