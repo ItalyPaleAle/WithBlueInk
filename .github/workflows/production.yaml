@@ -74,17 +74,6 @@ jobs:
           # Storage Account name
           AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
 
-      - name: 'Purge CDN cache'
-        run: |
-          # Purge CDN cache
-          curl -X POST "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
-            -H "Authorization: Bearer ${CF_API_TOKEN}" \
-            -H "Content-Type: application/json" \
-            --data '{"purge_everything":true}'
-        env:
-          CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
-          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-
       - name: 'Publish app as artifact'
         uses: 'actions/upload-artifact@v2'
         with:
