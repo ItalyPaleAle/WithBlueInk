@@ -49,9 +49,9 @@ async function handleEvent(event) {
     if (PLAUSIBLE_ANALYTICS && reqUrl.pathname == '/pls.js') {
         return requestAsset({
             url: PLAUSIBLE_ANALYTICS,
-            // Cache in the edge and browser for 1 week
-            edgeTTL: 86400 * 7,
-            browserTTL: 86400 * 7
+            // Cache in the edge for a day and in the browser for 1 hour
+            edgeTTL: 86400,
+            browserTTL: 3600
         })
     }
 
