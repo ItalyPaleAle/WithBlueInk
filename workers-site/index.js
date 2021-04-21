@@ -64,7 +64,7 @@ async function handleEvent(event) {
                 async (response) => {
                     // Get the body's text then replace the URL
                     const text = await response.text()
-                    return text.replace(PLAUSIBLE_ANALYTICS, '/pls/')
+                    return text.replace(PLAUSIBLE_ANALYTICS, '/pls')
                 }
             )
         }
