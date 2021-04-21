@@ -16,10 +16,10 @@ entry-point = "workers-site"
 name = "withblueink-staging"
 workers_dev = true
 route = "staging.withblue.ink/*"
-vars = {STORAGE_CONTAINER = "withblueink-staging", DOMAINS = "staging.withblue.ink", PLAUSIBLE_ANALYTICS = "https://pls.italypaleale.me/js/plausible.js"}
+vars = {STORAGE_CONTAINER = "withblueink-staging", DOMAINS = "staging.withblue.ink", PLAUSIBLE_ANALYTICS = "https://pls.italypaleale.me"}
 
 [env.production]
 name = "withblueink"
 workers_dev = true
 route = "*withblue.ink/*"
-vars = {STORAGE_CONTAINER = "withblueink-prod", DOMAINS = "withblue.ink", PLAUSIBLE_ANALYTICS = "https://pls.italypaleale.me/js/plausible.js"}
+vars = {STORAGE_CONTAINER = "withblueink-prod", DOMAINS = "withblue.ink", PLAUSIBLE_ANALYTICS = "https://pls.italypaleale.me"}

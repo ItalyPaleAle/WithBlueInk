@@ -45,14 +45,49 @@ async function handleEvent(event) {
         return requestAsset(useAsset)
     }
 
+    // Handle proxy for Plausible if enabled (if PLAUSIBLE_ANALYTICS contains the URL of the Plausible server, with https prefix)
+    // 1. Proxy and cache the script (from /pls/index.js to ${PLAUSIBLE_ANALYTICS}/js/plausible.js) - in the script also replace $PLAUSIBLE_ANALYTICS with this URL
+    // 2. Proxy (no cache) the message sending the request (from /pls/(event|error) to ${PLAUSIBLE_ANALYTICS}/api/(event|error))
     // Check if the URL is for the Plausible Analytics script
-    if (PLAUSIBLE_ANALYTICS && reqUrl.pathname == '/pls.js') {
-        return requestAsset({
-            url: PLAUSIBLE_ANALYTICS,
-            // Cache in the edge for a day and in the browser for 1 hour
-            edgeTTL: 86400,
-            browserTTL: 3600
-        })
+    if (PLAUSIBLE_ANALYTICS) {
+        const path = reqUrl.pathname
+        // Script
+        if (path == '/pls/index.js') {
+            // Request the asset and modify the response to replace $PLAUSIBLE_ANALYTICS with "" (so the same host as the app is used)
+            return requestAsset(
+                {
+                    url: PLAUSIBLE_ANALYTICS + '/js/plausible.js',
+                    // Cache in the edge for a day and in the browser for 2 hours
+                    edgeTTL: 86400,
+                    browserTTL: 7200
+                },
+                async (response) => {
+                    // Get the body's text then replace the URL
+                    const text = await response.text()
+                    return text.replace(PLAUSIBLE_ANALYTICS, '/pls/')
+                }
+            )
+        }
+
+        // APIs
+        if (path == '/pls/api/event' || path == '/pls/api/error') {
+            // Clone the request but change the URL
+            const newReq = new Request(
+                PLAUSIBLE_ANALYTICS + path.substr(4),
+                new Request(event.request, {})
+            )
+
+            // Need to remove all Cloudflare headers (starting with cf-) and the Host header, or the request will fail
+            newReq.headers.delete('Host')
+            for (const key of newReq.headers.keys()) {
+                if (key.startsWith('cf-')) {
+                    newReq.headers.delete(key)
+                }
+            }
+
+            // Make the request
+            return fetch(newReq)
+        }
     }
 
     // Request from the KV
@@ -149,7 +184,13 @@ async function requestFromKV(event) {
     }
 }
 
-async function requestAsset(useAsset) {
+/**
+ * Requests an asset, optionally caching it in the edge. It also sets the correct headers in the response.
+ * @param {object} useAsset
+ * @param {(response: Response) => Promise<string>} [modifyBody] Optional method that can modify the response's body
+ * @returns {Response} A Response object
+ */
+async function requestAsset(useAsset, modifyBody) {
     // Caching options
     const cfOpts = {}
     if (useAsset.edgeTTL) {
@@ -162,11 +203,17 @@ async function requestAsset(useAsset) {
         }
     }
 
-    // Return a fetch invocation (promise) that retrieves data from Azure Storage
+    // Return a fetch invocation (promise) that retrieves data from the origin
     let response = await fetch(useAsset.url, cfOpts)
 
+    // See if we want to modify the response's body
+    let body = response.body
+    if (modifyBody) {
+        body = await modifyBody(response)
+    }
+
     // Reconstruct the Response object to make its headers mutable
-    response = new Response(response.body, response)
+    response = new Response(body, response)
 
     // Delete all Azure Storage headers (x-ms-*)
     for (const key of response.headers.keys()) {
