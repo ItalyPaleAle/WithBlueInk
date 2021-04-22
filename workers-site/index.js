@@ -77,6 +77,22 @@ async function handleEvent(event) {
                 new Request(event.request, {})
             )
 
+            // Set the X-Forwarded-For header
+            // Cloudflare automatically adds X-Real-IP and CF-Connecting-IP (and X-Forwarded-Proto), but we need X-Forwarded-For too
+            // First, check if the request had an X-Forwarded-For already
+            if (!newReq.headers.get('X-Forwarded-For')) {
+                // Fallback to True-Client-IP if available
+                // Then CF-Connecting-IP
+                // Lastly, X-Real-IP
+                if (newReq.headers.get('True-Client-IP')) {
+                    newReq.headers.set('X-Forwarded-For', newReq.headers.get('True-Client-IP'))
+                } else if (newReq.headers.get('CF-Connecting-IP')) {
+                    newReq.headers.set('X-Forwarded-For', newReq.headers.get('CF-Connecting-IP'))
+                } else if (newReq.headers.get('X-Real-IP')) {
+                    newReq.headers.set('X-Forwarded-For', newReq.headers.get('X-Real-IP'))
+                }
+            }
+
             // Need to remove all Cloudflare headers (starting with cf-) and the Host header, or the request will fail
             newReq.headers.delete('Host')
             for (const key of newReq.headers.keys()) {
