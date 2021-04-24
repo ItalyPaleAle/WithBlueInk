@@ -241,6 +241,8 @@ async function requestAsset(useAsset, modifyBody) {
     // Check if we need to set a Cache-Control for the browser
     if (response.status >= 200 && response.status <= 299 && useAsset.browserTTL) {
         response.headers.set('Cache-Control', 'max-age=' + useAsset.browserTTL)
+    } else {
+        response.headers.delete('Cache-Control')
     }
 
     // Opt out of the FLoC network

@@ -17,7 +17,7 @@ module.exports = {
         },
         textShadow: {
             'sm': '0 1px 2px rgba(0, 0, 0, 0.25)',
-            'default': '0 1px 2px rgba(0, 0, 0, 0.375)',
+            'DEFAULT': '0 1px 2px rgba(0, 0, 0, 0.375)',
             'lg': '0 2px 10px rgba(0, 0, 0, 0.5)',
             'xl': '2px 4px 8px rgba(0, 0, 0, 0.725)',
         },
@@ -38,6 +38,13 @@ module.exports = {
             'sans': ['Lato', 'sans-serif'],
             'serif': ['Merriweather', 'serif'],
             'mono': ['Cascadia Code', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+        },
+        screens: {
+            // Remove the 2xl breakpoint to remain compatible with tailwind 1
+            sm: '640px',
+            md: '768px',
+            lg: '1024px',
+            xl: '1280px',
         },
         textStyles: theme => ({
             heading: {
