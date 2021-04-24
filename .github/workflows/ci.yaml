@@ -20,7 +20,7 @@ jobs:
     runs-on: 'ubuntu-20.04'
     env:
       # Version of Hugo to use
-      HUGO_VERSION: '0.78.1'
+      HUGO_VERSION: '0.82.1'
     steps:
       - name: 'Check out code'
         uses: 'actions/checkout@v2'
@@ -28,7 +28,7 @@ jobs:
       - name: 'Install Node.js'
         uses: 'actions/setup-node@v1'
         with:
-          node-version: '14.x'
+          node-version: '16.x'
 
       - name: 'Install Hugo'
         run: |
