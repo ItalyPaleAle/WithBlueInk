@@ -210,7 +210,7 @@ module.exports = {
         container: false
     },
     plugins: [
-        require('tailwindcss-typography'),
+        require('@tailwindcss/typography'),
         function ({ addComponents }) {
             addComponents({
                 // Overwrite the container class
