@@ -12,8 +12,10 @@ echo "\033[0;1mCleaning destination directory...\033[0;0m"
 rm -rf public
 
 # Run "npm install" in the theme folder
+# Then symlink node_modules so hugo can build the site
 echo "\033[0;1mRefreshing theme dependencies...\033[0;0m"
 (cd themes/withblueink && npm ci)
+[ ! -e node_modules ] && ln -s -v themes/withblueink/node_modules
 
 # Compile the code with the "production" environment
 echo "\033[0;1mBuilding...\033[0;0m"

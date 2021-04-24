@@ -1,5 +1,5 @@
 # Custom
-themes/*/node_modules
+node_modules
 resources/_gen
 
 
