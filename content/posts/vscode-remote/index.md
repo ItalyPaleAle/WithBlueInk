@@ -31,11 +31,14 @@ The architecture mismatch can create issues in more than a few cases, including:
 
 - **Cross-compilation:** If your app is written in a compiled language, you'll need to cross-compile for a different architecture. The "old trick" of spinning up a Linux container or VM on your development machine won't help, as those will still be built for Linux/ARM.  
   This is primarily an issue for those working with compiled languages such as C/C++ and Rust. It impacts Go developers too, especially if their code depends on a module that uses Cgo (i.e. native code).
+
 - **Debugging:** Regardless of how you end up compiling your application (maybe you have a Continuous Integration server that does the builds on Linux/x86 for you), the production binaries or Docker containers won't run on your development box, so you won't be able to debug them locally.  
   Of course, you can always set up your CI server to generate builds for multiple architectures, but that means a more complex setup (*if you've ever had to set up a multi-arch Docker build pipeline, I feel your pain*) and double build times, so your Pull Requests take longer to be reviewed.  
   Even if you do end up building multi-arch binaries, however, that complicates debugging because the different architecture can, in some cases, introduce variability in your app's behavior. Your app might show bugs in one architecture only!
+
 - **Dependencies:** Even if your app is written in a language that runs on an interpreter, such as JavaScript/Node.js or Python, it's not uncommon to have dependencies on native modules.  
   While the amount of libraries that work on ARM has been growing steadily, there are still many that support only x86 architectures.
+
 - **Tooling and services:** Just like with libraries, the number of tools and services (including databases) that's available for ARM is growing steadily, but it still lags behind what's available for x86.  
   Some examples that come to mind of popular tools that are currently only available for Linux/x86 include: Minio, Microsoft SQL Server, Couchbase…
   As another example: as of writing, on Docker Hub there are 3,971,370 images for x86-64, and only 47,352 images for ARM64, or just over 1% of the x86-64 ones.

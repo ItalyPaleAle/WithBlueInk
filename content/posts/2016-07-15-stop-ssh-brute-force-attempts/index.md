@@ -38,7 +38,7 @@ ssh-keygen will generate a private key (`id_rsa` with the default naming) and a 
 
 Lastly, you need to configure sshd *on the server* to accept public keys only. This is easily done by editing the sshd configuration file (usually located on `/etc/ssh/sshd_config`, but it may change depending on the Linux distribution in use). Ensure the following settings:
 
-````conf
+````text
 PubkeyAuthentication yes
 PasswordAuthentication no
 ````
@@ -49,7 +49,7 @@ In all honesty, the usefulness of this is debatable. It will help preventing un-
 
 For example, here's how to change the SSH port to 9022. Edit the sshd configuration file (location depends on the distribution; usually `/etc/ssh/sshd_config`) and change the "Port" setting:
 
-````conf
+````text
 Port 9022
 ````
 

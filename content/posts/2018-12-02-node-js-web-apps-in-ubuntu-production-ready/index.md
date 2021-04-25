@@ -250,7 +250,7 @@ sudo apt-get install -y nginx
 
 Next, we need to configure Nginx. In this example I'm showing you the most basic configuration, without TLS; if you have multiple Node.js apps, you will want to add multiple sites listening to different hostnames. Edit the file `/etc/nginx/sites-available/default` so it looks like:
 
-````conf
+````nginx
 upstream backend {
     # Address of the Node.js app
     server localhost:3000;
@@ -284,7 +284,7 @@ If you open the IP (or hostname) of your server in a web browser, you should see
 
 The sample app we're using serves a bunch of static files (CSS, fonts) from the "public" directory. It could be a good idea (though optional) to serve those files directly from Nginx, which is highly optimized for returning static assets, rather than wasting cycles in our Node.js app. This can be done relatively easily, with a small change in the Nginx configuration file:
 
-````conf
+````nginx
 upstream backend {
     # Address of the Node.js app
     server localhost:3000;
@@ -380,7 +380,7 @@ A good rule of thumb is to start as many instances as your VM's cores (assuming 
 
 Now, let's modify the Nginx configuration so it uses both instances. Edit the file `/etc/nginx/sites-available/default` and change the `upstream backend` block:
 
-````conf
+````nginx
 #...
 
 upstream backend {

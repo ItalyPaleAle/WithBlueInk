@@ -139,7 +139,7 @@ Download the [s3cmd](https://github.com/s3tools/s3cmd/releases) binary from GitH
 
 Create then a file named `~/.s3cfg` to configure s3cmd:
 
-````conf
+````ini
 # Setup endpoint: hostname of the Web App
 host_base = aleminio.azurewebsites.net
 host_bucket = aleminio.azurewebsites.net

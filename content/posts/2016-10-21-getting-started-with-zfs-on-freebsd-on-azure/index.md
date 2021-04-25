@@ -174,7 +174,7 @@ The L2ARC cache is used to store data that is read from the filesystem, and acts
 
 Enabling L2ARC on the local SSD (`/dev/da1`) is really easy. To start, we need to make sure that the Azure Agent (which is installed by default on FreeBSD images deployed from the Azure Marketplace) isn't mounting the temporary disk automatically: edit the file `/etc/waagent.conf` and set the following parameter to `n`:
 
-````conf
+````text
 ResourceDisk.Format=n
 ````
 
@@ -297,7 +297,7 @@ dd if=/dev/random of=/dev/da3.eli bs=1m count=10
 
 Ensure the partition is decrypted automatically at boot, by adding the following lines to `/etc/rc.conf`:
 
-````conf
+````text
 geli_devices="da2 da3"
 geli_da2_flags="-k /root/data01.key -p"
 geli_da3_flags="-k /root/data01.key -p"

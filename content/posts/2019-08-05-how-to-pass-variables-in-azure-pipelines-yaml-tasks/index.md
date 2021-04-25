@@ -40,12 +40,10 @@ steps:
       echo "##vso[task.setvariable variable=FOO]$FOO"
 
   # Using the $() syntax, the value is replaced inside Azure Pipelines before being submitted to the script task
-  - bash: |
-      echo "$(FOO)"
+  - bash: echo "$(FOO)"
 
   # The same variable is also present as environmental variable in scripts; here the variable expansion happens within bash
-  - bash: |
-      echo "$FOO"
+  - bash: echo "$FOO"
 ````
 
 You can also use the `$(FOO)` syntax inside task definitions. For example, these steps copy files to a folder whose name is defined as variable:
@@ -55,8 +53,8 @@ pool:
   vmImage: 'Ubuntu-16.04'
 
 steps:
-  - bash: |
-      echo "##vso[task.setvariable variable=TARGET_FOLDER]$(Pipeline.Workspace)/target"
+  - bash: echo "##vso[task.setvariable variable=TARGET_FOLDER]$(Pipeline.Workspace)/target"
+
   - task: CopyFiles@2
     inputs:
       sourceFolder: $(Build.SourcesDirectory)
@@ -94,8 +92,7 @@ jobs:
         name: mystep
 
       # Show output variable in the same job
-      - bash: |
-          echo "$(mystep.FOO)"
+      - bash: echo "$(mystep.FOO)"
   
   - job: secondjob
     # Need to explicitly mark the dependency
@@ -109,12 +106,10 @@ jobs:
     steps:
 
       # The variable is now available for expansion within the job
-      - bash: |
-          echo "$(FOO)"
+      - bash: echo "$(FOO)"
 
       # To send the variable to the script as environmental variable, it needs to be set in the env dictionary
-      - bash: |
-          echo "$FOO"
+      - bash: echo "$FOO"
         env:
           FOO: $(FOO)
 ````
@@ -175,12 +170,10 @@ stages:
               echo "##vso[task.setvariable variable=FOO]$FOO"
 
           # Just like in the first example, we can expand the variable within Azure Pipelines itself
-          - bash: |
-              echo "$(FOO)"
+          - bash: echo "$(FOO)"
 
           # Or we can expand it within bash, reading it as environmental variable
-          - bash: |
-              echo "$FOO"
+          - bash: echo "$FOO"
 ````
 
 Here's the pipeline running. Note in the second stage how line #14 shows `some value` in both bash scripts. However, take a look at the script being executed on line #11: in the first case, the variable was expanded inside Azure Pipelines (so the script became `echo "some value"`), while in the second one bash is reading an environmental variable (the script remains `echo "$FOO"`).

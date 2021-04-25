@@ -13,13 +13,120 @@ module.exports = {
                 'accent-100': 'var(--color-accent-100)',
                 'accent-200': 'var(--color-accent-200)',
                 'accent-300': 'var(--color-accent-300)',
-            }
-        },
-        textShadow: {
-            'sm': '0 1px 2px rgba(0, 0, 0, 0.25)',
-            'DEFAULT': '0 1px 2px rgba(0, 0, 0, 0.375)',
-            'lg': '0 2px 10px rgba(0, 0, 0, 0.5)',
-            'xl': '2px 4px 8px rgba(0, 0, 0, 0.725)',
+            },
+            typography: theme => ({
+                DEFAULT: {
+                    css: {
+                        color: theme('colors.shade-400'),
+                        fontFamily: `${theme('fontFamily.serif')}`,
+                        lineHeight: theme('lineHeight.relaxed'),
+                        letterSpacing: theme('letterSpacing.wider'),
+
+                        h1: {
+                            color: theme('colors.shade-600'),
+                            fontFamily: `${theme('fontFamily.sans')}`,
+                            lineHeight: theme('lineHeight.tight'),
+                        },
+                        h2: {
+                            color: theme('colors.shade-600'),
+                            fontFamily: `${theme('fontFamily.sans')}`,
+                            lineHeight: theme('lineHeight.tight'),
+                        },
+                        h3: {
+                            color: theme('colors.shade-600'),
+                            fontFamily: `${theme('fontFamily.sans')}`,
+                            lineHeight: theme('lineHeight.tight'),
+                        },
+                        h4: {
+                            color: theme('colors.shade-600'),
+                            fontFamily: `${theme('fontFamily.sans')}`,
+                            lineHeight: theme('lineHeight.tight'),
+                        },
+                        h5: {
+                            color: theme('colors.shade-600'),
+                            fontFamily: `${theme('fontFamily.sans')}`,
+                            lineHeight: theme('lineHeight.tight'),
+                        },
+                        h6: {
+                            color: theme('colors.shade-600'),
+                            fontFamily: `${theme('fontFamily.sans')}`,
+                            lineHeight: theme('lineHeight.tight'),
+                        },
+                        a: {
+                            color: `${theme('colors.accent-300')}`,
+                            '&:hover': {
+                                color: `${theme('colors.accent-200')}`,
+                            },
+                        },
+                        'b, strong': {
+                            color: theme('colors.shade-500'),
+                        },
+                        blockquote: {
+                            fontWeight: '400',
+                            borderLeftColor: theme('colors.shade-100'),
+                            color: theme('colors.shade-300'),
+                        },
+                        'blockquote p:first-of-type::before': {
+                            content: '',
+                        },
+                        'blockquote p:last-of-type::after': {
+                            content: '',
+                        },
+                        'code': {
+                            color: theme('colors.shade-400'),
+                            overflowWrap: 'break-word',
+                            wordBreak: 'break-word',
+                            letterSpacing: theme('letterSpacing.regular'),
+                            fontWeight: '600',
+                        },
+                        'a code': {
+                            color: `${theme('colors.accent-300')}`,
+                            '&:hover': {
+                                color: `${theme('colors.accent-200')}`,
+                            },
+                        },
+                        'pre': {
+                            fontSize: theme('fontSize.sm'),
+                            '@screen md': {
+                                fontSize: theme('fontSize.base'),
+                            },
+                            tabSize: '6',
+                            // Disable, because chroma sets its own
+                            backgroundColor: null,
+                            letterSpacing: theme('letterSpacing.normal'),
+                            lineHeight: theme('lineHeight.normal'),
+                        },
+                        'pre code': {
+                            backgroundColor: null,
+                            color: null,
+                            fontFamily: null,
+                            lineHeight: null,
+                            fontWeight: '500',
+                        },
+                        'img': {
+                            marginLeft: 'auto',
+                            marginRight: 'auto',
+                            backgroundColor: '#ffffff',
+                        },
+                        'figcaption': {
+                            fontStyle: 'italic',
+                            fontSize: theme('fontSize.sm'),
+                            textAlign: 'center',
+                            color: theme('colors.accent-300'),
+                        },
+                        'hr': {
+                            border: 'none',
+                            borderColor: theme('colors.shade.100'),
+                            borderTop: '2px dashed',
+                            width: '25%',
+                            marginLeft: 'auto',
+                            marginRight: 'auto',
+                            marginTop: theme('spacing.12'),
+                            marginBottom: theme('spacing.12'),
+                        },
+                    }
+                },
+            }),
         },
         fontSize: {
             'xs': ['.75rem', '1'],
@@ -37,7 +144,7 @@ module.exports = {
         fontFamily: {
             'sans': ['Lato', 'sans-serif'],
             'serif': ['Merriweather', 'serif'],
-            'mono': ['Cascadia Code', 'Menlo', 'Monaco', 'Consolas', 'monospace']
+            'mono': ['Cascadia Mono', 'Menlo', 'Monaco', 'Consolas', 'monospace']
         },
         screens: {
             // Remove the 2xl breakpoint to remain compatible with tailwind 1
@@ -86,9 +193,9 @@ module.exports = {
             },
             link: {
                 textDecoration: 'underline',
-                color: theme('colors.accent.300'),
+                color: theme('colors.accent-300'),
                 '&:hover': {
-                    color: theme('colors.accent.200'),
+                    color: theme('colors.accent-200'),
                 },
             },
             listing: {
@@ -102,7 +209,7 @@ module.exports = {
                 fontFamily: theme('fontFamily.serif'),
                 lineHeight: theme('lineHeight.relaxed'),
                 letterSpacing: theme('letterSpacing.wider'),
-                color: theme('colors.shade.500'),
+                color: theme('colors.shade-500'),
                 '> * + *': {
                     marginTop: theme('spacing.6'),
                     marginBottom: theme('spacing.6')
@@ -211,7 +318,23 @@ module.exports = {
     },
     plugins: [
         require('@tailwindcss/typography'),
-        function ({ addComponents }) {
+        function ({addComponents}) {
+            addComponents({
+                '.text-shadow-sm': {
+                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.25)',
+                },
+                '.text-shadow': {
+                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.375)',
+                },
+                '.text-shadow-lg': {
+                    textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)',
+                },
+                '.text-shadow-xl': {
+                    textShadow: '2px 4px 8px rgba(0, 0, 0, 0.725)',
+                },
+            })
+        },
+        function ({addComponents}) {
             addComponents({
                 // Overwrite the container class
                 '.container': {

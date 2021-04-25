@@ -7,8 +7,8 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
     }
 })
 
-module.exports = {    
-    plugins: [        
+module.exports = {
+    plugins: [
         require('postcss-import')({
             path: __dirname + '/assets/css'
         }), 

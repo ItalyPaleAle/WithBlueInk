@@ -23,7 +23,7 @@ To make that app accessible to anyone in an easy manner, I then introduced using
 
 Lastly, I demoed how you can enable a full DevOps pipeline with **Continuous Integration and Continuous Delivery**, to automatically publish apps on the IPFS network.
 
-📺 The full talk has been recorded and is now on YouTube:
+📺 The full talk was recorded and is now on YouTube:
 
 {{< youtube OY-YnkVHJcc >}}
 

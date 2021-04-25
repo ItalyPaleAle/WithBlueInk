@@ -140,7 +140,7 @@ In my example, that is `a17db19d-5037-4cbb-b50b-c85e3e074864`; it will be differ
 
 Create a systemd unit for unlocking the encrypted device and save it as **`/etc/systemd/system/unlock-data.service`**. Make sure you replace the UUID in the command below!
 
-````text
+````systemd
 [Unit]
 Description=Open encrypted data volume
 After=network-online.target
@@ -158,7 +158,7 @@ ExecStop=/sbin/cryptsetup -d - -v luksClose data
 
 Create another systemd unit with the mountpoint for `/mnt/data`, and save it as **`/etc/systemd/system/mnt-data.mount`**. Note that the unit's name must match the path of the mountpoint!
 
-````text
+````systemd
 [Unit]
 Requires=unlock-data.service
 After=unlock-data.service
