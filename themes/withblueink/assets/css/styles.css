@@ -5,6 +5,9 @@
 
 /*! purgecss start ignore */
 
+/* basicLightbox */
+@import "basiclightbox/dist/basicLightbox.min.css";
+
 /* Fonts */
 @import "font-cascadia-code.css";
 @import "font-lato.css";

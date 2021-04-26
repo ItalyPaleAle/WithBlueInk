@@ -55,6 +55,10 @@ outputFormats:
     mediatype: "application/rss"
     baseName: "feed"
 
+# Image pipelines
+imaging:
+  resampleFilter: "lanczos"
+
 # Google Analytics
 #GoogleAnalytics: "UA-72379106-1"
 

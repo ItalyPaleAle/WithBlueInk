@@ -1,0 +1,51 @@
+{{/* Image src attribute. If it starts with /, it's assumed to be an absolute path; otherwise, will look for that into the page assets */}}
+{{ $src := .Get "src"}}
+{{ $srcset := "" }}
+{{ $full := $src }}
+{{ if not (hasPrefix $src "/") }}
+    {{ $resource := $.Page.Resources.GetMatch $src }}
+    {{ if $resource }}
+        {{/* Check if we want to resize the image */}}
+        {{ if not (eq (.Get "noresize") "true") }}
+            {{ $full = ($resource.Fit "1200x1200 jpg #ffffff q95").RelPermalink }}
+            {{ $scaled2x := $resource.Fit "900x900 jpg #ffffff q75" }}
+            {{ $scaled1x := $resource.Fit "600x600 jpg #ffffff q75" }}
+            {{ $src = $scaled1x.RelPermalink }}
+            {{ $srcset = printf `srcset="%s, %s 1.5x"` $scaled1x.RelPermalink $scaled2x.RelPermalink | safeHTMLAttr }}
+        {{ else }}
+            {{ $src = $resource.RelPermalink }}
+            {{ $full = $src }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+{{/* Alt text: first use "alt", then fallback to "caption" */}}
+{{ $alt := "" }}
+{{ if .Get "alt" }}
+    {{ $alt = .Get "alt" }}
+{{ else if .Get "caption" }}
+    {{ $alt = .Get "caption" }}
+{{ end }}
+
+<figure {{ with .Get "class" }}class="{{.}}"{{ end }}>
+    {{ with .Get "link"}}
+        {{/* If there's a link, we can't have a lightbox too */}}
+        {{ $full = "" }}
+        <a href="{{.}}">
+    {{ end }}
+    <img {{ with $srcset }}{{ . }}{{ end }} src="{{ $src }}" {{ with $alt }}alt="{{ . }}" title="{{ . }}"{{ end }} {{ with $full }}data-lightbox="image:{{ . }}"{{ end }} />
+    {{ if .Get "link"}}
+        </a>
+    {{ end }}
+    {{ if or (or (.Get "title") (.Get "caption")) (.Get "attr")}}
+    <figcaption>{{ if isset .Params "title" }}
+        <h4>{{ .Get "title" }}</h4>{{ end }}
+        {{ if or (.Get "caption") (.Get "attr")}}<p>
+        {{ .Get "caption" }}
+        {{ with .Get "attrlink"}}<a href="{{.}}"> {{ end }}
+            {{ .Get "attr" }}
+        {{ if .Get "attrlink"}}</a> {{ end }}
+        </p> {{ end }}
+    </figcaption>
+    {{ end }}
+</figure>
