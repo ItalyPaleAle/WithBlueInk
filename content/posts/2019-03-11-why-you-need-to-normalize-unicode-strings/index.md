@@ -16,7 +16,7 @@ coverImage:
 
 Sooner or later, this hits every developer:
 
-![Two identical-looking strings do not match in code](/assets/unicode-zoe.png)
+{{< img src="images/unicode-zoe.png" alt="Two identical-looking strings do not match in code" >}}
 
 This is not another one of [JavaScript's oddities](https://github.com/denysdovhan/wtfjs), and I could have shown you the very same result with code in almost every other programming language, including Python, Go, and even shell scripts.
 

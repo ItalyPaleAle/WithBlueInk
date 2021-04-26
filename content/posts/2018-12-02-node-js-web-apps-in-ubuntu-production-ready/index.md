@@ -37,7 +37,7 @@ node bin/www
 
 If you visit `http://localhost:3000`, you'll see the app running:
 
-![App running locally on localhost:3000](/assets/nodejs-ubuntu/app-local.png)
+{{< img src="images/app-local.png" alt="App running locally on localhost:3000" >}}
 
 ## Install Node.js
 

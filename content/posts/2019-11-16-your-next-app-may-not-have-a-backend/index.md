@@ -27,7 +27,7 @@ The first draft of HTML5 was published in 2008, and browser vendors have been co
 
 One of the biggest advancements, however, was in the popularization of a new design paradigm for web apps, which has been dubbed **JAMstack**: JavaScript, reusable APIs and pre-rendered Markup. Taking inspiration from mobile apps, the idea is that even web apps should have the frontend tier completely isolated from the backend one, communicating only over HTTPS via a set of agreed-upon interfaces.
 
-![JAMstack flows](/assets/jamstack/diagram.svg)
+{{< img src="images/diagram.svg" alt="JAMstack flows" noresize="true" >}}
 
 The JavaScript part of the JAMstack should be quite self-evident: the entire application runs in the client, which is a web browser, and it's powered by JavaScript (you can also interpret this definition more broadly as in pointing to the same VM in the browser that executes JavaScript code, so to include WebAssembly too).
 
@@ -49,7 +49,7 @@ The real benefits for end-users are apps that feel fast. Not only this increases
 
 There are three sides to explain why apps feel fast. First, the app itself loads the data asynchronously, so users can see the interface while the data is loading, and can interact with it. Take a look at the GIF of the new Twitter app loading:
 
-![Twitter app loading](/assets/jamstack/twitter-loading.gif)
+{{< img src="images/twitter-loading.gif" alt="Twitter app loading" noresize="true" >}}
 
 The app itself loads almost instantly. It then gradually begins requesting data asynchronously, and it populates all sections of the interface.
 
@@ -103,6 +103,6 @@ To start, most users will need to install browser extensions to interact with Et
 
 Then, users have to deal with Ethereum wallets. While reading data from Ethereum is free and simple (and requires no interaction from users), writing anything on the blockchain requires manual approval from users and payment of at least a "gas fee". That's a fraction of Ethereum tokens that users need to pay to be able to execute code that mutates the state of the blockchain, and it is required regardless of whether the smart contract's function itself is payable (ie. it transfers funds—Ethers—to someone else). The UX is not delightful, requiring users to explicit click on a popup, and then waiting seconds to minutes for transactions to be confirmed by the Ethereum blockchain. And, of course, users need to first have purchased Ethereum tokens, something that's not as simple as it might seem, especially in some countries around the world. Lastly, there are security concerns if users misplace their wallets' private keys or restore words, or aren't careful enough with them.
 
-{{< figure src="/assets/jamstack/metamask.png" title="Confirmation popups are a common part of the Metamask UX" >}}
+{{< img src="images/metamask.png" alt="Screenshot of the Metamask extension asking for confirmation" caption="Confirmation popups are a common part of the Metamask UX" >}}
 
 There's a vast community that is working on improving the UX for blockchain applications, making it easier to add identities, building more transparent processes, making transactions faster or even instant, etc. As with every technology still in a fluid state, there are various competing blockchain technologies, and just as many different platforms and frameworks. I expect that we'll see more convergence and standardization in the next months and years, and eventually dapps written on the "JEMstack" might become the new norm.

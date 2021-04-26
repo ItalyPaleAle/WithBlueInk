@@ -178,6 +178,6 @@ stages:
 
 Here's the pipeline running. Note in the second stage how line #14 shows `some value` in both bash scripts. However, take a look at the script being executed on line #11: in the first case, the variable was expanded inside Azure Pipelines (so the script became `echo "some value"`), while in the second one bash is reading an environmental variable (the script remains `echo "$FOO"`).
 
-![Screenshot of pipeline running showing the variable expanded](/assets/azp-variable.png)
+{{< img src="images/azp-variable.png" alt="Screenshot of pipeline running showing the variable expanded" >}}
 
 If you want to pass more than one variable, you can create multiple files within the `$(Pipeline.Workspace)/variables` (e.g. for a variable named `MYVAR`, write it inside `$(Pipeline.Workspace)/variables/MYVAR`), then read all the variables in the second stage.

@@ -29,8 +29,7 @@ GMail inspired countless developers to dare doing more with the web. The problem
 
 Safari and Konqueror were the first browsers to pass the Acid2 test in 2005, proving full compliance with the HTML and CSS 2.1 specifications. Firefox followed one year later and Internet Explorer finally became "standards-compliant" (based on the Acid2 test) only with version 8 in 2009.
 
-![Screenshot of Internet Explorer 8 passing the Acid2 test](/assets/jquery/ie8-acid2.png)
-<figcaption>Countless web developers—myself included—had that same smile when IE8 passed the Acid2 test.</figcaption>
+{{< img src="images/ie8-acid2.png" alt="Screenshot of Internet Explorer 8 passing the Acid2 test" caption="Countless web developers—myself included—had that same smile when IE8 passed the Acid2 test." >}}
 
 In short, web development in the first decade of the twenty-first century was a mess. We were dealing with browsers that did not implement standards, rendered pages with disregards for specs, and added their own proprietary technologies on top. We also didn't have luxurious things such as HTML5, CSS3, ES2015 (ES6), or WebSockets; the APIs available were not as rich and powerful. On top of that, we had to deal with an abundance of plugins like Flash, often used for (unnecessary) eye candies, and sometimes out of necessity like playing videos.
 
@@ -139,7 +138,7 @@ John Resig [built jQuery](https://www.khanacademy.org/computing/computer-program
 
 Sure, I would not attempt building a SPA with it. But, if I need to quickly build some interaction inside an otherwise static page, I'd still consider jQuery as my first choice.
 
-![HTML page loading jQuery](/assets/jquery/html-with-jquery.png)
+{{< img src="images/html-with-jquery.png" alt="HTML page loading jQuery" >}}
 
 - Adding interactivity to a page with jQuery is really fast. You only need to include one `<script>` tag and you're good to go, and no need to mess around with Webpack.
 - jQuery has some amazingly simple APIs that have been mostly stable for over a decade. It's easy to use, it just works, and it works well. The project is still actively maintained, even if with less intensity.

@@ -74,7 +74,7 @@ sudo docker run --rm arm32v7/hello-world
 
 If everything is working fine, the command above will output something similar to:
 
-![Output of Docker "hello world" image](/assets/docker-pi-hello-world.png)
+{{< img src="images/docker-pi-hello-world.png" alt="Output of Docker \"hello world\" image" >}}
 
 ## About ARM images
 

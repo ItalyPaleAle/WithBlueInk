@@ -62,8 +62,7 @@ With YouArchive.It came an iPhone application too. Published on the Cydia app st
 
 YouArchive.It was free to use with a limit of 80,000 text messages. Because personal communications can be sensitive, all messages were stored encrypted. With a one-time payment of just €5 (about $6), you could become a VIP, remove any limit and enjoy unlimited storage.
 
-![*A screenshot of iTextUploader running on a first-generation iPhone*](https://cdn-images-1.medium.com/max/2000/1*vTxYRljXFl3IBXGRsXOVag.png)
-<figcaption>A screenshot of iTextUploader running on a first-generation iPhone</figcaption>
+{{< img src="images/itextuploader.png" caption="A screenshot of iTextUploader running on a first-generation iPhone" >}}
 
 For the next year and a half, YouArchive.It continued to grow organically. A few blogs and websites dedicated to iPhone "hacking" and to the underground app stores wrote about the app. Even a small radio program in the US featured it
 

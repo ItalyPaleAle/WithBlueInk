@@ -32,13 +32,13 @@ Then, on Monday I [released Hereditas]({{< ref "2019-03-18-what-happens-to-your-
 
 For a blog that used to average less than 3,000 page views per month, this happened:
 
-![Pageviews chart: from just a few hundreds per day up to 6,000 in a day](/assets/hugo-ipfs/pageviews.png)
+{{< img src="images/pageviews.png" alt="Pageviews chart: from just a few hundreds per day up to 6,000 in a day" >}}
 
 On Wednesday, March 13, **traffic was 5,060% higher** than on the same day a week earlier. In a single day, With Blue Ink got almost double the page views than in an typical month before that.
 
 Despite the significant increase on traffic, here's what happened to the CPU usage of one of the main IPFS nodes serving the website:
 
-![CPU chart: nothing changed](/assets/hugo-ipfs/cpu.png)
+{{< img src="images/cpu.png" alt="CPU chart: nothing changed" >}}
 
 **Nothing.**
 
@@ -66,7 +66,7 @@ Additionally, all documents on IPFS are addressed by the hash of their content, 
 
 The problem with IPFS is that it's just a content distribution protocol, not a storage service. **It's more akin to a CDN than a NAS**. I still need some servers, and I currently have three, configured in a cluster with [IPFS Cluster](https://cluster.ipfs.io/). They're small, inexpensive [B1ms VMs](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/b-series-burstable) (1 vCPU, 2 GB RAM) on Azure, running in three different regions around the world. You can read how I set them up in the [previous article]({{< ref "2018-11-14-distributed-web-host-your-website-with-ipfs-clusters-cloudflare-and-devops" >}}).
 
-![IPFS cluster nodes on Azure](/assets/ipfs/running-vms.png)
+{{< img src="images/running-vms.png" alt="IPFS cluster nodes on Azure" >}}
 
 Thanks to using IPFS, this simple and relatively inexpensive solution is able to deliver "100%" uptime and is DDoS-resistant. The websites are automatically replicated across all nodes in the cluster which start seeding them right away, and with the VMs geographically distributed users get great speeds all around the world.
 
@@ -74,7 +74,7 @@ Thanks to using IPFS, this simple and relatively inexpensive solution is able to
 
 The architecture of the blog is relatively simple:
 
-![Architecture diagram](/assets/hugo-ipfs/architecture.png)
+{{< img src="images/architecture.png" alt="Architecture diagram" >}}
 
 Pushing some new code to the master branch on GitHub triggers an automatic **[build in Azure Pipelines](https://dev.azure.com/italypaleale/WithBlueInk/_build)**, which clones the source code and runs Hugo to build the website (it's all free!). You can see the configuration in the [`azure-pipelines.yaml`](https://github.com/ItalyPaleAle/WithBlueInk/blob/master/azure-pipelines.yml) file inside the repo.
 

@@ -15,7 +15,7 @@ coverImage:
 
 Even if you don't know about signed Git commits, you might have seen this on GitHub:
 
-!["Verified" commits on GitHub](/assets/signed-git-commits/commits.jpg)
+{{< img src="images/commits.jpg" alt="\"Verified\" commits on GitHub" >}}
 
 Let's leave everything else aside from a moment… isn't it oddly satisfying to have a large, green "Verified" badge on your work? 😎
 
@@ -29,7 +29,7 @@ When you commit a change with Git, it accepts as author whatever value you want.
 
 For example, here's a repo I just created. As you can see, my esteemed colleague and friend [@MartinWoodward](https://twitter.com/martinwoodward) from GitHub committed in it right away:
 
-![@MartinWoodward's commit on GitHub](/assets/signed-git-commits/martin-commit.jpg)
+{{< img src="images/martin-commit.jpg" alt="@MartinWoodward's commit on GitHub" >}}
 
 There's only one problem: Martin did not do that; I did.
 
@@ -283,7 +283,7 @@ Date:   Sun May 17 01:44:55 2020 +0000
 
 If you're using [VS Code](https://code.visualstudio.com), you can configure it to sign your Git commits with the *Git: Enable commit signing* flag (`git.enableCommitSigning`).
 
-![Enabling commit signing in VS Code](/assets/signed-git-commits/vscode.png)
+{{< img src="images/vscode.png" alt="Enabling commit signing in VS Code" >}}
 
 ### Using hardware tokens
 

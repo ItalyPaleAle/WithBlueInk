@@ -23,7 +23,7 @@ I'm exactly sure how that happened. I had just applied an innocuous change (addi
 
 Nothing I attempted seemed to work, as the UI wouldn't let me restore a configuration, and I was getting errors everywhere. So, I tried rebooting it.
 
-!["Hello, IT. Have you tried turning it off and on again?"](/assets/pfsense-reinstall/turn-it-off-and-on-again.jpg)
+{{< img src="images/turn-it-off-and-on-again.jpg" alt="\"Hello, IT. Have you tried turning it off and on again?\"" >}}
 
 Everyone knows turning it off and on again always works. Except, this time it didn't. The firewall wouldn't boot up anymore.
 
@@ -54,7 +54,7 @@ Lastly, you will need a **backup file**, un-encrypted in XML format. Without it,
 
 After downloading the OS image (and uncompressing the gzip file), the easiest way to write it to the USB disk is to use a tool like [balenaEtcher](https://www.balena.io/etcher/), available for free on Windows, Linux and macOS.
 
-![balenaEtcher's interface](/assets/pfsense-reinstall/balenaetcher-restore.png)
+{{< img src="images/balenaetcher-restore.png" alt="balenaEtcher's interface" >}}
 
 On Linux and macOS, you can also use `dd` from the terminal. For example, if your (uncompressed) image file is `pfSense-netgate-memstick-serial-2.4.4-RELEASE-p3-amd64.img`:
 
@@ -80,7 +80,7 @@ pfSense can automatically restore the configuration from the XML backup file.
 
 After writing the installer image to the USB drive, you might see a FAT32 partition (should be called `FATRECOV`). If you do see this partition (as in the ARM-based image), place the backup file in the root of that drive and call it `config.xml`.
 
-![The config.xml file inside the USB drive](/assets/pfsense-reinstall/config-xml-finder.png)
+{{< img src="images/config-xml-finder.png" alt="The config.xml file inside the USB drive" >}}
 
 If you **do not** see a FAT32 partition, you will need another USB drive formatted as FAT32. Copy the backup file, named `config.xml` in that drive, in the root folder.
 
@@ -130,21 +130,21 @@ Plug the USB drive with the installer into your firewall, then reboot it (if you
 
 Once the firmware console appears, hit any key to stop the "autoboot".
 
-![Hit any key to stop the autoboot](/assets/pfsense-reinstall/console-autoboot.png)
+{{< img src="images/console-autoboot.png" alt="Hit any key to stop the autoboot" >}}
 
 You'll find yourself in the firmware's shell. Type `run recovery` and press return to start the installer.
 
-![Execute "run recovery" in the firmware's shell](/assets/pfsense-reinstall/console-run-recovery.png)
+{{< img src="images/console-run-recovery.png" alt="Execute \"run recovery\" in the firmware's shell" >}}
 
 > The rest of the instructions below should be identical or very similar regardless of your firewall's model.
 
 Once the installer has booted up, it will ask you where to install pfSense. The default choice should be the right one for most users, so just press return.
 
-![Select where to install pfSense](/assets/pfsense-reinstall/console-install-location.png)
+{{< img src="images/console-install-location.png" alt="Select where to install pfSense" >}}
 
 Then confirm with `y` and return. The installer will take a few minutes.
 
-![Confirm reinstalling pfSense](/assets/pfsense-reinstall/console-install-confirm.png)
+{{< img src="images/console-install-confirm.png" alt="Confirm reinstalling pfSense" >}}
 
 ## Step 5: Reboot and restore the configuration
 
@@ -152,12 +152,12 @@ Once the installation is over, you'll get a message asking you to reboot the sys
 
 **Before you reboot**, make sure that the drive containing the `config.xml` file is attached. If it's in the same USB drive as the installer, don't remove the install media. If it's on a separate drive, switch the USB stick. 
 
-![Press any key to reboot after the installation](/assets/pfsense-reinstall/console-reboot.png)
+{{< img src="images/console-reboot.png" alt="Press any key to reboot after the installation" >}}
 
 The firewall will now restart. Once it's up, if you had copied a `config.xml` file in the USB drive, it will automatically restore the configuration of pfSense. Note that add-on packages are reinstalled in the background and it might take a few minutes for them to be restored.
 
 After you see the pfSense menu, you can safely remove the USB drive and the disconnect from the serial console.
 
-![pfSense menu in the console](/assets/pfsense-reinstall/console-ready.png)
+{{< img src="images/console-ready.png" alt="pfSense menu in the console" >}}
 
 Your firewall should now be up and running.

@@ -36,7 +36,7 @@ In this article, we'll be running the MariaDB cluster manually. Part 2, which wi
 
 In this example, we're assuming an architecture with 3 servers or VMs, with hostnames `mariadb-node-0`, `mariadb-node-1` and `mariadb-node-2`. We're also assuming that a DNS server exists so that VMs can communicate using their hostname (if your infrastructure does not have a DNS server, using the host file to map names to IPs will work as well).
 
-![Architectural diagram](/assets/docker-galera-arch.jpg)
+{{< img src="images/docker-galera-arch.png" alt="Architectural diagram" >}}
 
 Each machine is running CoreOS, and each node runs MariaDB containerized and has a full copy of the data. Because Galera Cluster is multi-master, all nodes can accept connections from clients on port 3306 (default for the MySQL protocol); you're free to deploy your own load balancer in front of those endpoints. VMs also need to expose other ports for replication traffic (4567/udp, 4567/tcp, 4568/tcp, 4444/tcp). 
 

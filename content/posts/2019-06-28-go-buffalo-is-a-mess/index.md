@@ -41,7 +41,7 @@ Go developers like to make fun of JavaScript and npm for how large `node_modules
 
 With my codebase using Buffalo, running `go get` downloaded **almost 1200 packages** and took an average of 3.5 minutes in the CI server. I worked to speed this up as much as possible, by installing the Buffalo CLI (required to build apps) using the pre-compiled binary downloaded from GitHub, or that would have been a few more minutes and hundreds more packages. Vendoring the dependencies wasn't an option, as it caused compilation to fail every time.
 
-![Installing almost 1200 packages in the CI](/assets/buffalo-ci.jpg)
+{{< img src="images/buffalo-ci.jpg" alt="Installing almost 1200 packages in the CI" >}}
 
 After switching the same app to Gin, the `go get` step in the CI server runs in just over 2 minutes (~40% less) and uses only 350 packages.
 
