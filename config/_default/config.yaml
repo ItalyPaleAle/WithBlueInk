@@ -32,8 +32,8 @@ params:
 theme: "withblueink"
 paginate: 15
 
-# Enable all URLs to be relative, and make them end with ".html"
-relativeURLs: true
+# URL configuration: ensure we use ugly URLs
+relativeURLs: false
 canonifyURLs: false
 uglyurls: true
 
