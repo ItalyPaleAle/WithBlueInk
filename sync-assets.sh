@@ -27,17 +27,13 @@ fi
 
 echo "Syncing with: https://${AZURE_STORAGE_ACCOUNT}.blob.core.windows.net/${CONTAINER}"
 
-# Check that all folders specified in $ASSETS exist
-for asset in $ASSETS; do
-    # Ensure the asset exists and it's a folder
-    if [ ! -d "$asset" ]; then
-        echo "$asset doesn't exist or it's not a folder"
-        exit 2
-    fi
-done
-
 # Sync all folders
 for asset in $ASSETS; do
-    # Sync the folder
-    "$AZCOPYCMD" sync "$asset" https://${AZURE_STORAGE_ACCOUNT}.blob.core.windows.net/${CONTAINER}/${asset} --recursive --delete-destination=true
+    # Ensure the asset exists and it's a folder
+    if [ -d "$asset" ]; then
+        # Sync the folder
+        "$AZCOPYCMD" sync "$asset" https://${AZURE_STORAGE_ACCOUNT}.blob.core.windows.net/${CONTAINER}/${asset} --recursive --delete-destination=true
+    else
+        echo "$asset doesn't exist or it's not a folder"
+    fi
 done
