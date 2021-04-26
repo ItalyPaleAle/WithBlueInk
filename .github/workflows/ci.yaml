@@ -67,7 +67,7 @@ jobs:
           for asset in $ASSETS; do rm -rvf "$asset"; done
         env:
           # List of assets to upload
-          ASSETS: 'public/assets public/img public/fonts'
+          ASSETS: 'public/images public/img public/fonts'
           # Container in Azure Storage
           CONTAINER: 'withblueink-dev'
           # Use azcopy downloaded above

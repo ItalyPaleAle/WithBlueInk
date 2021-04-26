@@ -13,6 +13,7 @@ coverImage:
   author: "Lucky Heath"
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@capturebylucy"
+resourceBundle: docker-raspbian
 ---
 
 > **Update:** There is a new official OS for Raspberry Pi boards: Raspberry Pi OS, which is available in both 32-bit and 64-bit variants.  
@@ -74,7 +75,7 @@ sudo docker run --rm arm32v7/hello-world
 
 If everything is working fine, the command above will output something similar to:
 
-{{< img src="images/docker-pi-hello-world.png" alt="Output of Docker \"hello world\" image" >}}
+{{< img src="docker-pi-hello-world.png" alt="Output of Docker \"hello world\" image" >}}
 
 ## About ARM images
 

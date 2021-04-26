@@ -33,5 +33,4 @@ rm -v public/.dockerignore || true
 rm -v public/Makefile || true
 rm -v public/Dockerfile || true
 rm -rvf public/docker || true
-rm -rvf public/assets-source || true
 rm -v public/**/.gitignore || true

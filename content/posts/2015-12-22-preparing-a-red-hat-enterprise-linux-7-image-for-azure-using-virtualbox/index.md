@@ -12,6 +12,7 @@ coverImage:
   linkName: "Flickr"
   linkURL: "https://flic.kr/p/2F9RUH"
   license: "CC BY"
+resourceBundle: rhel7
 ---
 
 In November 2015, Microsoft and Red Hat [announced](http://blogs.microsoft.com/blog/2015/11/04/microsoft-and-red-hat-partner-to-deliver-more-flexibility-and-choice/) a partnership to officially support Red Hat Enterprise Linux running inside Virtual Machines in Azure. Customers are now able to create their own RHEL image and upload it to Azure, bringing their own license.
@@ -38,49 +39,49 @@ Download the binary ISO distribution of Red Hat Enterprise Linux 7 from the offi
 
 From within VirtualBox, create a new Virtual Machine, configured for Linux and Red Hat (64 bit). Ensure that you allocate at least 2048 MB of memory (4096 MB recommended) to your VM while it's running locally, as we will not be using swap in the VirtualBox environment (however, the OS will be able to use a swap volume when running on Azure).
 
-{{< img src="images/vbox-create-1.png" alt="VirtualBox: create a new Linux Red Hat (64 bit) VM" >}}
+{{< img src="vbox-create-1.png" alt="VirtualBox: create a new Linux Red Hat (64 bit) VM" >}}
 
 In the next step, create a hard drive and choose "VHD (Virtual Hard Disk)" as type, so it's compatible with Azure.
 
-{{< img src="images/vbox-create-2.png" alt="VirtualBox: create a VHD disk" >}}
+{{< img src="vbox-create-2.png" alt="VirtualBox: create a VHD disk" >}}
 
 > **Tip**: by default, VirtualBox configures the networking adapter of the VM in NAT mode. If you want to connect to your VM via SSH, you'll need to change it to Bridged mode (or go through complicate NAT setups).
 
 Once the VM is created, start it and connect the ISO image for RHEL 7.2 as optical disk. When the bootloader appears, choose the Install option:
 
-{{< img src="images/rhel72-install-1.png" alt="Install RHEL 7.2: start the installer from the bootloader" >}}
+{{< img src="rhel72-install-1.png" alt="Install RHEL 7.2: start the installer from the bootloader" >}}
 
 Once the "Installation summary" screen appears, as first step configure the network in the "Network & Host name" section:
 
-{{< img src="images/rhel72-install-2.png" alt="Install RHEL 7.2: installation summary screen" >}}
+{{< img src="rhel72-install-2.png" alt="Install RHEL 7.2: installation summary screen" >}}
 
 The "Network & Host name" section should show the virtual ethernet interface, which is disabled by default: activate it on with the switch on the right side. The network adapter should already be configured to use DHCP as default option: you can verify this by pressing the "Configure" button and then checking that under the "IPv4 Settings" tab, method is "Automatic (DHCP)". It is very important that the Virtual Machine use DHCP to setup the network interface: assigning a static IP would make the VM fail to work on Azure.
 
-{{< img src="images/rhel72-install-3.png" alt="Install RHEL 7.2: network and host name section" >}}
+{{< img src="rhel72-install-3.png" alt="Install RHEL 7.2: network and host name section" >}}
 
 After the network is set, visit the "Date & Time" section and make sure that "Network Time" is enabled. This will enable the NTP client, which is very helpful in virtualized environments, where clock synchronization is notoriously not great and clock drifts are frequent. You can also choose the timezone you prefer; UTC is generally a good option for a server, also because it does not use daylight savings time:
 
-{{< img src="images/rhel72-install-4.png" alt="Install RHEL 7.2: date and time section" >}}
+{{< img src="rhel72-install-4.png" alt="Install RHEL 7.2: date and time section" >}}
 
 In the "Software selection" section, choose what set of packages to install. A minimal installation gives you a very lightweight operating system, with all the basic functionality, but no other service configured. It's generally a good starting point, and you can enable all other services later once the OS is running (on your machine or on Azure):
 
-{{< img src="images/rhel72-install-5.png" alt="Install RHEL 7.2: software selection section" >}}
+{{< img src="rhel72-install-5.png" alt="Install RHEL 7.2: software selection section" >}}
 
 Proceed then to partitioning the disk, on the "Installation destination" section. Sadly, the default partition schema is not ideal for usage on Azure, so we will need to check the "I will configure partitioning" to proceed with manual configuration, then press the "Done" button.
 
-{{< img src="images/rhel72-install-6.png" alt="Install RHEL 7.2: select manual partitioning" >}}
+{{< img src="rhel72-install-6.png" alt="Install RHEL 7.2: select manual partitioning" >}}
 
 The manual partitioning screen will appear. By default, the Anaconda installer will propose a layout based on LVM, which may create conflicts if you plan to deploy multiple instances of your RHEL image (you're welcome to use LVM for additional data disks, however). Choose "Standard Partition" as scheme, then press the link that creates the partitions automatically.
 
-{{< img src="images/rhel72-install-7.png" alt="Install RHEL 7.2: manual partitioning - step 1" >}}
+{{< img src="rhel72-install-7.png" alt="Install RHEL 7.2: manual partitioning - step 1" >}}
 
 The system will propose a layout with three partitions: one for the "/boot" directory, one as root and one for swap. Select the swap partition then delete it by pressing the minus button at the bottom of the table.
 
-{{< img src="images/rhel72-install-8.png" alt="Install RHEL 7.2: manual partitioning - step 2" >}}
+{{< img src="rhel72-install-8.png" alt="Install RHEL 7.2: manual partitioning - step 2" >}}
 
 Once the swap partition has been removed, feel free to redistribute the space that has been freed up by adding it to other partitions, for example to the root one. Your final disk layout will look similar to the screenshot below; confirm by pressing "Done" twice (the installer will warn you that you haven't included a swap partition) and confirm again before writing the partition table to disk.
 
-{{< img src="images/rhel72-install-9.png" alt="Install RHEL 7.2: manual partitioning - step 3" >}}
+{{< img src="rhel72-install-9.png" alt="Install RHEL 7.2: manual partitioning - step 3" >}}
 
 At this point, let the installation of the OS start. Make sure you set a password for the "root" user; it's not necessary to create another user account, as Azure will do that while you're provisioning your VM from the image.
 

@@ -13,6 +13,7 @@ coverImage:
   linkName: "Flickr"
   linkURL: "https://flic.kr/p/qGhDEC"
   license: "CC BY-NC-SA"
+resourceBundle: mariadb-automation
 ---
 
 *This is the second post in the series. The [first part]({{< ref "2016-03-09-galera-cluster-mariadb-coreos-and-docker-part-1" >}}) explained the ideas behind the project and the research done, while now we're focusing on the practice.*
@@ -21,7 +22,7 @@ This article contains deployment scripts and templates for deploying a MariaDB a
 
 All the sample scripts and templates, as well as the "generator" app are published freely on GitHub on **[ItalyPaleAle/mariadb-cluster](https://github.com/ItalyPaleAle/mariadb-cluster)** and are released under the terms of the "Unlicense" (essentially, public domain).
 
-{{< img src="images/mariadb-github.png" alt="Scripts and templates and the generator app are on GitHub" link="https://github.com/ItalyPaleAle/mariadb-cluster" >}}
+{{< img src="mariadb-github.png" alt="Scripts and templates and the generator app are on GitHub" link="https://github.com/ItalyPaleAle/mariadb-cluster" >}}
 
 There are essentially two parts in this project. The first one is the **Cloud Config file**, which takes care of configuring the cluster *inside* each CoreOS node. This part is independent of the environment used, as the same file can be used on any public cloud (Azure, AWS, Google, etc) and even in private clouds.
 
@@ -42,7 +43,7 @@ The Cloud Config file is a declarative YAML document that is standard on CoreOS 
 
 You can generate a custom `cloud-config.yaml` for this MariaDB and Galera Cluster setup using the web-based [generator app](https://github.com/ItalyPaleAle/mariadb-cluster) on the GitHub repository. Clone the repository locally, then open the `generator.html` file with any modern browser (Edge, Chrome, Firefox, Safari) and choose "Only cloud-config.yaml" as operation mode.
 
-{{< img src="images/mariadb-generator-cloudconfig.png" alt="Screenshot of generator app in \"Only cloud-config\" mode" >}}
+{{< img src="mariadb-generator-cloudconfig.png" alt="Screenshot of generator app in \"Only cloud-config\" mode" >}}
 
 The resulting Cloud Config file will:
 
@@ -123,7 +124,7 @@ When using the generator app in the "Azure Resource Manager template" mode, in a
 
 As in the previous case, clone the [GitHub repository](https://github.com/ItalyPaleAle/mariadb-cluster) locally, then open the `generator.html` file with any modern browser (Edge, Chrome, Firefox, Safari) and choose "Azure Resource Manager template" as operation mode.
 
-{{< img src="images/mariadb-generator-arm.png" alt="Screenshot of generator app in \"Only Azure Resource Manager template\" mode" >}}
+{{< img src="mariadb-generator-arm.png" alt="Screenshot of generator app in \"Only Azure Resource Manager template\" mode" >}}
 
 ### How to deploy the template
 
@@ -139,7 +140,7 @@ As in the previous case, clone the [GitHub repository](https://github.com/ItalyP
 
 On the Microsoft Azure platform, the JSON template is deploying the following:
 
-{{< img src="images/mariadb-azure-architecture.png" alt="Architecture of deployment on Azure" >}}
+{{< img src="mariadb-azure-architecture.png" alt="Architecture of deployment on Azure" >}}
 
 1. A Virtual Network named after the Resource Group (not in the diagram) with address space `10.0.0.0/16`.
 2. A subnet `10.0.1.0/24` named `mariadb-subnet`.

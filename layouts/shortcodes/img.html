@@ -1,9 +1,18 @@
-{{/* Image src attribute. If it starts with /, it's assumed to be an absolute path; otherwise, will look for that into the page assets */}}
+{{/* Image src attribute. If it starts with /, it's assumed to be an absolute path; otherwise, will look for that as asset */}}
 {{ $src := .Get "src"}}
 {{ $srcset := "" }}
 {{ $full := $src }}
 {{ if not (hasPrefix $src "/") }}
+    {{/* Check if it's a page resource first, then a resource */}}
     {{ $resource := $.Page.Resources.GetMatch $src }}
+    {{ if not $resource }}
+        {{ $resource = resources.Get $src }}
+        {{/* Try with resource bundle prefix if not found */}}
+        {{ if and (not $resource) .Page.Params.resourceBundle }}
+            {{ $resource = resources.Get (printf "images/%s/%s" .Page.Params.resourceBundle $src) }}
+        {{ end }}
+    {{ end }}
+    {{/* If we found a resource */}}
     {{ if $resource }}
         {{/* Check if we want to resize the image */}}
         {{ if not (eq (.Get "noresize") "true") }}

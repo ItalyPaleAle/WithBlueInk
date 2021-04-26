@@ -11,6 +11,7 @@ coverImage:
   author: "Chad Madden"
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@chadmadden"
+resourceBundle: azp-variables
 ---
 
 This is a quick reference on passing variables between multiple tasks in [Azure Pipelines](https://azure.com/pipelines), a popular CI/CD platform. They have recently enabled support for [multi-stage pipelines](https://devblogs.microsoft.com/devops/whats-new-with-azure-pipelines/) defined in YAML documents, allowing the creation of both build and release (CI and CD) pipelines, in a single `azure-pipelines.yaml` file. This is very powerful, as it lets developers define their pipelines to continuously build and deploy apps, using a declarative syntax, and storing the YAML document in the same repo as their code, versioned.
@@ -178,6 +179,6 @@ stages:
 
 Here's the pipeline running. Note in the second stage how line #14 shows `some value` in both bash scripts. However, take a look at the script being executed on line #11: in the first case, the variable was expanded inside Azure Pipelines (so the script became `echo "some value"`), while in the second one bash is reading an environmental variable (the script remains `echo "$FOO"`).
 
-{{< img src="images/azp-variable.png" alt="Screenshot of pipeline running showing the variable expanded" >}}
+{{< img src="azp-variable.png" alt="Screenshot of pipeline running showing the variable expanded" >}}
 
 If you want to pass more than one variable, you can create multiple files within the `$(Pipeline.Workspace)/variables` (e.g. for a variable named `MYVAR`, write it inside `$(Pipeline.Workspace)/variables/MYVAR`), then read all the variables in the second stage.

@@ -12,6 +12,7 @@ coverImage:
   linkName: "Flickr"
   linkURL: "https://flic.kr/p/poHKaF"
   license: "CC BY-NC"
+resourceBundle: galera-cluster
 ---
 
 Lately, I've found myself in many discussions with customers who remind me what database still matters most on the web. While startups in the Valley today are all about MongoDB (or CouchDB, or RethinkDB, or… whatever other SQL/NoSQL database you're thinking of), and while Microsoft SQL and Oracle still dominate the enterprise space, a big chunk of the web runs on MySQL. Think for example of WordPress, the blogging platform that [powers 25% of the web](http://venturebeat.com/2015/11/08/wordpress-now-powers-25-of-the-web/), or Drupal, possibly the most popular CMS used by public institutions: both are written in PHP, and rely on MySQL.
@@ -36,7 +37,7 @@ In this article, we'll be running the MariaDB cluster manually. Part 2, which wi
 
 In this example, we're assuming an architecture with 3 servers or VMs, with hostnames `mariadb-node-0`, `mariadb-node-1` and `mariadb-node-2`. We're also assuming that a DNS server exists so that VMs can communicate using their hostname (if your infrastructure does not have a DNS server, using the host file to map names to IPs will work as well).
 
-{{< img src="images/docker-galera-arch.png" alt="Architectural diagram" >}}
+{{< img src="docker-galera-arch.png" alt="Architectural diagram" >}}
 
 Each machine is running CoreOS, and each node runs MariaDB containerized and has a full copy of the data. Because Galera Cluster is multi-master, all nodes can accept connections from clients on port 3306 (default for the MySQL protocol); you're free to deploy your own load balancer in front of those endpoints. VMs also need to expose other ports for replication traffic (4567/udp, 4567/tcp, 4568/tcp, 4444/tcp). 
 

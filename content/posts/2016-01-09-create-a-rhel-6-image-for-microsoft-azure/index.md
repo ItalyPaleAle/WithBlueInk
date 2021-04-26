@@ -12,6 +12,7 @@ coverImage:
   linkName: "Flickr"
   linkURL: "https://flic.kr/p/cLcko"
   license: "CC BY-SA"
+resourceBundle: rhel6
 ---
 
 After writing about how to [prepare a RHEL 7 image]({% post_url 2015-12-22-preparing-a-red-hat-enterprise-linux-7-image-for-azure-using-virtualbox %}) for deploying to Azure, this second article in the series will cover the procedure for RHEL 6. These instructions have been written for RHEL 6.7, which is the minimum version recommended in the 6 branch.
@@ -35,67 +36,67 @@ From the official website, download the binary DVD of Red Hat Enterprise Linux, 
 
 From within VirtualBox, create a new Virtual Machine, configured for Linux and Red Hat (64 bit). Ensure that you allocate at least 2048 MB of memory (4096 MB recommended) to your VM while it's running locally, as we will not be using swap in the VirtualBox environment (however, the OS will be able to use a swap volume when running on Azure).
 
-{{< img src="images/vbox-create-1.png" alt="VirtualBox: create a new Linux Red Hat (64 bit) VM" >}}
+{{< img src="vbox-create-1.png" alt="VirtualBox: create a new Linux Red Hat (64 bit) VM" >}}
 
 In the next step, create a hard drive and choose "VHD (Virtual Hard Disk)" as type, so it's compatible with Azure out-of-the-box.
 
-{{< img src="images/vbox-create-2.png" alt="VirtualBox: create a VHD disk" >}}
+{{< img src="vbox-create-2.png" alt="VirtualBox: create a VHD disk" >}}
 
 > **Tip**: by default, VirtualBox configures the networking adapter of the VM in NAT mode. If you want to connect to your VM via SSH, you'll need to change it to Bridged mode (or go through complicate NAT setups).
 
 Once the VM is created, start it and connect the ISO image for RHEL 6.7 as optical disk. When the bootloader appears, choose the Install option:
 
-{{< img src="images/rhel67-install-1.png" alt="Install RHEL 6.7: start the installer from the bootloader" >}}
+{{< img src="rhel67-install-1.png" alt="Install RHEL 6.7: start the installer from the bootloader" >}}
 
 You will be asked to verify the installation media (optional), then the Anaconda installer will appear. Select the language you wish to use for your OS, and then the keyboard layout.
 
 In the next step, when asked about storage device type, tell the installer to use "Basic Storage Devices".
 
-{{< img src="images/rhel67-install-2.png" alt="Install RHEL 6.7: choose storage device type" >}}
+{{< img src="rhel67-install-2.png" alt="Install RHEL 6.7: choose storage device type" >}}
 
 As the virtual disk is empty at the beginning, you'll be prompted with a warning message telling you that the installer can't find partitions on the disk. Select "Yes, discard any data" to continue.
 
 The installer will then ask you to configure the network. Ensure that the hostname is a generic one, like the default "localhost.localdomain", then press on "Configure network".
 
-{{< img src="images/rhel67-install-3.png" alt="Install RHEL 6.7: set hostname" >}}
+{{< img src="rhel67-install-3.png" alt="Install RHEL 6.7: set hostname" >}}
 
 Select the first network interface ("System eth0"), then press "Edit...". On the next screen, ensure that "Connect automatically" and "Available to all users" are both enabled, then in  "IPv4 Settings" verify that DHCP is enabled.
 
-{{< img src="images/rhel67-install-4.png" alt="Install RHEL 6.7: network configuration" >}}
+{{< img src="rhel67-install-4.png" alt="Install RHEL 6.7: network configuration" >}}
 
 In the next section, select a timezone. You're welcome to choose any value you want, however I would suggest considering "Etc/UTC" for a server VM. Press "Next", then choose a password for the root user.
 
 Anaconda will then ask you to choose how to configure partitioning. The default layout for RHEL 6.7 is not really suitable for us, for two reasons: it creates a swap partition and uses LVM. As such, select the "Create custom layout" option, then press "Next".
 
-{{< img src="images/rhel67-install-5.png" alt="Install RHEL 6.7: select partitioning method" >}}
+{{< img src="rhel67-install-5.png" alt="Install RHEL 6.7: select partitioning method" >}}
 
 You'll see an empty "/dev/sda" disk.
 
-{{< img src="images/rhel67-install-6.png" alt="Install RHEL 6.7: empty partition layout" >}}
+{{< img src="rhel67-install-6.png" alt="Install RHEL 6.7: empty partition layout" >}}
 
 Press "Create" to add the first partition, and choose "Standard partition" as type.
 
-{{< img src="images/rhel67-install-7.png" alt="Install RHEL 6.7: create a new standard partition" >}}
+{{< img src="rhel67-install-7.png" alt="Install RHEL 6.7: create a new standard partition" >}}
 
 Create the first partition, for the "/boot" mount point. It should be of type ext4 (or ext2, if you prefer) and should be of 600 MB in size (fixed).
 
-{{< img src="images/rhel67-install-8.png" alt="Install RHEL 6.7: create partition for /boot" >}}
+{{< img src="rhel67-install-8.png" alt="Install RHEL 6.7: create partition for /boot" >}}
 
 Press "Create" again and add another "Standard partition". This time use "/" as mount point (the root filesystem), choose type ext4 and in "Additional size options" select "Fill to maximum allowable size".
 
-{{< img src="images/rhel67-install-9.png" alt="Install RHEL 6.7: create root partition" >}}
+{{< img src="rhel67-install-9.png" alt="Install RHEL 6.7: create root partition" >}}
 
 Finally, your partition layout should look like in the screenshot below. Confirm with "Next", and ignore warnings telling you that you did not specify a swap partition. Anaconda will ask you to confirm twice more before actually writing the changes to disk.
 
-{{< img src="images/rhel67-install-10.png" alt="Install RHEL 6.7: final partition layout" >}}
+{{< img src="rhel67-install-10.png" alt="Install RHEL 6.7: final partition layout" >}}
 
 The installer will ask you in the next step where to save the bootloader; leave the default value of "/dev/sda" and continue.
 
-{{< img src="images/rhel67-install-11.png" alt="Install RHEL 6.7: bootloader installation" >}}
+{{< img src="rhel67-install-11.png" alt="Install RHEL 6.7: bootloader installation" >}}
 
 In the last step, choose what kind of installation you want. In this case we'll be creating a "Minimal" install, which will provide us with only the packages strictly necessary for the OS to work so we can add any required application and service later on. You're welcome to choose any other installation kind, however.
 
-{{< img src="images/rhel67-install-12.png" alt="Install RHEL 6.7: choose installation kind" >}}
+{{< img src="rhel67-install-12.png" alt="Install RHEL 6.7: choose installation kind" >}}
 
 Press "Next", then sit back and relax for a few minutes while Anaconda prepares your system.
 

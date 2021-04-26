@@ -11,6 +11,7 @@ coverImage:
   author: "ian dooley"
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@sadswim"
+resourceBundle: hereditas
 ---
 
 ## What happens after you're gone?
@@ -29,7 +30,7 @@ You could also decide to give your digital information to a trusted third-party,
 
 [Hereditas](https://hereditas.app), which means *inheritance* in Latin, tries to solve these problems, which are caused by technology, with technology.
 
-{{< img src="images/hereditas-logo.png" alt="Hereditas logo" link="https://hereditas.app" >}}
+{{< img src="hereditas-logo.png" alt="Hereditas logo" link="https://hereditas.app" >}}
 
 It is not the first solution that tries to solve the problem of your digital legacy with code. However, the innovation of Hereditas is in the fact that it doesn't require you to trust another person or provider, and that once you set it up, it will require virtually no investment of money or time to keep it running.
 

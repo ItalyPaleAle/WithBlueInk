@@ -11,6 +11,7 @@ coverImage:
   author: "elCarito"
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@elcarito"
+resourceBundle: go-buffalo
 ---
 
 In the last couple of months I've decided to use Go to build a new background service, with a RESTful API to control it (*at this point it's around 90% complete, but it's already in my GitHub repo if you're curious!*). Despite a few bumps at the beginning, picking up the language was relatively easy; choosing a web framework, however, not so much.
@@ -41,7 +42,7 @@ Go developers like to make fun of JavaScript and npm for how large `node_modules
 
 With my codebase using Buffalo, running `go get` downloaded **almost 1200 packages** and took an average of 3.5 minutes in the CI server. I worked to speed this up as much as possible, by installing the Buffalo CLI (required to build apps) using the pre-compiled binary downloaded from GitHub, or that would have been a few more minutes and hundreds more packages. Vendoring the dependencies wasn't an option, as it caused compilation to fail every time.
 
-{{< img src="images/buffalo-ci.jpg" alt="Installing almost 1200 packages in the CI" >}}
+{{< img src="buffalo-ci.jpg" alt="Installing almost 1200 packages in the CI" >}}
 
 After switching the same app to Gin, the `go get` step in the CI server runs in just over 2 minutes (~40% less) and uses only 350 packages.
 

@@ -12,6 +12,7 @@ coverImage:
   author: "Ferdinand Stöhr"
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@fellowferdi"
+resourceBundle: node-ubuntu
 ---
 
 I've been managing Node.js web apps in production on Linux servers for quite a few years, and I thought only now to document it publicly, hoping it can help others. There are too many ways to run Node.js apps, and I won't try to cover them all; if you're looking for a simple, straightforward way to run a Node.js web app on a VM with Ubuntu 18.04 (without containers), this article is for you.
@@ -37,7 +38,7 @@ node bin/www
 
 If you visit `http://localhost:3000`, you'll see the app running:
 
-{{< img src="images/app-local.png" alt="App running locally on localhost:3000" >}}
+{{< img src="app-local.png" alt="App running locally on localhost:3000" >}}
 
 ## Install Node.js
 

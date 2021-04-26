@@ -11,6 +11,7 @@ coverImage:
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@ulian_ka"
 comments: yes
+resourceBundle: docker-rpi
 ---
 
 At the end of May 2020, the Raspberry Pi Foundation [announced](https://www.raspberrypi.org/blog/latest-raspberry-pi-os-update-may-2020/) **Raspberry Pi OS**, the new official operating system for the mini-computer that is replacing Raspbian.
@@ -98,7 +99,7 @@ sudo docker run --rm hello-world
 
 If everything is working, the command above will output something similar to:
 
-{{< img src="images/hello-world.png" alt="Output of Docker \"hello world\" image" >}}
+{{< img src="hello-world.png" alt="Output of Docker \"hello world\" image" >}}
 
 ## Docker images for 32 and 64 bit ARM
 
@@ -108,7 +109,7 @@ Additionally, because of the growing popularity of 64-bit ARM in certain cloud p
 
 When searching for an image on Docker Hub, you can filter by operating system and architecture, where "ARM" refers to the 32-bit variant.
 
-{{< img src="images/docker-hub-arch.jpg" alt="Filter results by architecture on Docker Hub" >}}
+{{< img src="docker-hub-arch.jpg" alt="Filter results by architecture on Docker Hub" >}}
 
 In the Docker ecosystem, 64-bit ARM images are called `arm64` or `arm64/v8`.
 

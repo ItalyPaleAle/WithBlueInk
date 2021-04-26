@@ -11,6 +11,7 @@ coverImage:
   author: "NASA"
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@nasa"
+resourceBundle: ipfs
 ---
 
 > *March 13, 2019: This post has been updated for ipfs-cluster 0.10*
@@ -48,7 +49,7 @@ To start, **create three nodes (Linux VMs) on your favorite cloud provider** (I'
 
 In my example, I have created three Ubuntu 18.04 LTS VMs (we'll be using containers, so the actual distribution isn't important) in Azure, in the US, Europe and Asia. While geo-distribution isn't a strict requirement, it will make our cluster more resilient and we'll be serving data faster to users worldwide. Plus, it sounds a cool thing to do. I've also installed Docker CE in all VMs.
 
-{{< img src="images/running-vms.png" alt="Three VMs running on the cloud" >}}
+{{< img src="running-vms.png" alt="Three VMs running on the cloud" >}}
 
 Take note of the public IPs, as we'll need them.
 
@@ -335,7 +336,7 @@ Alternatively, you can use a gateway that shows IPFS over HTTP, like Cloudflare'
 
 One thing you'll notice: the web page loads and you can see the title, but the content is empty! Let's open the Inspector:
 
-{{< img src="images/app-empty.png" alt="Empty web app served via IPFS" >}}
+{{< img src="app-empty.png" alt="Empty web app served via IPFS" >}}
 
 As you can see, the issue is that the static web app is trying to include the JavaScript bundle at the path `/bundle.js`. Since our web app is not running in the root folder of the domain, that request fails. This is expected, and you can fix it by changing this line in the `index.html` file (making the path relative rather than absolute), then repeating the steps above to publish the updated app:
 
@@ -348,7 +349,7 @@ After making the change and re-publishing the app, the content id is now `QmakGE
     http://localhost:8080/ipfs/QmakGEBp4HJZ6tkFydbyvF6bVvFThqfAwnQS6F4D7ie7hL/
     https://cloudflare-ipfs.com/ipfs/QmakGEBp4HJZ6tkFydbyvF6bVvFThqfAwnQS6F4D7ie7hL/
 
-{{< img src="images/app-local.png" alt="Web app served via IPFS" >}}
+{{< img src="app-local.png" alt="Web app served via IPFS" >}}
 
 Note that the old content has not been removed, and it will be available for as long as there's at least one node seeding it. You can unpin it from the pinset to have it (eventually) removed from our nodes, but that doesn't guarantee that other IPFS nodes in the world will stop seeding it. Instead, read the next session for how to use IPNS.
 
@@ -385,13 +386,13 @@ To start using the Cloudflare IPFS gateway, you need to add 2 DNS records to you
 
 Last step: on the [Cloudflare Distributed Web Gateway](https://www.cloudflare.com/distributed-web-gateway/) page, click on the **Connect your website** button. You'll see a textbox at the bottom of the page: type your domain name there and submit the form. This will setup your domain in the Cloudflare gateway and generate the TLS certificates for your domain.
 
-{{< img src="images/cloudflare-setup.png" alt="Setting up the domain with Cloudflare Distributed Web Gateway" >}}
+{{< img src="cloudflare-setup.png" alt="Setting up the domain with Cloudflare Distributed Web Gateway" >}}
 
 After a couple of minutes, your domain will be active, also with TLS, and you can browse your app on IPFS at the URL:
 
     https://ipfs-demo.withblueink.com
 
-{{< img src="images/app-cloudflare.png" alt="Web app served via Cloudflare gateway" >}}
+{{< img src="app-cloudflare.png" alt="Web app served via Cloudflare gateway" >}}
 
 ## Continuous Integration and Continuous Delivery with Azure DevOps
 
@@ -419,25 +420,25 @@ To start, [login to Azure DevOps](https://dev.azure.com), and create an account 
 
 Open your Azure DevOps project, and navigate to the Pipelines tab, then choose **Builds**. Click on the "New pipeline" button.
 
-{{< img src="images/pipelines-new.png" alt="Create a new pipeline landing screen" >}}
+{{< img src="pipelines-new.png" alt="Create a new pipeline landing screen" >}}
 
 Click on the "Use the visual designer" link.
 
-{{< img src="images/pipelines-visual-designer.png" alt="Choose to use the visual designer" >}}
+{{< img src="pipelines-visual-designer.png" alt="Choose to use the visual designer" >}}
 
 Select where your source code lives, and authorize the Azure DevOps app if necessary. You will then be able to select the repository and branch containing your code. In this demo, I'm using the same **[rwieruch/minimal-react-webpack-babel-setup](https://github.com/rwieruch/minimal-react-webpack-babel-setup)** repo from GitHub, and the master branch.
 
-{{< img src="images/pipelines-repo-selection.png" alt="Selecting a repo" >}}
+{{< img src="pipelines-repo-selection.png" alt="Selecting a repo" >}}
 
 > Note: the build tasks in this section are specific to this demo application, which, you'll recall, uses React and is compiled with Webpack. Your application might require different steps, and might even be built with completely different tools (e.g. Ruby and Jekyll).
 
 In the next step, skip selecting a template and choose to start with an empty job.
 
-{{< img src="images/pipelines-template.png" alt="Skipping templates" >}}
+{{< img src="pipelines-template.png" alt="Skipping templates" >}}
 
 Click on the "+" icon next to "Agent job 1". Search for **Node Tool Installer**, then add the task.
 
-{{< img src="images/pipelines-add-node-tool.png" alt="Adding the NPM task" >}}
+{{< img src="pipelines-add-node-tool.png" alt="Adding the NPM task" >}}
 
 Configure the task with:
 
@@ -458,11 +459,11 @@ Lastly, add a **Publish Build Artifacts** task (note: there are two tasks with s
 
 Lastly, select the row called "Pipeline". Give your pipeline a name (e.g. `ipfs-demo-CI`) and select **Hosted Ubuntu 1604** as agent pool.
 
-{{< img src="images/pipelines-pool-and-save.png" alt="Select agent pool and save" >}}
+{{< img src="pipelines-pool-and-save.png" alt="Select agent pool and save" >}}
 
 We now have the pipeline complete. Press "Save & Queue" to start a new build. After a few moments, it should be done building the app!
 
-{{< img src="images/pipelines-ci-done.png" alt="Succesful CI run" >}}
+{{< img src="pipelines-ci-done.png" alt="Succesful CI run" >}}
 
 ### Create a Release pipeline
 
@@ -470,19 +471,19 @@ After building the app, we need to publish the code on IPFS. For this, we'll be 
 
 First thing, click on the blue area saying "Add an artifact".
 
-{{< img src="images/pipelines-release-new.png" alt="First step is adding an artifact" >}}
+{{< img src="pipelines-release-new.png" alt="First step is adding an artifact" >}}
 
 Leaving source type as "Build", choose the Source (build pipeline) that generated the artifacts: this is the build pipeline we created a few moments ago. Note down the value for "Source alias", as we'll need it soon.
 
-{{< img src="images/pipelines-add-artifact.png" alt="Select artifacts" >}}
+{{< img src="pipelines-add-artifact.png" alt="Select artifacts" >}}
 
 Click then on the Tasks tab, and choose "Stage 1".
 
-{{< img src="images/pipelines-tasks-menu.png" alt="Open stage 1 tasks" >}}
+{{< img src="pipelines-tasks-menu.png" alt="Open stage 1 tasks" >}}
 
 Select the first Agent Job and change the Agent pool to use **Hosted Ubuntu 1604**. Then, click on the "+" symbol to add a new task.
 
-{{< img src="images/pipelines-release-pool.png" alt="Change pool for Agent Job" >}}
+{{< img src="pipelines-release-pool.png" alt="Change pool for Agent Job" >}}
 
 Search for the task **Copy Files Over SSH** and add it. Before continuing, you'll see that you need to create a new "SSH service connection". Click on the "Manage" button next to it.
 
@@ -494,7 +495,7 @@ In the new page that appears, click on the "New service connection" dropdown, an
 - Password: leave empty
 - Private key: paste the private key you generated earlier
 
-{{< img src="images/pipelines-ssh-connection.png" alt="Configure the SSH connection" >}}
+{{< img src="pipelines-ssh-connection.png" alt="Configure the SSH connection" >}}
 
 Back to the previous tab, configure the Copy Files Over SSH task with:
 
@@ -507,7 +508,7 @@ Back to the previous tab, configure the Copy Files Over SSH task with:
   - Overwrite
   - Fail if no files found to copy
 
-{{< img src="images/pipelines-scp-task.png" alt="Configure the SCP task" >}}
+{{< img src="pipelines-scp-task.png" alt="Configure the SCP task" >}}
 
 Add a second task on the pipeline, of type **SSH**, that will add the app to the pinset. Configure the task with:
 
@@ -524,7 +525,7 @@ HASH=$(sudo docker exec ipfs-node ipfs add -rQ /staging/react)
 sudo docker exec ipfs-cluster ipfs-cluster-ctl pin add $HASH
 ````
 
-{{< img src="images/pipelines-ssh-task.png" alt="Configure the SSH task" >}}
+{{< img src="pipelines-ssh-task.png" alt="Configure the SSH task" >}}
 
 > The task above is missing one step: **changing the TXT DNS record** for the Cloudflare gateway to point to the new IPFS content id. How this can be accomplished depends on your domain name registrar (or DNS nameserver), and if they provide any API access.
 >
@@ -558,4 +559,4 @@ sudo docker exec ipfs-cluster ipfs-cluster-ctl pin add $HASH
 
 Save the release pipeline, then click on the **Release** button and start a new release. Wait a few moments, and it's done!
 
-{{< img src="images/pipelines-release-done.png" alt="Release complete" >}}
+{{< img src="pipelines-release-done.png" alt="Release complete" >}}

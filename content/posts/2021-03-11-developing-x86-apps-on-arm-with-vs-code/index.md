@@ -7,6 +7,7 @@ author:
   handle: "ItalyPaleAle"
 image: "img/architecture.jpg"
 comments: yes
+resourceBundle: x86-on-arm
 ---
 
 With Apple transitioning all Macs to Apple Silicon in these months, there's certainly a lot of momentum for bringing ARM-based computing to consumers… and also developers. The list of devices that are now running on CPUs based on the ARM architecture, as opposed to the x86 of Intel and AMD chips, is getting longer by the day. It includes things like:
@@ -66,21 +67,21 @@ To get started, make sure you've installed the [Remote - SSH](https://marketplac
 
 Next, in VS Code open the command palette (`CTRL + Shift + P` or `CMD + Shift + P` on macOS) and type `> Remote-SSH: Connect to host`:
 
-{{< img src="images/ssh-connect-to-host.png" alt="Using the VS Code command palette to run Remote-SSH: Connect to host" >}}
+{{< img src="ssh-connect-to-host.png" alt="Using the VS Code command palette to run Remote-SSH: Connect to host" >}}
 
 You might see some SSH hosts already if you've connected to them using SSH before (e.g. if they are in your known-hosts file). You can always add new ones by selecting `+ Add New SSH Host…`: add a connection as you would with SSH, for example `username@host-or-ip`. Like:
 
-{{< img src="images/ssh-add-host.png" alt="Adding SSH connection" >}}
+{{< img src="ssh-add-host.png" alt="Adding SSH connection" >}}
 
 VS Code will set up the connection for you and install its own agent on the remote host automatically. Once you're connected, you'll see the name of the remote in the bottom-left corner of the VS Code window, such as:
 
-{{< img src="images/ssh-connected.png" alt="Indicator that there's a remote session active" >}}
+{{< img src="ssh-connected.png" alt="Indicator that there's a remote session active" >}}
 
 You can use this remote environment just as any other instance of VS Code, including installing extensions and setting preferences that are specific to this remote host.
 
 On the Explorer tab, you can open a folder that is on the remote server (not on your laptop!), or clone a repository from a URL (for example, from GitHub):
 
-{{< img src="images/ssh-open.png" alt="Open a folder in the remote host" >}}
+{{< img src="ssh-open.png" alt="Open a folder in the remote host" >}}
 
 Once you've open a folder, you can start coding in the remote environment as if it were a local one. You can also use the integrated terminal to run commands on the remote host!
 
@@ -111,19 +112,19 @@ There are three requirements:
 
 Open the Settings UI of VS Code (from the command palette, type `> Preferences: Open Settings (UI)`), then search for `docker.host`. You need to set this to a SSH address (this works just like the `DOCKER_HOST` environmental variable for the Docker CLI), for example: `ssh://username@hostname-or-ip`.
 
-{{< img src="images/docker-host.png" alt="Setting docker.host in the VS Code settings" >}}
+{{< img src="docker-host.png" alt="Setting docker.host in the VS Code settings" >}}
 
 Then, restart VS Code (this is necessary).
 
 At this point, from the Remote Explorer tab you can select `Containers` from the drop-down at the top, and you can see the containers running on the remote host. You can attach to an existing container, or create new ones.
 
-{{< img src="images/docker-view.png" alt="Viewing Docker containers running on the remote host" >}}
+{{< img src="docker-view.png" alt="Viewing Docker containers running on the remote host" >}}
 
 ## GitHub Codespaces
 
 The last option is to leverage [GitHub Codespaces](https://github.com/features/codespaces), which is a development environment in the cloud that is fully-managed and works within VS Code too.
 
-{{< img src="images/codespaces-vscode.png" alt="A codespace running in VS Code" >}}
+{{< img src="codespaces-vscode.png" alt="A codespace running in VS Code" >}}
 
 With Codespaces, you can launch a development environment from any repository on GitHub (public or private). Additionally, if your repository includes a Dev Container (just like the one you use with Remote - Containers with VS Code), Codespaces will build a development environment from that.
 
@@ -131,6 +132,6 @@ All Codespaces currently run on x86-64 Linux servers, with 2 to 8 cores and up t
 
 As an added bonus, Codespaces can be used within a web browser too, in addition to VS Code!
 
-{{< img src="images/codespaces-web.png" alt="A codespace running in the browser" >}}
+{{< img src="codespaces-web.png" alt="A codespace running in the browser" >}}
 
 GitHub Codespaces is currently in preview, and you can sign up [here](https://github.com/features/codespaces).

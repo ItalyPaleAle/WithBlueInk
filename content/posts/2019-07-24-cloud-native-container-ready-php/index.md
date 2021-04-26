@@ -11,6 +11,7 @@ coverImage:
   author: "Sharon McCutcheon"
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@sharonmccutcheon"
+resourceBundle: php-cloud-native
 ---
 
 PHP is the language that everyone loves to hate. It was the first language many of us used to build web apps (including myself!), but it's fallen out of favors with developers. There is plenty of reason behind that, and most criticism is, or at least was, justifiable: PHP 5 suffered from multiple design and performance issues, had various inconsistencies, lacked any Unicode support, etc.
@@ -37,7 +38,7 @@ When architecting cloud native PHP applications, there are four principles that 
 
 This is by far the biggest thing, and it goes against one of the most common practice of PHP apps: all your generated content needs to stay off the local filesystem.
 
-{{< img src="images/php-meme.jpg" alt="\"PHP Apps? Plan all the storage!\" Meme" >}}
+{{< img src="php-meme.jpg" alt="\"PHP Apps? Plan all the storage!\" Meme" >}}
 
 Since the PHP 4 days, virtually all apps have been storing content (e.g. user uploads, generated data, etc) in a folder on the local filesystem. For example, WordPress uses the famous `wp-content` directory to store both customizations (plugins and themes) and uploaded assets (post images, attachments…). When designing cloud-native apps, this is going to be a blocker, as data that is written on the local filesystem won't automatically replicate to other nodes when you scale horizontally, won't be available if you're failing over another server, won't persist when you destroy a container, etc.
 
