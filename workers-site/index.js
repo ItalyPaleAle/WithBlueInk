@@ -1,5 +1,6 @@
 import {getAssetFromKV} from '@cloudflare/kv-asset-handler'
 import assets from './assets'
+import {cacheSettings} from './cache-config'
 
 /* global STORAGE_ACCOUNT, STORAGE_CONTAINER, DOMAINS, PLAUSIBLE_ANALYTICS */
 
@@ -153,17 +154,17 @@ function shouldRedirect(event) {
  * @returns {Promise<Response>} Response object
  */
 async function requestFromKV(event) {
+    // Get cache settings for this file
+    const cacheOpts = cacheSettings(event.request.url)
     // Options for the request from the KV
     /** @type {import('@cloudflare/kv-asset-handler').Options} */
     const options = {
         // Set custom caching options
         cacheControl: {
+            // Add the options
+            ...cacheOpts,
             // Use Cloudflare cache
             bypassCache: false,
-            // Cache for 1 day in browsers
-            browserTTL: 86400,
-            // Cache for 2 days in the edge
-            edgeTTL: 86400 * 2,
         }
     }
     if (DEBUG) {
