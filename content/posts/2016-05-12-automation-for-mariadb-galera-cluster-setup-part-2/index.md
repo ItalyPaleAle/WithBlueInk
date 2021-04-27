@@ -6,7 +6,6 @@ date: 2016-05-12 19:02:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/containers2.jpg"
 comments: yes
 coverImage:
   author: "Melusina Parkin"

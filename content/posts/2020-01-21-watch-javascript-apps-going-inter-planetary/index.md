@@ -5,12 +5,12 @@ date: 2020-01-21 00:00:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/node-talk.jpg"
 comments: yes
 coverImage:
   author: "Michael Descharles"
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@michael_exploring"
+resourceBundle: node-talk
 ---
 
 Last December, I gave a talk at Node+JS Interactive in Montreal, with the title **_JavaScript apps going Inter-Planetary_**.

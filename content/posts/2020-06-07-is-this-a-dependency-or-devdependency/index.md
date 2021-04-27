@@ -5,12 +5,12 @@ date: 2020-06-07 00:00:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/dependencies.jpg"
 comments: yes
 coverImage:
   author: "Natalino D'Amato"
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@natalino_damato"
+resourceBundle: dev-dependencies
 ---
 
 Earlier today, someone opened a Pull Request for [svelte-spa-router](https://github.com/ItalyPaleAle/svelte-spa-router)–an open source project I maintain as a client-side router for Single-Page Apps built with the Svelte framework–asking whether they should install the module as a *dependency* or *devDependency* in the package.json file.

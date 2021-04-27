@@ -5,12 +5,12 @@ date: 2019-04-07 16:26:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/key-vault.jpg"
 comments: yes
 coverImage:
   author: "Tim Evans"
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@tjevans"
+resourceBundle: key-vault
 ---
 
 I recently had to build an app in Go to retrieve TLS certificates stored on [Azure Key Vault](https://azure.microsoft.com/en-us/services/key-vault/), and because of some quirks this took way longer than I expected (*admittedly, my limited experience with Go didn't really help*). Sharing is caring, so I'm posting the code here for everyone else 🙌🏻

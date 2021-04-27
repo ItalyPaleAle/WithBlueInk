@@ -6,7 +6,6 @@ date: 2020-09-24 17:29:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/spying-app.png"
 comments: yes
 resourceBundle: youarchiveit
 ---

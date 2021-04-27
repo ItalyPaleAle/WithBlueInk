@@ -5,7 +5,6 @@ date: 2016-01-09 01:00:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/redhat6.jpg"
 comments: yes
 coverImage:
   author: "Ricardo Liberato"

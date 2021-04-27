@@ -5,7 +5,6 @@ date: 2019-06-28 07:40:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/buffalo.jpg"
 comments: yes
 coverImage:
   author: "elCarito"

@@ -5,7 +5,6 @@ date: 2016-03-09 23:35:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/containers.jpg"
 comments: yes
 coverImage:
   author: "Rafael Edwards"

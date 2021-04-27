@@ -5,12 +5,12 @@ date: 2020-11-12 00:00:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/decentralized-network.jpg" 
 comments: yes
 coverImage:
   author: "Sander Weeteling"
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@sanderweeteling"
+resourceBundle: decentralized-web
 ---
 
 I spent a large part of 2019 working with the distributed and decentralized web, especially IPFS, also known as the "Inter-Planetary File System". I've written a few articles on the topic, on how you can host a web app on IPFS, one of which even ended up on the front page of HackerNews.

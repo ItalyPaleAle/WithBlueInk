@@ -1,38 +1,38 @@
-{{ if not (eq .Page.Params.noCover true ) }}
+{{ if and (not (eq .Page.Params.noCover true)) .Page.Params.resourceBundle }}
 
-    {{- $relativeRoot := .Scratch.Get "relativeRoot" -}}
-    {{- $coverBgColor := (index .Page.Params "coverColor" | default "#4299E1") -}}
-    {{- $coverBg := printf "background-color: %s;" $coverBgColor -}}
-    {{- if index .Page.Params "image" -}}
-        {{- $coverBg = printf "background-image: url('%s%s');" $relativeRoot .Page.Params.image -}}
-    {{- end -}}
+    {{ $coverBgColor := (index .Page.Params "coverColor" | default "#4299E1") }}
+    {{ $coverBg := printf "background-color: %s;" $coverBgColor }}
 
-    {{- $paginator := .Scratch.Get "paginator" -}}
-    {{- if $paginator -}}
-            {{- if gt $paginator.PageNumber 1 -}}
-                {{- $coverBg = printf "background-image: url('../../%s');" .Page.Params.image -}}
-            {{- end -}}
-    {{- end -}}
+    {{/* Try jpg images first, then png */}}
+    {{ $res := resources.Get (printf "images/%s/_cover.jpg" .Page.Params.resourceBundle) }}
+    {{ if not $res }}
+        {{ $res = resources.Get (printf "images/%s/_cover.png" .Page.Params.resourceBundle) }}
+    {{ end }}
 
-    <div class="cover-image mb-6" style="{{ $coverBg | safeCSS }}">
-        <section class="container flex flex-col justify-center h-full text-white text-shadow-xl py-16">
+    {{/* Set the cover image if found */}}
+    {{ if $res }}
+        {{ $coverBg = printf "background-image: url('%s');" $res.RelPermalink }}
+    {{ end }}
+
+    <div class="mb-6 cover-image" style="{{ $coverBg | safeCSS }}">
+        <section class="container flex flex-col justify-center h-full py-16 text-white text-shadow-xl">
             {{- if eq .Page.Type "posts"}}
-                <h1 class="text-5xl md:text-6xl font-bold">{{ .Page.Title }}</h1>
-                {{ with .Page.Description }}<div class="text-2xl md:text-3xl font-bold mt-4">{{ . }}</div>{{ end }}
+                <h1 class="text-5xl font-bold md:text-6xl">{{ .Page.Title }}</h1>
+                {{ with .Page.Description }}<div class="mt-4 text-2xl font-bold md:text-3xl">{{ . }}</div>{{ end }}
             {{- else if eq .Page.Kind "home" -}}
-                <h1 class="text-7xl font-bold text-center">{{ .Page.Title }}</h1>
+                <h1 class="font-bold text-center text-7xl">{{ .Page.Title }}</h1>
             {{- else -}}
                 <h1 class="text-6xl font-bold text-center">{{ .Page.Title }}</h1>
-                {{ with .Page.Description }}<div class="text-4xl font-bold mt-4 text-center">{{ . }}</div>{{ end }}
+                {{ with .Page.Description }}<div class="mt-4 text-4xl font-bold text-center">{{ . }}</div>{{ end }}
             {{- end -}}
         </section>
     </div>
 
 {{ else }}
 
-    <section class="container pt-6">
-        <h1 class="text-3xl font-bold">{{ .Page.Title }}</h1>
-        {{ with .Page.Description }}<div class="text-xl font-bold mt-1">{{ . }}</div>{{ end }}
+    <section class="container pt-6 pb-4">
+        <h1 class="text-4xl font-bold">{{ .Page.Title }}</h1>
+        {{ with .Page.Description }}<div class="mt-2 text-2xl font-bold">{{ . }}</div>{{ end }}
     </section>
 
 {{ end }}

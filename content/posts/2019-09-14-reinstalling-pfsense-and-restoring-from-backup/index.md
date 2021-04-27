@@ -5,7 +5,6 @@ date: 2019-09-14 22:14:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/firewall.jpg"
 comments: yes
 coverImage:
   author: "Viktor Forgacs"

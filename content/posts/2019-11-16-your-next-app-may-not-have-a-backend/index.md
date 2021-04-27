@@ -5,7 +5,6 @@ date: 2019-11-16 14:06:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/jam.jpg"
 comments: yes
 coverImage:
   author: "Jonathan Pielmayer"

@@ -5,7 +5,6 @@ date: 2019-03-11 23:34:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/unicode.jpg"
 comments: yes
 slug: "why-you-need-to-normalize-unicode-strings"
 coverImage:

@@ -7,7 +7,6 @@ aliases:
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/pie.jpg"
 comments: yes
 coverImage:
   author: "Lucky Heath"

@@ -5,7 +5,6 @@ date: 2019-03-18 07:00:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/hereditas.jpg"
 comments: yes
 coverImage:
   author: "ian dooley"

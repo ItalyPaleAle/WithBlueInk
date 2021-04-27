@@ -8,14 +8,14 @@
     <!-- Main Content -->
     <div class="container mt-4">
         {{- range $paginator.Pages -}}
-            <a href="{{ .RelPermalink }}" class="group block mb-4 pb-4 border-b-2 border-border">
-                    <h1 class="font-bold text-2xl leading-tight mb-1 text-accent-300 group-hover:text-accent-200">{{ .Title }}</h1>
+            <a href="{{ .RelPermalink }}" class="block pb-4 mb-4 border-b-2 group border-border">
+                    <h1 class="mb-1 text-2xl font-bold leading-tight text-accent-300 group-hover:text-accent-200">{{ .Title }}</h1>
                     {{ with .Description }}
-                        <h2 class="leading-tight mb-1 group-hover:text-accent-200">{{ . }}</h2>
+                        <h2 class="mb-1 leading-tight group-hover:text-accent-200">{{ . }}</h2>
                     {{ end }}
                 {{ with .Date }}
                     <p class="text-shade-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="inline-block h-4 w-4 mr-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="inline-block w-4 h-4 mr-1">
                             <!--Copyright (c) 2016 Dan Klammer: https://github.com/danklammer/bytesize-icons-->
                             <title>Publishing date</title>
                             <circle cx="16" cy="16" r="14" />

@@ -5,7 +5,6 @@ date: 2018-12-02 12:05:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/node.jpg"
 comments: yes
 slug: "node-js-web-apps-in-ubuntu-production-ready"
 coverImage:

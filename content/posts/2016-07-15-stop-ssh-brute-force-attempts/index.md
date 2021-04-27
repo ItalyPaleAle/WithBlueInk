@@ -5,13 +5,13 @@ date: 2016-07-15 19:42:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/ssh-brute-force.jpg"
 comments: yes
 coverImage:
   author: "Martin Majer"
   linkName: "500px"
   linkURL: "https://500px.com/photo/95395439/2-52-rule-of-thirds-votogs52-by-martin-majer"
   license: "CC BY-SA"
+resourceBundle: ssh-brute-force
 ---
 
 Every admin has certainly experienced this. You have a Linux server that is directly addressable from the Internet and has SSH installed, and you see your logs full of failed login attempts by bots from all over the world, trying to hack through brute force attacks. Although for most users this should be quite harmless (as long as your password isn't something like "password", of course!), it's still annoying to have your logs full of noise and an increased load on the server.

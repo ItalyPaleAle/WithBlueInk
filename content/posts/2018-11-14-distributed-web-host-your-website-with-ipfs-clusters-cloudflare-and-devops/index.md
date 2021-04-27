@@ -5,7 +5,6 @@ date: 2018-11-14 08:39:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/planet.jpg"
 comments: yes
 coverImage:
   author: "NASA"

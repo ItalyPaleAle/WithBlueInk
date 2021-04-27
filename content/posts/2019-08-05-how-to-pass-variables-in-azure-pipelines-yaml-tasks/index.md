@@ -5,7 +5,6 @@ date: 2019-08-05 19:14:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/pipeline-variables.jpg"
 comments: yes
 coverImage:
   author: "Chad Madden"

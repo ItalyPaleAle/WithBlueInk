@@ -5,12 +5,12 @@ date: 2020-10-03 00:00:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/go-wasm.jpg"
 comments: yes
 coverImage:
   author: "Saira"
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@sairaa"
+resourceBundle: go-wasm
 ---
 
 [WebAssembly](https://webassembly.org/), or Wasm, is an open standard that allows developers to build apps that run inside a web browser using compiled programming languages. With WebAssembly, it's possible to write components of web apps in languages such as C/C++, Rust, C#, and Go, among others, which run within the same sandbox as JavaScript. This allows things like porting existing libraries, leveraging capabilities not available in JavaScript, and running code faster because WebAssembly is compiled into a binary format.

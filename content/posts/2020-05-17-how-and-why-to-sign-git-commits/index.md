@@ -5,7 +5,6 @@ date: 2020-05-17 00:00:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/git.jpg"
 comments: yes
 coverImage:
   author: "Andreas Gücklhorn"

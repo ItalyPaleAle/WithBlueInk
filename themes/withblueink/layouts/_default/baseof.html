@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-{{- $relativeRoot := (strings.TrimPrefix "/" (printf "%s%s" (path.Dir .Page.RelPermalink) "/") | replaceRE "[^/]+/" "../") -}}
-{{- if eq $relativeRoot "/" -}}
-    {{- $relativeRoot = "" -}}
-{{- end -}}
-{{- .Scratch.Set "relativeRoot" $relativeRoot -}}
 <html lang='{{ .Site.LanguageCode }}'>
     {{ partial "head.html" . }}
     <body class="flex flex-col min-h-screen tracking-wide theme-auto bg-background text-shade-600">

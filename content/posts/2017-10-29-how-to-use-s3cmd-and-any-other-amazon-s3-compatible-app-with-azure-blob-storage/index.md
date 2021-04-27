@@ -5,12 +5,12 @@ date: 2017-10-29 21:44:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/minio.jpg"
 comments: yes
 coverImage:
   author: "Jacek Malinowski"
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@jaxek"
+resourceBundle: minio
 ---
 
 In the cloud storage world, it's not a secret that the Amazon S3 APIs are considered the *de facto* standard. Countless third-party and open source apps, libraries and tools are built to take advantage of S3, including very popular tools like [s3cmd](https://github.com/s3tools/s3cmd).

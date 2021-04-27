@@ -5,7 +5,6 @@ date: 2019-04-12 17:10:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/jquery.jpg"
 comments: yes
 coverImage:
   author: "Doran Erickson"

@@ -5,12 +5,12 @@ date: 2020-01-19 00:00:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/mount.jpg"
 comments: yes
 coverImage:
   author: "adrian"
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@aows"
+resourceBundle: auto-mount
 ---
 
 I've been building a simple NAS for my home, and I wanted to store the data on a secondary disk, encrypted with dm-crypt/LUKS. There are plenty of articles on how to do that, but when it comes to automatically mounting the disk at boot, all of them recommend writing the encryption key in a keyfile and store it on the local filesystem.

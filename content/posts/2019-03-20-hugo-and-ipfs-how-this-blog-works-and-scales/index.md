@@ -5,7 +5,6 @@ date: 2019-03-20 07:00:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/hugo-ipfs.jpg"
 comments: yes
 slug: "hugo-and-ipfs-how-this-blog-works-and-scales"
 coverImage:

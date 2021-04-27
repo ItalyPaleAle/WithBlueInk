@@ -5,13 +5,13 @@ date: 2020-04-08
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/authentication.jpg"
 comments: yes
 slug: "stop-writing-your-own-user-authentication-code"
 coverImage:
   author: "Paulina Sáez"
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@polisaez"
+resourceBundle: authentication
 ---
 
 Most apps require some sort of authentication. You might be a developer working for a large company on their line of business apps, which require limiting access to authorized employees and checking their permissions. Or, you might be building a new SaaS app and you want users to create and maintain their profiles.

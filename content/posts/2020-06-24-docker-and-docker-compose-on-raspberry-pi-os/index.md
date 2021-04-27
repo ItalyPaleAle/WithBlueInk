@@ -5,7 +5,6 @@ date: 2020-06-24 00:00:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/rpi.jpg"
 coverImage:
   author: "Uliana Kopanytsia"
   linkName: "Unsplash"

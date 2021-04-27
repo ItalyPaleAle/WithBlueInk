@@ -5,7 +5,6 @@ date: 2015-12-22 18:00:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/redhat7.jpg"
 comments: yes
 coverImage:
   author: "Todd Petit"

@@ -5,7 +5,6 @@ date: 2019-07-24 20:14:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/php.jpg"
 comments: yes
 coverImage:
   author: "Sharon McCutcheon"

@@ -5,13 +5,13 @@ date: 2016-07-15 17:02:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
-image: "img/hard-drives.jpg"
 comments: yes
 coverImage:
   author: "Scott Schiller"
   linkName: "Flickr"
   linkURL: "https://flic.kr/p/buWBL3"
   license: "CC BY"
+resourceBundle: wd-red
 ---
 
 I know, this blog was supposed to be about the cloud, but in fifth post I'm taking a break from writing about that! Instead, I'd like to share a couple of learnings I got from another project I've been working on.
