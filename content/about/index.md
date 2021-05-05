@@ -1,6 +1,6 @@
 ---
 title: "About"
-#image: "img/about-bg.jpg"
+#image: "images/about-bg.jpg"
 #coverImage:
 #  author: "Giulio Bernardi"
 #  linkName: "Flickr"

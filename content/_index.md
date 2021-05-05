@@ -1,5 +1,5 @@
 ---
 title: "Blog"
-#image: img/home-bg.jpg
+#image: images/home-bg.jpg
 noCover: true
 ---
