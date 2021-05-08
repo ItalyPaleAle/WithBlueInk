@@ -77,7 +77,7 @@ module.exports = {
                             overflowWrap: 'break-word',
                             wordBreak: 'break-word',
                             letterSpacing: theme('letterSpacing.regular'),
-                            fontWeight: '600',
+                            fontWeight: '500',
                         },
                         'a code': {
                             color: `${theme('colors.accent-300')}`,
