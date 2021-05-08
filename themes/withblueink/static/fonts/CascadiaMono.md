@@ -1,9 +1,9 @@
 # Cascadia Code
 
-Using the Mono variant, that doesn't include ligatures
+Using the Mono variant, that doesn't include ligatures.
 
 - Source: https://github.com/microsoft/cascadia-code
-- Version: 2009.22
+- Version: 2102.25
 
 ## License
 
