@@ -23,7 +23,7 @@ However, when switching our development platform to ARM, we need to look at the 
 
 I primarily build web applications with back-end services that are designed to run on a x86 Linux server, mostly within a Docker container. Chances are that you're doing the same: in fact, Linux running on x86 chips is one of the most popular target platforms for server-side applications, if not _the_ most popular.
 
-Having access to a development environment that's as similar to the production one as possible is a need most developers will relate with. On a x86 machine, even if you're not running Linux as desktop OS, there are multiple ways to access a Linux environment: virtual machines, Docker containers, and on Windows 10 even [WSL](https://docs.microsoft.com/en-us/windows/wsl/about?WT.mc_id=devcloud-0000-cxa).
+Having access to a development environment that's as similar to the production one as possible is a need most developers will relate with. On a x86 machine, even if you're not running Linux as desktop OS, there are multiple ways to access a Linux environment: virtual machines, Docker containers, and on Windows 10 even [WSL](https://docs.microsoft.com/en-us/windows/wsl/about?WT.mc_id=devcloud-00000-cxa).
 
 Sadly, when you change the architecture of your development machine's CPU, from x86 to ARM, that's not possible anymore. While you can always run Linux in a VM or as a Docker container, in both cases you're limited to using the ARM variants, and can't run your x86 binaries.
 
@@ -45,14 +45,14 @@ The architecture mismatch can create issues in more than a few cases, including:
 
 ## Using VS Code remote extensions
 
-The good news is that [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=devcloud-0000-cxa) can help, thanks to the extensions for remote development that allow you to work connected to remote machines which can be using any CPU.
+The good news is that [Visual Studio Code](https://code.visualstudio.com/?WT.mc_id=devcloud-00000-cxa) can help, thanks to the extensions for remote development that allow you to work connected to remote machines which can be using any CPU.
 
 This means that you can use VS Code on your laptop with an ARM chip and have your code be executed on a remote host, which can have an Intel CPU, and things will just work.
 
 In particular, there are two extensions (both officially maintained by Microsoft) that allow you to do that:
 
-- [Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh&WT.mc_id=devcloud-0000-cxa) allows you to work on remote Linux (or Windows or macOS) servers by connecting via SSH
-- [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers&WT.mc_id=devcloud-0000-cxa) allows you to code within a Docker container, which could be hosted locally (in which case it would probably be running on ARM64) but also remotely, on any server you can connect to via SSH
+- [Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh&WT.mc_id=devcloud-00000-cxa) allows you to work on remote Linux (or Windows or macOS) servers by connecting via SSH
+- [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers&WT.mc_id=devcloud-00000-cxa) allows you to code within a Docker container, which could be hosted locally (in which case it would probably be running on ARM64) but also remotely, on any server you can connect to via SSH
 
 ### Developing via SSH
 
@@ -60,9 +60,9 @@ Using SSH to connect to a remote server is perhaps the simplest of the two appro
 
 The remote server can be anywhere: could be a VM on the cloud (like on Azure), or a small server in your home. As long as you can connect to it via SSH, you can use it for remote development.
 
-To get started, make sure you've installed the [Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh&WT.mc_id=devcloud-0000-cxa) extension in VS Code.
+To get started, make sure you've installed the [Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh&WT.mc_id=devcloud-00000-cxa) extension in VS Code.
 
-> The [full tutorial](https://code.visualstudio.com/docs/remote/ssh-tutorial?WT.mc_id=devcloud-0000-cxa) on remote development with SSH is available in the VS Code docs.
+> The [full tutorial](https://code.visualstudio.com/docs/remote/ssh-tutorial?WT.mc_id=devcloud-00000-cxa) on remote development with SSH is available in the VS Code docs.
 
 Next, in VS Code open the command palette (`CTRL + Shift + P` or `CMD + Shift + P` on macOS) and type `> Remote-SSH: Connect to host`:
 
@@ -86,20 +86,20 @@ Once you've open a folder, you can start coding in the remote environment as if 
 
 ### Developing with containers
 
-Another extension of VS Code for remote development is the [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers&WT.mc_id=devcloud-0000-cxa) one, which allows you to develop inside a Docker container.
+Another extension of VS Code for remote development is the [Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers&WT.mc_id=devcloud-00000-cxa) one, which allows you to develop inside a Docker container.
 
 As long as you have the Docker CLI (the tools to interact with Docker) installed on your laptop, you can target any Docker host. For example, you can install Docker on a Linux server, then point your Docker set up to connect to it via SSH.
 
 Aside from allowing you to code in remote environments that might have CPUs with a different architecture, using containers for development has a bunch of other benefits. For example:
 
-- It gives you a repeatable development environment that you can share with other people. You can define everything you need for developing an app using a Dockerfile, and by adding a [devcontainer.json](https://code.visualstudio.com/docs/remote/devcontainerjson-reference?WT.mc_id=devcloud-0000-cxa) you can also configure options for VS Code, such as what extensions you need. Both these things can be checked into source control together with your source code, giving everyone who has access to the repo an immediate way to spin up a development environment that is ready to go.
+- It gives you a repeatable development environment that you can share with other people. You can define everything you need for developing an app using a Dockerfile, and by adding a [devcontainer.json](https://code.visualstudio.com/docs/remote/devcontainerjson-reference?WT.mc_id=devcloud-00000-cxa) you can also configure options for VS Code, such as what extensions you need. Both these things can be checked into source control together with your source code, giving everyone who has access to the repo an immediate way to spin up a development environment that is ready to go.
 - It allows you to choose for each app or project what runtimes, libraries, frameworks, etc need to be available, and which version of those. For example, if one of your apps requires Java 8 and the other one is built for Java 13, using containers allows you to get each app its own isolated environment, with the correct version of the runtime for that project. Also, if everyone on your team uses the same environment, with the same dependencies, the "works on my machine" problem should hopefully be a thing of the past!
 
 While I love dev containers, getting started with them requires learning a few things, and I won't deny at the beginning it will seem like a bit of trial and error (but I promise it's so worth it!). Nevertheless, it's a topic that's much broader than what I can cover on this post, so instead I'd recommend taking a look at these resources:
 
 - Yohan Lasorsa's session at VS Code Day 2021 [A Clean Dev Env, Working Every Time, Everywhere](https://www.youtube.com/watch?v=NNrq2641zTA&list=PLj6YeMhvp2S6uB23beQaffszlavLq3lNq&index=3) is a good intro to the topic, recapping the benefits and how to get started
 - [This video series](https://dev.to/burkeholland/beginner-s-series-to-dev-containers-free-video-course-27ln) from Brigit Murtaugh and Burke Holland from the VS Code team instead can be a good deeper-dive
-- You can also find a module on [Microsoft Learn](https://docs.microsoft.com/en-us/learn/modules/use-docker-container-dev-env-vs-code/?WT.mc_id=devcloud-0000-cxa) with hands-on walkthroughs.
+- You can also find a module on [Microsoft Learn](https://docs.microsoft.com/en-us/learn/modules/use-docker-container-dev-env-vs-code/?WT.mc_id=devcloud-00000-cxa) with hands-on walkthroughs.
 
 In addition to the intro content above, to use Dev Containers with a remote Docker host there's one more tweaks that you need to make: you need to alter the value of `docker.host` in the Settings of VS Code.
 
