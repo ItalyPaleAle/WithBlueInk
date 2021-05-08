@@ -86,7 +86,7 @@ Of course, in your production server you are not going to launch your app manual
 
 For example, if your app's process is managed by systemd, you can use the `Environment=` option in your unit file (in the `[Service]` section) to define one or more env variables. For example, this sets 2 variables, `DB_PASSWORD` and `FOO`:
 
-```conf
+```text
 [Service]
 Environment="DB_PASSWORD=ssw0rd" "FOO=bar"
 ```
@@ -100,7 +100,7 @@ HELLO=world
 
 Then within your systemd unit you load all the variables with the `EnvironmentFile=` key:
 
-```conf
+```text
 [Service]
 EnvironmentFile=/etc/myapp/config
 ```
