@@ -63,8 +63,15 @@ async function handleEvent(event) {
                     browserTTL: 7200
                 },
                 async (response) => {
-                    // Get the body's text then replace the URL
-                    const text = await response.text()
+                    // Get the body's text, replace the URL, and add padding
+                    let text = await response.text()
+                    const num = Math.floor(Math.random() * 100000)
+                    if (Math.random() < 0.5) {
+                        text += (text.endsWith(';') ? '' : ';') +
+                            `'` + num + `'`
+                    } else {
+                        text = `'` + num + `'` + text
+                    }
                     return text.replace(PLAUSIBLE_ANALYTICS, '/pls')
                 }
             )
@@ -218,7 +225,9 @@ async function requestAsset(useAsset, modifyBody) {
     }
 
     // Return a fetch invocation (promise) that retrieves data from the origin
-    let response = await fetch(useAsset.url, cfOpts)
+    let response = await fetch(useAsset.url, {
+        cf: cfOpts
+    })
 
     // See if we want to modify the response's body
     let body = response.body

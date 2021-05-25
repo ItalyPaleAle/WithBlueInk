@@ -38,7 +38,7 @@ document.querySelectorAll('[data-lightbox]').forEach((el) => {
             event.preventDefault()
             lb.show()
         })
-        el.style.cursor = 'pointer'
+        el.style.cursor = 'zoom-in'
         lbs.push(lb)
     }
 })
