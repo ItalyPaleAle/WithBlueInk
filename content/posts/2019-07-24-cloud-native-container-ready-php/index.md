@@ -69,7 +69,7 @@ session.save_path="tcp://hostname-or-ip:6379"
 
 If you're using Apache as web server, you can also set this per-site or per-folder using an `.htaccess` file:
 
-````htaccess
+````text
 php_value session.save_handler "redis"
 php_value session.save_path "tcp://hostname-or-ip:6379"
 ````
