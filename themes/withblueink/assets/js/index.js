@@ -24,6 +24,14 @@ if (!theme || themes.indexOf('theme-' + theme) < 0) {
 // Set the theme
 setTheme(theme)
 
+// Enable links to set theme
+document.querySelectorAll('[data-theme]').forEach((el) => {
+    el.addEventListener('click', (event) => {
+        event.preventDefault()
+        setTheme(el.getAttribute('data-theme'))
+    })
+})
+
 // Enable lightbox for all tags with "data-lightbox"
 const lbs = []
 document.querySelectorAll('[data-lightbox]').forEach((el) => {
