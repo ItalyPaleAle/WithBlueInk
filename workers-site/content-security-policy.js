@@ -40,7 +40,8 @@ export default {
     ],
     'child-src': [
         `'self'`,
-        'https://www.youtube-nocookie.com'
+        'https://www.youtube-nocookie.com',
+        'https://platform.twitter.com/'
     ],
     'worker-src': [
         `'self'`
@@ -52,6 +53,7 @@ export default {
         `'self'`
     ],
     'block-all-mixed-content': true,
+    'upgrade-insecure-requests': true,
     'report-uri': [
         'https://8af2e721dd06ac65ebfdd369c011d469.report-uri.com/r/d/csp/reportOnly'
     ]
