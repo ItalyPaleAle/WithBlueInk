@@ -9,7 +9,7 @@ import {cacheSettings} from './cache-config'
  * 1. we will skip caching on the edge, which makes it easier to debug
  * 2. we will return an error message on exception in your Response rather than the default 404.html page
  */
-const DEBUG = false
+const DEBUG = true
 
 addEventListener('fetch', (event) => {
     try {
@@ -277,7 +277,7 @@ function setSecurityHeaders(headers) {
     // Content Security Policy
     // For now this is in "report" mode only
     // TODO
-    headers.set('Content-Security-Policy-Report-Only:', "default-src 'none'; script-src 'self' https://*.italypaleale.me; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src * https://*.italypaleale.me; media-src *; object-src 'none'; prefetch-src 'self'; child-src 'self'; worker-src 'self'; frame-ancestors 'self'; form-action 'self'; block-all-mixed-content")
+    headers.set('Content-Security-Policy-Report-Only', "default-src 'none'; script-src 'self' https://*.italypaleale.me; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src * https://*.italypaleale.me; media-src *; object-src 'none'; prefetch-src 'self'; child-src 'self'; worker-src 'self'; frame-ancestors 'self'; form-action 'self'; block-all-mixed-content")
 }
 
 /**
