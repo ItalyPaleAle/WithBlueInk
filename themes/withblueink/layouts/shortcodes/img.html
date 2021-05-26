@@ -2,6 +2,8 @@
 {{ $src := .Get "src"}}
 {{ $srcset := "" }}
 {{ $full := $src }}
+{{ $width := 0 }}
+{{ $height := 0 }}
 {{ if not (hasPrefix $src "/") }}
     {{/* Check if it's a page resource first, then a resource */}}
     {{ $resource := $.Page.Resources.GetMatch $src }}
@@ -20,10 +22,17 @@
             {{ $scaled2x := $resource.Fit "900x900 jpg #ffffff q75" }}
             {{ $scaled1x := $resource.Fit "600x600 jpg #ffffff q75" }}
             {{ $src = $scaled1x.RelPermalink }}
+            {{ $width = $scaled1x.Width }}
+            {{ $height = $scaled1x.Height }}
             {{ $srcset = printf `srcset="%s, %s 1.5x"` $scaled1x.RelPermalink $scaled2x.RelPermalink | safeHTMLAttr }}
         {{ else }}
             {{ $src = $resource.RelPermalink }}
             {{ $full = $src }}
+            {{ $ct := $resource.MediaType.String }}
+            {{ if or (eq $ct "image/jpeg") (eq $ct "image/png") (eq $ct "image/gif") }}
+                {{ $width = $resource.Width }}
+                {{ $height = $resource.Height }}
+            {{ end }}
         {{ end }}
     {{ end }}
 {{ end }}
@@ -42,7 +51,7 @@
         {{ $full = "" }}
         <a href="{{.}}">
     {{ end }}
-    <img {{ with $srcset }}{{ . }}{{ end }} src="{{ $src }}" {{ with $alt }}alt="{{ . }}" title="{{ . }}"{{ end }} {{ with $full }}data-lightbox="image:{{ . }}"{{ end }} loading="lazy" />
+    <img {{ with $srcset }}{{ . }}{{ end }} src="{{ $src }}" {{ with $alt }}alt="{{ . }}" title="{{ . }}"{{ end }} {{ with $full }}data-lightbox="image:{{ . }}"{{ end }} loading="lazy" {{ with $width }}width="{{ . }}"{{ end }} {{ with $height }}height="{{ . }}"{{ end }} />
     {{ if .Get "link"}}
         </a>
     {{ end }}
