@@ -52,4 +52,7 @@ export default {
         `'self'`
     ],
     'block-all-mixed-content': true,
+    'report-uri': [
+        'https://8af2e721dd06ac65ebfdd369c011d469.report-uri.com/r/d/csp/reportOnly'
+    ]
 }
