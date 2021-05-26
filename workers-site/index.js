@@ -67,10 +67,9 @@ async function handleEvent(event) {
                     let text = await response.text()
                     const num = Math.floor(Math.random() * 100000)
                     if (Math.random() < 0.5) {
-                        text += (text.endsWith(';') ? '' : ';') +
-                            `'` + num + `'`
+                        text += `\n;'` + num + `'`
                     } else {
-                        text = `'` + num + `'` + text
+                        text = `'` + num + `';\n` + text
                     }
                     return text.replace(PLAUSIBLE_ANALYTICS, '/pls')
                 }
@@ -180,10 +179,10 @@ async function requestFromKV(event) {
     }
 
     try {
-        const response = await getAssetFromKV(event, options)
+        const response = await getAssetFromKV(event, options) 
 
-        // Opt out of the FLoC network
-        flocOptOut(response.headers)
+        // Set security headers
+        setSecurityHeaders(response.headers)
 
         return response
     }
@@ -252,21 +251,33 @@ async function requestAsset(useAsset, modifyBody) {
         response.headers.delete('Cache-Control')
     }
 
-    // Opt out of the FLoC network
-    flocOptOut(response.headers)
+    // Set security headers
+    setSecurityHeaders(response.headers)
 
     // Return the data we requested (and cached)
     return response
 }
 
 /**
- * Sets the value in the Permissions-Policy header to opt out of the FLoC network
+ * Sets some security headers
  * @param {Headers} headers 
  */
-function flocOptOut(headers) {
+function setSecurityHeaders(headers) {
+    // Opt out of FLoC
     let policy = headers.get('Permissions-Policy')
     policy = (policy ? policy + '; ' : '') + 'interest-cohort=()'
     headers.set('Permissions-Policy', policy)
+
+    // Referrer policy
+    headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+
+    // Allow using in frames on the same origin only
+    headers.set('X-Frame-Options', 'SAMEORIGIN')
+
+    // Content Security Policy
+    // For now this is in "report" mode only
+    // TODO
+    headers.set('Content-Security-Policy-Report-Only:', "default-src 'none'; script-src 'self' https://*.italypaleale.me; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src * https://*.italypaleale.me; media-src *; object-src 'none'; prefetch-src 'self'; child-src 'self'; worker-src 'self'; frame-ancestors 'self'; form-action 'self'; block-all-mixed-content")
 }
 
 /**

@@ -42,7 +42,7 @@
         {{ $full = "" }}
         <a href="{{.}}">
     {{ end }}
-    <img {{ with $srcset }}{{ . }}{{ end }} src="{{ $src }}" {{ with $alt }}alt="{{ . }}" title="{{ . }}"{{ end }} {{ with $full }}data-lightbox="image:{{ . }}"{{ end }} />
+    <img {{ with $srcset }}{{ . }}{{ end }} src="{{ $src }}" {{ with $alt }}alt="{{ . }}" title="{{ . }}"{{ end }} {{ with $full }}data-lightbox="image:{{ . }}"{{ end }} loading="lazy" />
     {{ if .Get "link"}}
         </a>
     {{ end }}
