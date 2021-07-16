@@ -6,7 +6,7 @@
     font-display: swap;
     src: local('Cascadia Mono'),
         local('Cascadia-Mono'),
-        url(../fonts/CascadiaMono.woff2) format('woff2'),
-        url(../fonts/CascadiaMono.ttf) format('truetype');
+        url(../fonts/CascadiaMono-2106.17.woff2) format('woff2'),
+        url(../fonts/CascadiaMono-2106.17.ttf) format('truetype');
     text-rendering: optimizeLegibility;
 }

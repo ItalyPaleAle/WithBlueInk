@@ -3,7 +3,7 @@
 Using the Mono variant, that doesn't include ligatures.
 
 - Source: https://github.com/microsoft/cascadia-code
-- Version: 2102.25
+- Version: 2106.17
 
 ## License
 

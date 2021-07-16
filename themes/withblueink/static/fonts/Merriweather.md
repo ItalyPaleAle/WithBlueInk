@@ -1,7 +1,7 @@
 # Merriweather
 
 - Source: https://github.com/SorkinType/Merriweather
-- Version: Git c293ef9 (2020-06-15)
+- Version: Git 770ebd6 (2021-07-14)
 
 ## License
 
