@@ -8,8 +8,10 @@ export const cachePaths = [
         match: /^\/(js|css)\/(.*?)$/,
         // Cache in the edge for 3 months
         edgeTTL: 86400 * 90,
-        // Cache in the browser for 1 week
-        browserTTL: 86400 * 7,
+        // Cache in the browser for 3 months
+        browserTTL: 86400 * 90,
+        // True if immutable
+        immutable: true
     }
 ]
 
@@ -46,7 +48,8 @@ export function cacheSettings(urlStr) {
         // Return the request URL and caching options
         return {
             edgeTTL: e.edgeTTL,
-            browserTTL: e.browserTTL
+            browserTTL: e.browserTTL,
+            immutable: !!e.immutable
         }
     }
 

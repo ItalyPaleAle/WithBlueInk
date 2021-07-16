@@ -59,9 +59,9 @@ async function handleEvent(event) {
             return requestAsset(
                 {
                     url: PLAUSIBLE_ANALYTICS + '/js/plausible.js',
-                    // Cache in the edge for a day and in the browser for 2 hours
+                    // Cache in the edge for a day and in the browser for 12 hours
                     edgeTTL: 86400,
-                    browserTTL: 7200
+                    browserTTL: 43200
                 },
                 async (response) => {
                     // Get the body's text, replace the URL, and add padding
@@ -247,7 +247,11 @@ async function requestAsset(useAsset, modifyBody) {
 
     // Check if we need to set a Cache-Control for the browser
     if (response.status >= 200 && response.status <= 299 && useAsset.browserTTL) {
-        response.headers.set('Cache-Control', 'max-age=' + useAsset.browserTTL)
+        let val = 'public,max-age=' + useAsset.browserTTL
+        if (useAsset.immutable) {
+            val += ',immutable'
+        }
+        response.headers.set('Cache-Control', val)
     } else {
         response.headers.delete('Cache-Control')
     }
