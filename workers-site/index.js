@@ -10,7 +10,7 @@ import contentSecurityPolicy from './content-security-policy'
  * 1. we will skip caching on the edge, which makes it easier to debug
  * 2. we will return an error message on exception in your Response rather than the default 404.html page
  */
-const DEBUG = false
+const DEBUG = true
 
 addEventListener('fetch', (event) => {
     try {
@@ -183,7 +183,7 @@ async function requestFromKV(event) {
         const response = await getAssetFromKV(event, options) 
 
         // Set the Cache-Control header for the browser
-        setCacheHeader(response.status, response.headers, useAsset)
+        setCacheHeader(response.status, response.headers, cacheOpts)
 
         // Set security headers
         setSecurityHeaders(response.headers)
@@ -265,7 +265,7 @@ async function requestAsset(useAsset, modifyBody) {
  * @param {CacheOpts} cacheOpts 
  */
 function setCacheHeader(statusCode, headers, cacheOpts) {
-    if (statusCode >= 200 && statusCode <= 299 && useAsset.browserTTL) {
+    if (statusCode >= 200 && statusCode <= 299 && cacheOpts.browserTTL) {
         let val = 'public,max-age=' + cacheOpts.browserTTL
         if (cacheOpts.immutable) {
             val += ',immutable'
