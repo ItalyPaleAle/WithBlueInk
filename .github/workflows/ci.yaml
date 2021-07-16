@@ -20,7 +20,7 @@ jobs:
     runs-on: 'ubuntu-20.04'
     env:
       # Version of Hugo to use
-      HUGO_VERSION: '0.83.1'
+      HUGO_VERSION: '0.85.0'
     steps:
       - name: 'Check out code'
         uses: 'actions/checkout@v2'
