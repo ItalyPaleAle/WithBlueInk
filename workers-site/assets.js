@@ -12,11 +12,11 @@ export default [
     {
         match: /^\/fonts\/(.*?)$/,
         storagePath: '/public/fonts/$1',
-        // Cache in the edge for 4 months
-        edgeTTL: 86400 * 120,
-        // Cache in the browser for 1 month
-        browserTTL: 86400 * 30,
-        // Not immutable
-        immutable: false
+        // Cache in the edge for 6 months
+        edgeTTL: 86400 * 180,
+        // Cache in the browser for 6 months
+        browserTTL: 86400 * 180,
+        // Immutable
+        immutable: true
     },
 ]

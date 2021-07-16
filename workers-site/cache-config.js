@@ -6,10 +6,10 @@ export const cachePaths = [
         // JS and CSS files
         // They have a unique hash in the file name
         match: /^\/(js|css)\/(.*?)$/,
-        // Cache in the edge for 3 months
-        edgeTTL: 86400 * 90,
-        // Cache in the browser for 3 months
-        browserTTL: 86400 * 90,
+        // Cache in the edge for 6 months
+        edgeTTL: 86400 * 180,
+        // Cache in the browser for 6 months
+        browserTTL: 86400 * 180,
         // Immutable
         immutable: true
     }
