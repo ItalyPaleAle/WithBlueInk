@@ -10,7 +10,7 @@ export const cachePaths = [
         edgeTTL: 86400 * 90,
         // Cache in the browser for 3 months
         browserTTL: 86400 * 90,
-        // True if immutable
+        // Immutable
         immutable: true
     }
 ]
@@ -21,11 +21,14 @@ export const cacheDefault = {
     edgeTTL: 300,
     // Cache in the browser for 10 minutes
     browserTTL: 600,
+    // Not immutable
+    immutable: false
 }
 
 /**
  * Returns the cache settings for a given URL.
  * @param {string} url - URL of the original request
+ * @returns {CacheOpts}
  */
 export function cacheSettings(urlStr) {
     // Convert to an URL object
@@ -55,3 +58,11 @@ export function cacheSettings(urlStr) {
 
     return cacheDefault
 }
+
+/**
+ * @typedef CacheOpts
+ * @type {Object}
+ * @property {number} [edgeTTL]
+ * @property {number} [browserTTL]
+ * @property {boolean} [immutable]
+ */

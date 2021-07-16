@@ -182,6 +182,9 @@ async function requestFromKV(event) {
     try {
         const response = await getAssetFromKV(event, options) 
 
+        // Set the Cache-Control header for the browser
+        setCacheHeader(response.status, response.headers, useAsset)
+
         // Set security headers
         setSecurityHeaders(response.headers)
 
@@ -245,22 +248,32 @@ async function requestAsset(useAsset, modifyBody) {
         }
     }
 
-    // Check if we need to set a Cache-Control for the browser
-    if (response.status >= 200 && response.status <= 299 && useAsset.browserTTL) {
-        let val = 'public,max-age=' + useAsset.browserTTL
-        if (useAsset.immutable) {
-            val += ',immutable'
-        }
-        response.headers.set('Cache-Control', val)
-    } else {
-        response.headers.delete('Cache-Control')
-    }
+    // Set the Cache-Control header for the browser
+    setCacheHeader(response.status, response.headers, useAsset)
 
     // Set security headers
     setSecurityHeaders(response.headers)
 
     // Return the data we requested (and cached)
     return response
+}
+
+/**
+ * Sets the Cache-Control header for the browser if needed
+ * @param {number} statusCode
+ * @param {Headers} headers 
+ * @param {CacheOpts} cacheOpts 
+ */
+function setCacheHeader(statusCode, headers, cacheOpts) {
+    if (statusCode >= 200 && statusCode <= 299 && useAsset.browserTTL) {
+        let val = 'public,max-age=' + cacheOpts.browserTTL
+        if (cacheOpts.immutable) {
+            val += ',immutable'
+        }
+        headers.set('Cache-Control', val)
+    } else {
+        headers.delete('Cache-Control')
+    }
 }
 
 /**
@@ -321,7 +334,8 @@ function isAsset(url) {
         return {
             url: assetUrl,
             edgeTTL: e.edgeTTL,
-            browserTTL: e.browserTTL
+            browserTTL: e.browserTTL,
+            immutable: !!e.immutable
         }
     }
 
