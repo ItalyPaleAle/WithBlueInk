@@ -28,7 +28,7 @@ The good news is that Raspberry Pi OS does support Docker, in both the 32-bit an
 
 You can download the images for Raspberry Pi OS from the [official website](https://www.raspberrypi.org/downloads/raspberry-pi-os/).
 
-As of writing, images for the 64-bit variant are still in beta and can be found [here](https://www.raspberrypi.org/forums/viewtopic.php?f=117&t=275370).
+As of writing, images for the 64-bit variant are still in beta and can be found [here](https://downloads.raspberrypi.org/raspios_lite_arm64/images/).
 
 Once you have downloaded the IMG file (which is compressed, so unzip it first) you can use the [Raspberry Pi Imager](https://www.raspberrypi.org/blog/raspberry-pi-imager-imaging-utility/) to write the operating system in a SD card.
 
