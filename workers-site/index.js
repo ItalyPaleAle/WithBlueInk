@@ -1,5 +1,6 @@
 import {getAssetFromKV} from '@cloudflare/kv-asset-handler'
 import assets from './assets'
+import redirects from './redirects'
 import {cacheSettings} from './cache-config'
 import contentSecurityPolicy from './content-security-policy'
 
@@ -34,14 +35,23 @@ addEventListener('fetch', (event) => {
  * @returns {Promise<Response>} Response object
  */
 async function handleEvent(event) {
-    // Check if we need to redirect the user
-    const redirect = shouldRedirect(event)
+    const reqUrl = new URL(event.request.url)
+
+    // Check if we need to redirect the user to a different domain (or to HTTPS)
+    let redirect = shouldRedirectDomain(reqUrl)
     if (redirect) {
+        // 301 Moved Permanently
         return Response.redirect(redirect, 301)
     }
 
+    // Check if we want to redirect to another page
+    redirect = shouldRedirectPage(reqUrl)
+    if (redirect) {
+        // 302 Found
+        return Response.redirect(redirect, 302)
+    }
+
     // Check if the URL points to a static asset on Azure Storage
-    const reqUrl = new URL(event.request.url)
     const useAsset = isAsset(reqUrl)
     if (useAsset) {
         return requestAsset(useAsset)
@@ -116,15 +126,36 @@ async function handleEvent(event) {
 }
 
 /**
- * Checks if the user should be redirected, and returns the address.
- * Redirects from http to https, and from secondary domains (not in the DOMAINS environmental variable) to the primary one
- *
- * @param {Event} event
- * @returns {string|null} If the user should be redirected, return the location
+ * Check if users need to be redirected according to the rules specified in the `redirects` map.
+ * @param {URL} url
+ * @returns {string|null} If the user should be redirected, return the location; otherwise, `null`
  */
-function shouldRedirect(event) {
-    // Check the requested URL
-    const url = new URL(event.request.url)
+function shouldRedirectPage(url) {
+    if (!url || !url.pathname || !url.host) {
+        return null
+    }
+
+    const target = redirects[url.pathname]
+    if (!target) {
+        return null
+    }
+
+    // Check if the target is an absolute URL
+    if (target.startsWith('http://') || target.startsWith('https://')) {
+        return target + url.search
+    } else {
+        return 'https://' + url.host + target + url.search
+    }
+}
+
+/**
+ * Checks if the user should be redirected, and returns the address.
+ * Redirects from http to https, and from secondary domains (not in the DOMAINS environmental variable) to the primary one. 
+ *
+ * @param {URL} url
+ * @returns {string|null} If the user should be redirected, return the location; otherwise, `null`
+ */
+function shouldRedirectDomain(url) {
     if (!url || !url.host) {
         return null
     }
