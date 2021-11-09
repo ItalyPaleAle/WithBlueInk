@@ -58,23 +58,23 @@ async function handleEvent(event) {
     }
 
     // Handle proxy for Plausible if enabled (if PLAUSIBLE_ANALYTICS contains the URL of the Plausible server, with https prefix)
-    // 1. Proxy and cache the script (from /pls/index.js to ${PLAUSIBLE_ANALYTICS}/js/plausible.js) - in the script also replace $PLAUSIBLE_ANALYTICS with this URL
+    // 1. Proxy and cache the script (from /pls/index.js to ${PLAUSIBLE_ANALYTICS}/js/plausible.outbound-links.js) - in the script also replace $PLAUSIBLE_ANALYTICS with this URL
     // 2. Proxy (no cache) the message sending the request (from /pls/(event|error) to ${PLAUSIBLE_ANALYTICS}/api/(event|error))
     // Check if the URL is for the Plausible Analytics script
-    if (PLAUSIBLE_ANALYTICS) {
-        const path = reqUrl.pathname
+    const path = reqUrl.pathname
+    if (PLAUSIBLE_ANALYTICS && path) {
         // Script
         if (path == '/pls/index.js') {
-            // Request the asset and modify the response to replace $PLAUSIBLE_ANALYTICS with "" (so the same host as the app is used)
+            // Request the asset and modify the response to add padding
             return requestAsset(
                 {
-                    url: PLAUSIBLE_ANALYTICS + '/js/plausible.js',
+                    url: PLAUSIBLE_ANALYTICS + '/js/plausible.outbound-links.js',
                     // Cache in the edge for a day and in the browser for 12 hours
                     edgeTTL: 86400,
                     browserTTL: 43200
                 },
                 async (response) => {
-                    // Get the body's text, replace the URL, and add padding
+                    // Get the body's text and add padding
                     let text = await response.text()
                     const num = Math.floor(Math.random() * 100000)
                     if (Math.random() < 0.5) {
@@ -82,16 +82,17 @@ async function handleEvent(event) {
                     } else {
                         text = `'` + num + `';\n` + text
                     }
-                    return text.replace(PLAUSIBLE_ANALYTICS, '/pls')
+                    return text
                 }
             )
         }
 
         // APIs
-        if (path == '/pls/api/event' || path == '/pls/api/error') {
+        if (path.startsWith('/pls/api')) {
             // Clone the request but change the URL
+            console.log(PLAUSIBLE_ANALYTICS + path.slice(4))
             const newReq = new Request(
-                PLAUSIBLE_ANALYTICS + path.substr(4),
+                PLAUSIBLE_ANALYTICS + path.slice(4),
                 new Request(event.request, {})
             )
 
@@ -108,8 +109,9 @@ async function handleEvent(event) {
                 }
             }
 
-            // Need to remove all Cloudflare headers (starting with cf-) and the Host header, or the request will fail
+            // Need to remove all Cloudflare headers (starting with cf-) and the Host and Cookie headers, or the request will fail
             newReq.headers.delete('Host')
+            newReq.headers.delete('Cookie')
             for (const key of newReq.headers.keys()) {
                 if (key.startsWith('cf-')) {
                     newReq.headers.delete(key)
