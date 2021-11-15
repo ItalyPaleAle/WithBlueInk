@@ -13,7 +13,7 @@ comments: yes
 resourceBundle: docker-rpi
 ---
 
-> This article has been updated on November 14, 2021, for Raspbian Bullseye and for Docker Compose v2.
+> This article has been updated on November 14, 2021 for Raspbian Bullseye and for Docker Compose v2.
 
 At the end of May 2020, the Raspberry Pi Foundation [announced](https://www.raspberrypi.org/blog/latest-raspberry-pi-os-update-may-2020/) **Raspberry Pi OS**, the new official operating system for the mini-computer that is replacing Raspbian.
 
@@ -23,7 +23,7 @@ For the first time, users of the Raspberry Pi boards can enjoy a 64-bit operatin
 
 The good news is that Raspberry Pi OS does support Docker, in both the 32-bit and 64-bit variants! Read below on how to install it as well as Docker Compose.
 
-> **Note:** This article is written for Raspberry Pi 2, 3 and 4 running Rasperry Pi OS. Older models of the board and Raspberry Pi Zero are currently not supported.  
+> **Note:** This article is written for Raspberry Pi boards version 2, 3, and 4 running Rasperry Pi OS, as well Raspberry Pi Zero 2 and the Raspberry Pi 400 units. Older models of the board and the first-generation Raspberry Pi Zero are not supported.  
 > Additionally, if you are using a different distribution for your board besides the official Raspberry Pi OS, the instructions below are not guaranteed to work for you.
 
 ## Choosing the right version of Raspberry Pi OS
@@ -38,9 +38,9 @@ As for which image to choose, Docker works on all variants and editions of Raspb
 
 ### 32-bit vs 64-bit
 
-The 32-bit edition of Raspberry Pi OS will run on every board, including **Raspberry 2**.
+The 32-bit edition of Raspberry Pi OS will run on every board, including **Raspberry Pi 2**.
 
-If you have a **Raspberry Pi 3 or 4**, you have the opportunity to pick the 64-bit variant too. Using a 64-bit operating system will give you better performance and it's required to take advantage of the full amount of memory of the 8GB Raspberry Pi 4 board.
+If you have a **Raspberry Pi 3, 4, or 400**, as well as the Raspberry Pi Zero 2, you have the opportunity to pick the 64-bit variant too. Using a 64-bit operating system will give you better performance and it's required to take advantage of the full amount of memory of the 8GB Raspberry Pi 4 board.
 
 The variant you pick will affect the Docker images you'll be able to run. We'll look into that below.
 
