@@ -13,6 +13,8 @@ comments: yes
 resourceBundle: docker-rpi
 ---
 
+> This article has been updated on November 14, 2021, for Raspbian Bullseye and for Docker Compose v2.
+
 At the end of May 2020, the Raspberry Pi Foundation [announced](https://www.raspberrypi.org/blog/latest-raspberry-pi-os-update-may-2020/) **Raspberry Pi OS**, the new official operating system for the mini-computer that is replacing Raspbian.
 
 The announcement also came with the news that Raspberry Pi OS is now available in a 64-bit variant, compatible with Raspberry Pi 3 and 4. This is in addition to the 32-bit variant that has been maintained since the early days.
@@ -86,8 +88,7 @@ sudo apt install -y --no-install-recommends \
 Done! At this point, we just need to run two more commands to have the Docker service started and automatically launched at boot.
 
 ````sh
-sudo systemctl enable docker
-sudo systemctl start docker
+sudo systemctl enable --now docker
 ````
 
 Now that we have Docker running, we can test it by running the "hello world" image:
@@ -118,18 +119,20 @@ Likewise, 32-bit images for Raspberry Pi OS are labeled as `armhf`, `armv7`, or 
 
 Lastly, let's look at how to add Docker Compose.
 
-Docker Compose is normally installed from pre-built binaries, downloaded from the GitHub release page for the project. Sadly, those are not available for the ARM architecture.
+As of Docker Compose v2, the application does not have a dependency on Python, and pre-built binaries are available for all ARM-based systems.
 
-We can however install Docker Compose from pip:
+First, find the latest version from the [releases page](https://github.com/docker/compose/releases/latest); as of writing, that is `2.1.1`. Then run these commands:
 
 ````sh
-# Install required packages
-sudo apt update
-sudo apt install -y python3-pip libffi-dev
+# Replace with the latest version from https://github.com/docker/compose/releases/latest
+DOCKER_COMPOSE_VERSION="2.1.1"
+# For 64-bit OS use:
+DOCKER_COMPOSE_ARCH="aarch64"
+# For 32-bit OS use:
+DOCKER_COMPOSE_ARCH="armv7"
 
-# Install Docker Compose from pip (using Python3)
-# This might take a while
-sudo pip3 install docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/v${DOCKER_COMPOSE_VERSION}/docker-compose-linux-${DOCKER_COMPOSE_ARCH}" -o /usr/bin/docker-compose
+sudo chmod +x /usr/bin/docker-compose
 ````
 
 With this, you now have a complete Raspberry Pi mini-server running Docker and ready to accept your containers.
