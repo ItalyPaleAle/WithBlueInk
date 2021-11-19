@@ -24,6 +24,8 @@ RUN sudo -u node npm i @cloudflare/wrangler -g
 
 # Hugo dev server port
 EXPOSE 1313
+# Wrangler dev server port
+EXPOSE 8787
 
 # [Optional] Uncomment this section to install additional OS packages you may want.
 #
