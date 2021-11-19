@@ -17,7 +17,7 @@ I have been a happy pfSense user for over three years, with my home networking c
 
 All was good, until a few days back it just crashed.
 
-{{< tweet 1164614314294050817 >}}
+{{< tweet ItalyPaleAle 1164614314294050817 >}}
 
 I'm exactly sure how that happened. I had just applied an innocuous change (adding a new firewall rule), and everything just blew up. Most firewall rules got disabled, the DNS server stopped working, VPNs got disconnected… All suddenly and mysteriously. What I realized was that the internal state had somehow got corrupted, and when I applied the new firewall rule, the system started acting up.
 
