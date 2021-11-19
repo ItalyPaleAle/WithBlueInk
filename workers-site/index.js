@@ -58,13 +58,13 @@ async function handleEvent(event) {
     }
 
     // Handle proxy for Plausible if enabled (if PLAUSIBLE_ANALYTICS contains the URL of the Plausible server, with https prefix)
-    // 1. Proxy and cache the script (from /pls/index.js to ${PLAUSIBLE_ANALYTICS}/js/plausible.outbound-links.js) - in the script also replace $PLAUSIBLE_ANALYTICS with this URL
+    // 1. Proxy and cache the script (from /pls/index.*.js to ${PLAUSIBLE_ANALYTICS}/js/plausible.outbound-links.js) - in the script also replace $PLAUSIBLE_ANALYTICS with this URL
     // 2. Proxy (no cache) the message sending the request (from /pls/(event|error) to ${PLAUSIBLE_ANALYTICS}/api/(event|error))
     // Check if the URL is for the Plausible Analytics script
     const path = reqUrl.pathname
     if (PLAUSIBLE_ANALYTICS && path) {
         // Script
-        if (path == '/pls/index.js') {
+        if (/^\/pls\/index(\.[a-fA-F0-9]{1,6})?\.js$/.test(path)) {
             // Request the asset and modify the response to add padding
             return requestAsset(
                 {
