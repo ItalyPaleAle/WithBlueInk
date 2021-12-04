@@ -8,6 +8,7 @@ workers_dev = true
 # Use CF_ZONE_ID instead
 #zone_id = ""
 vars = {STORAGE_CONTAINER = "withblueink-dev", DOMAINS = "withblueink-dev.italypaleale.workers.dev", PLAUSIBLE_ANALYTICS = ""}
+# These variables need to be set as secrets: PLAUSIBLE_ANALYTICS (except for dev), STORAGE_ACCOUNT
 
 [site]
 bucket = "./public"
@@ -17,10 +18,10 @@ entry-point = "workers-site"
 name = "withblueink-staging"
 workers_dev = true
 route = "staging.withblue.ink/*"
-vars = {STORAGE_CONTAINER = "withblueink-staging", DOMAINS = "staging.withblue.ink", PLAUSIBLE_ANALYTICS = "https://pls.italypaleale.me"}
+vars = {STORAGE_CONTAINER = "withblueink-staging", DOMAINS = "staging.withblue.ink"}
 
 [env.production]
 name = "withblueink"
 workers_dev = true
 route = "*withblue.ink/*"
-vars = {STORAGE_CONTAINER = "withblueink-prod", DOMAINS = "withblue.ink", PLAUSIBLE_ANALYTICS = "https://pls.italypaleale.me"}
+vars = {STORAGE_CONTAINER = "withblueink-prod", DOMAINS = "withblue.ink"}
