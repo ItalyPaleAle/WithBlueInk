@@ -359,7 +359,7 @@ function isAsset(url) {
 
         // New request URL
         const assetUrl = 'https://' + STORAGE_ACCOUNT + '.blob.core.windows.net/' + STORAGE_CONTAINER + e.storagePath.replace(/\$([1-9][0-9]*)/g, (m) => {
-            const index = parseInt(m.substr(1), 10)
+            const index = parseInt(m.slice(1), 10)
             return match[index] || ''
         })
 

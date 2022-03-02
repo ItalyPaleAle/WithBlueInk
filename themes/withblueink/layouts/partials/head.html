@@ -30,8 +30,11 @@
         {{ $coverImg = .Page.Params.image | absURL }}
     {{ end }}
     {{ if and (not (eq .Page.Params.noCover true)) .Page.Params.resourceBundle }}
-        {{/* Try jpg images first, then png */}}
-        {{ $res := resources.Get (printf "images/%s/_cover.jpg" .Page.Params.resourceBundle) }}
+        {{/* Try webp images first, then jpg and png */}}
+        {{ $res := resources.Get (printf "images/%s/_cover.webp" .Page.Params.resourceBundle) }}
+        {{ if not $res }}
+            {{ $res = resources.Get (printf "images/%s/_cover.jpg" .Page.Params.resourceBundle) }}
+        {{ end }}
         {{ if not $res }}
             {{ $res = resources.Get (printf "images/%s/_cover.png" .Page.Params.resourceBundle) }}
         {{ end }}

@@ -3,8 +3,11 @@
     {{ $coverBgColor := (index .Page.Params "coverColor" | default "#4299E1") }}
     {{ $coverBg := printf "background-color: %s;" $coverBgColor }}
 
-    {{/* Try jpg images first, then png */}}
-    {{ $res := resources.Get (printf "images/%s/_cover.jpg" .Page.Params.resourceBundle) }}
+    {{/* Try webp images first, then jpg and png */}}
+    {{ $res := resources.Get (printf "images/%s/_cover.webp" .Page.Params.resourceBundle) }}
+    {{ if not $res }}
+        {{ $res = resources.Get (printf "images/%s/_cover.jpg" .Page.Params.resourceBundle) }}
+    {{ end }}
     {{ if not $res }}
         {{ $res = resources.Get (printf "images/%s/_cover.png" .Page.Params.resourceBundle) }}
     {{ end }}

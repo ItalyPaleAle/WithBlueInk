@@ -25,7 +25,6 @@ params:
   description: "A blog by Alessandro Segala (@ItalyPaleAle)"
   # Plausible Analytics
   PlausibleAnalytics:
-    Endpoint: pls.italypaleale.me
     Domain: withblue.ink
 
 # Theme configuration
