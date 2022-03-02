@@ -18,9 +18,9 @@
     {{ if $resource }}
         {{/* Check if we want to resize the image */}}
         {{ if not (eq (.Get "noresize") "true") }}
-            {{ $full = ($resource.Fit "1200x1200 jpg #ffffff q95").RelPermalink }}
-            {{ $scaled2x := $resource.Fit "900x900 jpg #ffffff q75" }}
-            {{ $scaled1x := $resource.Fit "600x600 jpg #ffffff q75" }}
+            {{ $full = ($resource.Fit "1200x1200 webp #ffffff q85").RelPermalink }}
+            {{ $scaled2x := $resource.Fit "900x900 webp #ffffff q60" }}
+            {{ $scaled1x := $resource.Fit "600x600 webp #ffffff q60" }}
             {{ $src = $scaled1x.RelPermalink }}
             {{ $width = $scaled1x.Width }}
             {{ $height = $scaled1x.Height }}
@@ -29,7 +29,7 @@
             {{ $src = $resource.RelPermalink }}
             {{ $full = $src }}
             {{ $ct := $resource.MediaType.String }}
-            {{ if or (eq $ct "image/jpeg") (eq $ct "image/png") (eq $ct "image/gif") }}
+            {{ if or (eq $ct "image/jpeg") (eq $ct "image/png") (eq $ct "image/gif") (eq $ct "image/webp") }}
                 {{ $width = $resource.Width }}
                 {{ $height = $resource.Height }}
             {{ end }}
