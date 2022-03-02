@@ -18,7 +18,7 @@ entry-point = "workers-site"
 name = "withblueink-staging"
 workers_dev = true
 route = "staging.withblue.ink/*"
-vars = {STORAGE_CONTAINER = "withblueink-staging", DOMAINS = "staging.withblue.ink"}
+vars = {STORAGE_CONTAINER = "withblueink-staging", DOMAINS = "staging.withblue.ink", PLAUSIBLE_ANALYTICS = ""}
 
 [env.production]
 name = "withblueink"
