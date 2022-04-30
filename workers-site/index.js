@@ -323,8 +323,8 @@ function setSecurityHeaders(headers) {
     headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
 
     // Set CSP (and X-Frame-Options) for HTML pages only
-    const ct = headers.get('Content-Type')
-    if (ct && ct == 'text/html' || ct.startsWith('text/html;')) {
+    const ct = (headers.get('content-type') || '').toLowerCase()
+    if (ct == 'text/html' || ct.startsWith('text/html;')) {
         // Allow using in frames on the same origin only
         headers.set('X-Frame-Options', 'SAMEORIGIN')
     
