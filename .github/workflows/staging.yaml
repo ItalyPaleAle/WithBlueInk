@@ -16,18 +16,18 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: 'ubuntu-20.04'
+    runs-on: 'ubuntu-22.04'
     env:
       # Version of Hugo to use
-      HUGO_VERSION: '0.89.4'
+      HUGO_VERSION: '0.110.0'
     steps:
       - name: 'Check out code'
-        uses: 'actions/checkout@v2'
+        uses: 'actions/checkout@v3'
 
       - name: 'Install Node.js'
-        uses: 'actions/setup-node@v1'
+        uses: 'actions/setup-node@v3'
         with:
-          node-version: '16.x'
+          node-version: '18.x'
 
       - name: 'Install Hugo'
         run: |
@@ -75,16 +75,18 @@ jobs:
           AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
 
       - name: 'Publish app as artifact'
-        uses: 'actions/upload-artifact@v2'
+        uses: 'actions/upload-artifact@v3'
         with:
           name: 'app-staging'
           path: 'public'
 
       - name: 'Deploy to staging environment'
-        uses: cloudflare/wrangler-action@1.3.0
+        uses: cloudflare/wrangler-action@2.0.0
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
           environment: 'staging'
+          command: publish
         env:
-          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CF_ZONE_ID }}

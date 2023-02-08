@@ -1,5 +1,4 @@
 compatibility_date = "2021-11-08"
-type = "webpack"
 name = "withblueink-dev"
 # Dev environment is deployed to a workers.dev domain
 workers_dev = true
@@ -7,12 +6,12 @@ workers_dev = true
 #account_id = ""
 # Use CF_ZONE_ID instead
 #zone_id = ""
-vars = {STORAGE_CONTAINER = "withblueink-dev", DOMAINS = "withblueink-dev.italypaleale.workers.dev", PLAUSIBLE_ANALYTICS = ""}
 # These variables need to be set as secrets: PLAUSIBLE_ANALYTICS (except for dev), STORAGE_ACCOUNT
+vars = {STORAGE_CONTAINER = "withblueink-dev", DOMAINS = "withblueink-dev.italypaleale.workers.dev", PLAUSIBLE_ANALYTICS = ""}
+main = "workers-site/index.js"
 
 [site]
 bucket = "./public"
-entry-point = "workers-site"
 
 [env.staging]
 name = "withblueink-staging"
