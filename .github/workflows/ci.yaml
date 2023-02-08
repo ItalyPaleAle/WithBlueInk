@@ -81,6 +81,10 @@ jobs:
           name: 'app-dev'
           path: 'public'
 
+      - name: 'Install dependencies from NPM'
+        working-directory: ./workers-site
+        run: npm ci
+
       - name: 'Deploy to dev environment'
         uses: cloudflare/wrangler-action@2.0.0
         with:
