@@ -4,8 +4,7 @@
 # CF_ACCOUNT_ID: Account ID for Cloudflare Workers
 # CF_API_TOKEN: API token for Cloudflare (for the Workers CLI)
 # AZURE_STORAGE_ACCOUNT: Name of the Azure Storage Account
-# AZCOPY_SPA_APPLICATION_ID: Client ID for the Azure AD application with access to the Azure Storage account. We are using OpenID Connect: https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure
-# AZCOPY_SPA_TENANT_ID: Tenant ID of the Azure AD application
+# AZURE_CLIENT_ID: Client ID for the Azure AD application with access to the Azure Storage account. We are using OpenID Connect: https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure
 
 name: 'CI'
 
@@ -37,10 +36,6 @@ jobs:
           tar -zxf hugo.tar.gz
           sudo mv hugo /usr/local/bin
 
-      - name: 'Build app'
-        run: |
-          make dist
-
       - name: 'Install azcopy and authenticate'
         run: |
           cd /tmp
@@ -50,12 +45,13 @@ jobs:
           azcopy --version
           azcopy login \
             --identity \
-            --identity-client-id $AZCOPY_SPA_APPLICATION_ID \
-            --tenant-id $AZCOPY_SPA_TENANT_ID
+            --identity-client-id $AZURE_CLIENT_ID
         env:
-          # Service Principal credentials
-          AZCOPY_SPA_APPLICATION_ID: ${{ secrets.AZCOPY_SPA_APPLICATION_ID }}
-          AZCOPY_SPA_TENANT_ID: ${{ secrets.AZCOPY_SPA_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+
+      - name: 'Build app'
+        run: |
+          make dist
 
       - name: 'Upload static assets to Azure Storage'
         run: |
