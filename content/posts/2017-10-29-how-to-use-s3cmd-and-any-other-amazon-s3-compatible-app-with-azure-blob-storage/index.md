@@ -168,7 +168,7 @@ Bucket 's3://testbucket/' created
 $ ./s3cmd ls s3://
 2017-06-12 19:58  s3://testbucket
 
-# Uplaod some files
+# Upload some files
 $ ./s3cmd put photos/* s3://testbucket
 ````
 

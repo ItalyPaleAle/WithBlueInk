@@ -29,12 +29,12 @@ The second part is specific to users wanting to deploy the cluster on Azure, and
 
 ## Systemd units
 
-Systemd is the replacement of the old SysV Init that ships with almost all modern Linux distributions. On CoreOS, it's one of the most common ways to manage containers; in particular, in our case Sytemd takes care of: pulling the latest version of the MariaDB official image from the Docker Hub, launching the container as daemon, and restarting failed containers.
+Systemd is the replacement of the old SysV Init that ships with almost all modern Linux distributions. On CoreOS, it's one of the most common ways to manage containers; in particular, in our case Systemd takes care of: pulling the latest version of the MariaDB official image from the Docker Hub, launching the container as daemon, and restarting failed containers.
 
 There are two key Systemd units in this project:
 
 - *docker-mariadb-galera* ([unit file](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.service) and [bash script](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-galera.sh)): This unit spins up the Docker containers, following all the procedure explained in the first part of this blog post. On the initial bootstrap, when the database is created, the first node launches immediately and starts up the cluster. All the other nodes have to wait for the first one to be initialized (using etcd2 for the semaphore).
-- *docker-mariadb-waiter* ([unit file](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.service) and [bash script](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.sh)): This unit is necessary for the initial database cluster bootstrap. It waits for the first node to complete the initialization, and then updates the status of the semaphore in etcd2 so the other machines can launch the MariaDB conainer and connect them to the cluster.
+- *docker-mariadb-waiter* ([unit file](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.service) and [bash script](https://github.com/ItalyPaleAle/mariadb-cluster/blob/master/sources/cloud-config/docker-mariadb-waiter.sh)): This unit is necessary for the initial database cluster bootstrap. It waits for the first node to complete the initialization, and then updates the status of the semaphore in etcd2 so the other machines can launch the MariaDB container and connect them to the cluster.
 
 ## Cloud Config
 

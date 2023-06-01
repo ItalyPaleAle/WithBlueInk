@@ -53,7 +53,7 @@ For example, here's how to change the SSH port to 9022. Edit the sshd configurat
 Port 9022
 ````
 
-Restart your SSH dameon with:
+Restart your SSH daemon with:
 
 ````bash
 # For distributions using systemd

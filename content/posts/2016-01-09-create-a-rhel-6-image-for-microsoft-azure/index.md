@@ -135,7 +135,7 @@ The next step requires modifying the Grub bootloader configuration to work with 
 rootdelay=300 console=ttyS0 earlyprintk=ttyS0 numa=off
 ```
 
-From the same list of paramters, it's also recommended to **remove** the following (if present):
+From the same list of parameters, it's also recommended to **remove** the following (if present):
 
 ```text
 rhgb quiet

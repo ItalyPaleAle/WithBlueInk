@@ -93,7 +93,7 @@ $ warden start MyJail
 
 ## 4. DNS configuration (Optional)
 
-By default, the jail will inherit the DNS server of the FreeNAS host. If, like in my case, this is not accessible from the VLAN of the jail, we need to change the DNS configuraton too.
+By default, the jail will inherit the DNS server of the FreeNAS host. If, like in my case, this is not accessible from the VLAN of the jail, we need to change the DNS configuration too.
 
 From the FreeNAS host, open a terminal inside the jail:
 

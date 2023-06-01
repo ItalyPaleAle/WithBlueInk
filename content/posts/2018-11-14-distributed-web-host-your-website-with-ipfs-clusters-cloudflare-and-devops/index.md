@@ -462,7 +462,7 @@ Lastly, select the row called "Pipeline". Give your pipeline a name (e.g. `ipfs-
 
 We now have the pipeline complete. Press "Save & Queue" to start a new build. After a few moments, it should be done building the app!
 
-{{< img src="pipelines-ci-done.png" alt="Succesful CI run" >}}
+{{< img src="pipelines-ci-done.png" alt="Successful CI run" >}}
 
 ### Create a Release pipeline
 
