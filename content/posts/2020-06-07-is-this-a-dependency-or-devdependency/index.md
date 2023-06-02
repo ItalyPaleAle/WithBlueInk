@@ -79,7 +79,7 @@ For example, if you're using TypeScript, will you run `tsc` (the TypeScript tran
 This is the case when, for example, you're using a build server to run `tsc`, you're running it on the developer's machine before copying the transpiled files to the server, or when you're using a multi-stage Docker image build where the first stage runs `tsc`.  
 Unlike the case of front-end applications above, transpilers normally don't bundle the code (although they can), so all modules that are directly imported in the code need to be *dependencies*.
 
-### Shipping NPM pakcages
+### Shipping NPM packages
 
 The two sections above were looking at "complete applications", which are then deployed for end-users to access. But what if we were working on a package to be shipped to NPM instead?
 

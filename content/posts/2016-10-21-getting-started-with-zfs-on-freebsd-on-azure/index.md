@@ -47,7 +47,7 @@ Administrators that are used to creating RAID arrays, volume groups and filesyst
 - A **zpool** (ZFS pool) is made by vdevs, and it's the main building block of ZFS. A zpool has a name and contains datasets and volumes (see below).
 - A **dataset** is a "filesystem" under a ZFS pool, that can be used to read and write data.
 
-When working with ZFS, we will treat our data disks as single vdevs and combine them into a zpool. Each zpool has a name, for example `tank`, and automatically creates a root dataset with the same name. You can add more datasets in the same pool, hierarchically: for example, `tank/shared` is a child of `tank`, from wich it inherits all properties. You can expand it further by creating a dataset named `tank/shared/photos`, etc.
+When working with ZFS, we will treat our data disks as single vdevs and combine them into a zpool. Each zpool has a name, for example `tank`, and automatically creates a root dataset with the same name. You can add more datasets in the same pool, hierarchically: for example, `tank/shared` is a child of `tank`, from which it inherits all properties. You can expand it further by creating a dataset named `tank/shared/photos`, etc.
 
 ## Our first ZFS dataset
 
