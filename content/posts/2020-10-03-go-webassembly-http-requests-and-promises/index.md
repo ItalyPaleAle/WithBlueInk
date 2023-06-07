@@ -509,8 +509,8 @@ func MyGoFunc() js.Func {
 				readableStream := readableStreamConstructor.New(underlyingSource)
 
 				// Create the init argument for the Response constructor
-        			// This allows us to pass a custom status code (and optionally headers and more)
-        			// See: https://developer.mozilla.org/en-US/docs/Web/API/Response/Response
+				// This allows us to pass a custom status code (and optionally headers and more)
+				// See: https://developer.mozilla.org/en-US/docs/Web/API/Response/Response
 				responseInitObj := map[string]interface{}{
 					"status":     http.StatusOK,
 					"statusText": http.StatusText(http.StatusOK),
@@ -528,8 +528,8 @@ func MyGoFunc() js.Func {
 			return nil
 		})
 
-    		// Create and return the Promise object
-    		// The Promise will resolve with a Response object
+		// Create and return the Promise object
+		// The Promise will resolve with a Response object
 		promiseConstructor := js.Global().Get("Promise")
 		return promiseConstructor.New(handler)
 	})
