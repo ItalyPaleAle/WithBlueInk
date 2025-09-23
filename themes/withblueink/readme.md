@@ -181,7 +181,7 @@ During the build process Hugo Pipes checks this variable too and build the `styl
 
 ```html
 {{ $styles := resources.Get "css/styles.css" | postCSS (dict "config" "./assets/css/postcss.config.js") }}
-{{ if .Site.IsServer }}
+{{ if hugo.IsServer }}
     <link rel="stylesheet" href="{{ $styles.RelPermalink }}">
 {{ else }}
     {{ $styles := $styles| minify | fingerprint | resources.PostProcess }}

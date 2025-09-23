@@ -63,7 +63,7 @@
 
     <!-- CSS -->
     {{ $styles := resources.Get "css/styles.css" | postCSS }}
-    {{ if .Site.IsServer}}
+    {{ if hugo.IsServer}}
         <link rel="stylesheet" href="{{ $styles.RelPermalink }}">
     {{ else }}
         {{ $styles := $styles| minify | fingerprint | resources.PostProcess }}

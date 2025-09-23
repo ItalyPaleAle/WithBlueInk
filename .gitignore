@@ -1,6 +1,7 @@
 # Custom
 node_modules
 resources/_gen
+drafts
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/hugo,macos,linux,node,windows,visualstudiocode
@@ -237,3 +238,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/hugo,macos,linux,node,windows,visualstudiocode
+.vercel

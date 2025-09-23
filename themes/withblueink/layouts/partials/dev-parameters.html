@@ -1,7 +1,7 @@
-{{ if (and .Site.IsServer .Site.Params.DebugView) }}
-<div class="h-40 mb-4 py-4 px-4 overflow-y-auto scrolling-touch border-t border-border">
+{{ if (and hugo.IsServer .Site.Params.DebugView) }}
+<div class="h-40 px-4 py-4 mb-4 overflow-y-auto scrolling-touch border-t border-border">
     <table class="w-full text-left table-auto table-collapse border-border">
-        <caption class="text-left pb-2">Hugo Variables for the current page.</caption>
+        <caption class="pb-2 text-left">Hugo Variables for the current page.</caption>
         <thead>
             <tr class="p-2 font-semibold bg-gray-100 border-t ">
                 <th>Variable</th>
@@ -47,7 +47,7 @@
                     <table>
                         {{ range $k,$v := .Params }}
                         <tr>
-                            <td class="text-right italic pr-2">{{ printf "%#v:" $k }}</td>
+                            <td class="pr-2 italic text-right">{{ printf "%#v:" $k }}</td>
                             <td>{{ printf "%#v" $v }}</td>
                         </tr>
                         {{ end }}
@@ -69,7 +69,7 @@
                     <table>
                         {{- range $k,$v := .Pages }}
                         <tr>
-                            <td class="text-right italic pr-2">{{ printf "%#v:" $k }}</td>
+                            <td class="pr-2 italic text-right">{{ printf "%#v:" $k }}</td>
                             <td>{{ printf "%v" $v }}</td>
                         </tr>
                         {{ end -}}

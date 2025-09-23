@@ -15,7 +15,7 @@ resourceBundle: jquery
 
 [jQuery 3.4.0](https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/) was released two days ago, and the amount of negative reactions I've seen on [Twitter](https://twitter.com/search?q=jquery),  [Reddit](https://www.reddit.com/r/javascript/comments/bc0f98/jquery_340_released/), and [Hacker News](https://news.ycombinator.com/item?id=19628789) is staggering.
 
-{{< tweet horse_js 1116196690174681088 >}}
+{{< x user="horse_js" id="1116196690174681088" >}}
 
 Let's be clear: **there's nothing wrong with jQuery itself**. [John Resig](https://twitter.com/jeresig)'s library was and still is one of the most relevant and popular pieces of JavaScript code ever written. People who hate jQuery in these years probably don't know (or forgot) what frontend JavaScript development used to be like, and/or are blaming the library for their own bad code.
 

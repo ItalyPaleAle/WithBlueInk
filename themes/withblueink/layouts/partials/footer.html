@@ -26,11 +26,10 @@
     </p>
 </footer>
 
-{{ partial "google-analytics" . }}
 {{ partial "plausible-analytics" . }}
 
 {{ $opts := dict }}
-{{ if .Site.IsServer}}
+{{ if hugo.IsServer}}
     {{ $opts = dict "targetPath" "js/main.js" "target" "es2018" }}
     {{ $built := resources.Get "js/index.js" | js.Build $opts }}
     <script type="text/javascript" src="{{ $built.RelPermalink }}" defer></script>
