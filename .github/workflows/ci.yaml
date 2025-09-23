@@ -86,7 +86,7 @@ jobs:
         run: npm ci
 
       - name: 'Deploy to dev environment'
-        uses: cloudflare/wrangler-action@2.0.0
+        uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
