@@ -32,7 +32,7 @@ This achieves both load balancing, because different clients end up on different
 
 This approach isn't instant failover, as clients may cache DNS records for a while, depending on the TTL , but in practice it was well suited for my needs. I don't need sub-second failover: if it takes a minute or two for clients to retry and land on another node, that's acceptable. What I do need is a setup with no extra proxy to manage, no single point of failure (at least, not an additional one), and something I can count on to keep running without much effort. DNS fits that model well.
 
-And while I have been using it for Tailscale IPs, the same idea works just as well for public IPs or even **LAN-only IPs**, as long as you are comfortable with those IPs being stored in a public DNS provider like Cloudflare.
+And while I have been using it for Tailscale IPs, the same idea works just as well for public IPs or even **LAN-only IPs**, as long as you are comfortable with those IPs being stored in a public DNS provider like Cloudflare, Azure DNS, etc.
 
 ## Why not run my own DNS server?
 
@@ -50,11 +50,17 @@ Because of how the DNS infrastructure works, you also need to make it so your cl
 
 ## Building `ddup`
 
-So I wrote my own tool: [`ddup`](https://github.com/ItalyPaleAle/ddup). At its core, `ddup` runs health checks against my services, talks to an external DNS provider (currently only Cloudflare DNS is supported), and updates the DNS records for my app to contain the set of healthy nodes.
+So I wrote my own tool: [`ddup`](https://github.com/ItalyPaleAle/ddup). At its core, `ddup` runs health checks against my services, talks to an external DNS provider, and updates the DNS records for my app to contain the set of healthy nodes.
+
+Currently, ddup supports these providers:
+
+- Azure DNS
+- Cloudflare
+- OVH
 
 That's it: no servers to run, no daemons to babysit… just a small process that ensures DNS always reflects the current state of the cluster.
 
-Because it uses a provider like Cloudflare, I also get highly available DNS infrastructure, built-in caching and distribution, and no operational burden on my side.
+Because it uses a public provider, I also get highly available DNS infrastructure, built-in caching and distribution, and no operational burden on my side.
 
 While my primary use case is Tailscale IPs, it works just as well with public or private IPs (like LAN-only services), as long as your ddup service can connect to them.
 
