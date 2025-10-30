@@ -50,7 +50,7 @@ export default {
         const oidcToken = request.headers.get('x-vercel-oidc-token')
         if (oidcToken) {
           // Add the Vercel OIDC token to the request
-          requestHeaders.set('x-vercel-oidc-token', oidcToken)
+          requestHeaders.set('authorization', 'Bearer '+oidcToken)
         }
         const upstreamResponse = await fetch(upstreamUrl, {
           headers: requestHeaders,
@@ -58,7 +58,6 @@ export default {
 
         if (!upstreamResponse.ok) {
           const text = await upstreamResponse.text()
-          console.error('HERE', upstreamResponse.status, text)
           throw new Error(`Failed to fetch script with status code ${upstreamResponse.status}: ${text}`)
         }
 
