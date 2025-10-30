@@ -1,5 +1,7 @@
 {{ if eq hugo.Environment "production" }}
   {{ with .Site.Params.PlausibleAnalytics }}
-<script async defer data-domain="{{ .Domain }}" data-api="/pls/api/event" src="/pls/index.d87815.js"></script>
+  {{ $seed := now.UnixNano | string }}
+  {{ $randomHex := printf "%.6s" (crypto.SHA256 $seed) }}
+<script async defer data-domain="{{ .Domain }}" data-api="/pls/api/event" src="/pls/index.{{ $randomHex }}.js"></script>
   {{ end }}
 {{ end }}

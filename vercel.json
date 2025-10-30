@@ -1,0 +1,55 @@
+{
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "fluid": true,
+    "buildCommand": "sh dist.sh",
+    "cleanUrls": false,
+    "framework": "hugo",
+    "outputDirectory": "public",
+    "redirects": [
+        { "source": "/go/docker-rpi", "destination": "/2020/06/24/docker-and-docker-compose-on-raspberry-pi-os.html", "permanent": false },
+        { "source": "/go/auth", "destination": "/2020/04/08/stop-writing-your-own-user-authentication-code.html", "permanent": false },
+        { "source": "/go/git-sign", "destination": "/2020/05/17/how-and-why-to-sign-git-commits.html", "permanent": false },
+        { "source": "/go/cryptobook", "destination": "/2022/03/01/essential-cryptography-for-javascript-developers-book.html", "permanent": false },
+
+        { "source": "/2017/12/31/yes-you-can-run-docker-on-raspbian.html", "destination": "/2019/07/13/yes-you-can-run-docker-on-raspbian.html", "permanent": false }
+    ],
+    "rewrites": [
+        { "source": "/pls/index.js", "destination": "/api/pls-script" },
+        { "source": "/pls/index.:hash([a-fA-F0-9]{1,6}).js", "destination": "/api/pls-script" },
+        { "source": "/pls/api/:match*", "destination": "/api/pls-api" }
+    ],
+    "headers": [
+        {
+            "source": "/(.*?)",
+            "headers": [
+                { "key": "Permissions-Policy", "value": "interest-cohort=()" },
+                { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+            ]
+        },
+        {
+            "source": "/|/(.*?).html",
+            "headers": [
+                { "key": "Content-Security-Policy-Report-Only", "value": "default-src 'none'; script-src 'self' https://*.italypaleale.me https://cdn.commento.io https://gist.github.com/; style-src 'self' 'unsafe-inline' https://*.italypaleale.me https://cdn.commento.io https://github.githubassets.com/; img-src 'self' data: https://*.italypaleale.me https://cdn.commento.io; font-src 'self' https://*.italypaleale.me https://cdn.commento.io; connect-src * https://*.italypaleale.me https://cdn.commento.io; media-src *; object-src 'none'; child-src 'self' https://www.youtube-nocookie.com; worker-src 'self'; frame-ancestors 'self'; form-action 'self'; block-all-mixed-content; upgrade-insecure-requests; report-uri https://8af2e721dd06ac65ebfdd369c011d469.report-uri.com/r/d/csp/reportOnly" },
+                { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+            ]
+        },
+        {
+            "source": "/images/(.*?)",
+            "headers": [
+                { "key": "Cache-Control", "value": "public, max-age=1200000" }
+            ]
+        },
+        {
+            "source": "/fonts/(.*?)",
+            "headers": [
+                { "key": "Cache-Control", "value": "public, max-age=15552000, immutable" }
+            ]
+        },
+        {
+            "source": "/(js|css)/(.*?)",
+            "headers": [
+                { "key": "Cache-Control", "value": "public, max-age=15552000, immutable" }
+            ]
+        }
+    ]
+}
