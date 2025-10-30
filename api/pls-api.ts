@@ -3,8 +3,6 @@
 export default {
   async fetch(request: Request) {
     const url = new URL(request.url)
-    console.log(process.env.PLAUSIBLE_ANALYTICS + url.pathname.slice(4), request.headers)
-
     const newReq = new Request(process.env.PLAUSIBLE_ANALYTICS + url.pathname.slice(4), new Request(request, {}))
 
     // Set the X-Forwarded-For header
@@ -18,8 +16,14 @@ export default {
     }
 
     // Need to remove the Host and Cookie headers, or the request will fail
+    // Should also remove all Vercel headers, except x-vercel-oidc-token
     newReq.headers.delete('Host')
     newReq.headers.delete('Cookie')
+    for (const key of newReq.headers.keys()) {
+      if (key != 'x-vercel-oidc-token' && key.startsWith('x-vercel-')) {
+        newReq.headers.delete(key)
+      }
+    }
 
     // Make the request
     return fetch(newReq)
