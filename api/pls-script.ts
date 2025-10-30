@@ -43,7 +43,15 @@ export default {
     if (!scriptContent || !headers) {
       try {
         // Fetch from the upstream Plausible server
-        const upstreamResponse = await fetch(upstreamUrl)
+        const requestHeaders = new Headers()
+        const oidcToken = request.headers.get('x-vercel-oidc-token')
+        if (oidcToken) {
+          // Add the Vercel OIDC token to the request
+          requestHeaders.set('x-vercel-oidc-token', oidcToken)
+        }
+        const upstreamResponse = await fetch(upstreamUrl, {
+          headers: requestHeaders,
+        })
 
         if (!upstreamResponse.ok) {
           const text = await upstreamResponse.text()
