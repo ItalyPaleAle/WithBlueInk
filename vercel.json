@@ -15,7 +15,7 @@
     ],
     "rewrites": [
         { "source": "/pls/index(\\.[a-fA-F0-9]{1,6})?\\.js", "destination": "/api/pls-script" },
-        { "source": "/pls/api/:match*", "destination": "https://pls.italypaleale.me/api/:match*" }
+        { "source": "/pls/api/:match*", "destination": "/api/pls-api" }
     ],
     "headers": [
         {
@@ -40,6 +40,12 @@
         },
         {
             "source": "/fonts/(.*?)",
+            "headers": [
+                { "key": "Cache-Control", "value": "public, max-age=15552000, immutable" }
+            ]
+        },
+        {
+            "source": "/(js|css)/(.*?)",
             "headers": [
                 { "key": "Cache-Control", "value": "public, max-age=15552000, immutable" }
             ]
