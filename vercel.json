@@ -14,8 +14,8 @@
         { "source": "/2017/12/31/yes-you-can-run-docker-on-raspbian.html", "destination": "/2019/07/13/yes-you-can-run-docker-on-raspbian.html", "permanent": false }
     ],
     "rewrites": [
-        { "source": "/pls/index(\\.[a-fA-F0-9]{1,6})?\\.js", "destination": "/api/pls-script" },
-        { "source": "/pls/api/:match*", "destination": "/api/pls-api/:match*" }
+        { "source": "/pls/index:hash(\\.[a-fA-F0-9]{1,6})?.js", "destination": "/api/pls-script" },
+        { "source": "/pls/api/:match*", "destination": "/api/pls-api" }
     ],
     "headers": [
         {
