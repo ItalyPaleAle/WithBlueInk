@@ -17,6 +17,9 @@ export default {
     if (!process.env.PLAUSIBLE_ANALYTICS) {
       return new Response('', {
         status: 204,
+        headers: {
+          'cache-control': 'no-cache',
+        }
       })
     }
 
@@ -55,6 +58,7 @@ export default {
 
         if (!upstreamResponse.ok) {
           const text = await upstreamResponse.text()
+          console.error('HERE', upstreamResponse.status, text)
           throw new Error(`Failed to fetch script with status code ${upstreamResponse.status}: ${text}`)
         }
 
