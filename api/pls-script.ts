@@ -19,7 +19,8 @@ export default {
       const upstreamResponse = await fetch(upstreamUrl)
 
       if (!upstreamResponse.ok) {
-        return new Response('Failed to fetch script', { status: upstreamResponse.status })
+        const text = await upstreamResponse.text()
+        throw new Error(`Failed to fetch script with status code ${upstreamResponse.status}: ${text}`)
       }
 
       // Get the script content and add padding
@@ -32,7 +33,7 @@ export default {
       }
 
       // Response headers
-      const headers = upstreamResponse.headers
+      const headers = new Headers(upstreamResponse.headers)
       headers.set('Cache-Control', `public, max-age=${clientCacheDuration}`)
 
       // Create response with caching headers
@@ -41,6 +42,7 @@ export default {
         headers,
       })
     } catch (error) {
+      console.error('Error proxying script: ' + error)
       return new Response('Error proxying script', { status: 500 })
     }
   },
