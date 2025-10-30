@@ -1,3 +1,5 @@
+import { getCache } from '@vercel/functions'
+
 // Cache the proxied script for 1 day in the edge cache
 // const edgeCacheDuration = 86400
 // Cache the proxied script for 12 hours in the browser
@@ -13,9 +15,10 @@ export default {
       })
     }
 
+    const upstreamUrl = `${process.env.PLAUSIBLE_ANALYTICS}/js/plausible.outbound-links.js`
+
     try {
       // Fetch from the upstream Plausible server
-      const upstreamUrl = `${process.env.PLAUSIBLE_ANALYTICS}/js/plausible.outbound-links.js`
       const upstreamResponse = await fetch(upstreamUrl)
 
       if (!upstreamResponse.ok) {
