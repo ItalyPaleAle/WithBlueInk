@@ -15,7 +15,7 @@
     ],
     "rewrites": [
         { "source": "/pls/index(\\.[a-fA-F0-9]{1,6})?\\.js", "destination": "/api/pls-script" },
-        { "source": "/pls/api/:match*", "destination": "/api/pls-api" }
+        { "source": "/pls/api/:match*", "destination": "/api/pls-api/:match*" }
     ],
     "headers": [
         {
