@@ -142,6 +142,69 @@ class RateLimiter(ip: string) {
 
 The runtime ensures all calls for a given IP go to the same actor instance, so concurrency issues simply vanish.
 
+## Invoking your actors from application code
+
+So far we've talked about what actors are and what they *do*, but not how you actually call them.
+
+In a real framework you don't usually `new` an actor directly. Instead, you go through a runtime that knows how to:
+
+- Locate or create the actor instance.
+- Route the call to wherever that instance is currently loaded.
+- Serialize the request and response.
+- Handle retries, failures, and so on.
+
+To keep things simple, let's use a very small, imaginary API:
+
+```ts
+ActorRuntime.Invoke(methodName: string, data: any): any
+```
+
+The runtime is already bound to a specific actor type and ID. You just tell it *what* you want to do (`methodName`) and pass the payload (`data`). The runtime takes care of the rest.
+
+Here's what calling the `Cart` actor might look like from your web app:
+
+```ts
+// Somewhere in your request handler
+
+let cart = ActorRuntimeFor("Cart", cartId)
+
+// Add an item
+await cart.Invoke("AddItem", {
+    itemId: "abc-123",
+    quantity: 2
+})
+
+// Read back the cart contents
+let items = await cart.Invoke("GetItems", null)
+
+// Email the cart contents
+await cart.Invoke("EmailCartContents", {
+    address: "someone@example.com"
+})
+```
+
+The important bit is not the exact API shape, but the boundary: your application code just invokes methods on a logical actor, and the runtime resolves *where* and *how* the call is executed.
+
+The same idea works for the rate limiter. Each IP gets its own actor instance, and your middleware just invokes a method on it:
+
+```ts
+// In your HTTP middleware
+
+let limiter = ActorRuntimeFor("RateLimiter", clientIp)
+
+let allowed = await limiter.Invoke("AllowRequest", {
+    path: request.path
+})
+
+if (!allowed) {
+    return TooManyRequests()
+}
+
+return next()
+```
+
+Again, all concurrency control and state management lives inside the actor. From the caller's perspective, it's just a method invocation that might fail or succeed like any other remote call.
+
 ## Deferred invocations: timers, reminders, alarms
 
 Most actor frameworks also support deferred or scheduled invocations, often called *timers*, *reminders*, or *alarms*. This allows an actor to schedule future work without any external scheduler.
@@ -178,7 +241,7 @@ class Cart(cartId: string) {
 
     private setDeactivateTimer() {
         // Reset the timer so it's invoked after 2 hours of the last invocation
-        runtime.setTimer("deactivate", date("+2 hours"))
+        ActorRuntime.setTimer("deactivate", date("+2 hours"))
     }
 
     // Method invoked by alarms
