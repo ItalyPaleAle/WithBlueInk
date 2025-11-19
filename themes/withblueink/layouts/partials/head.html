@@ -9,13 +9,17 @@
     {{ else }}
         <link rel="canonical" href="{{ .Page.Permalink | absURL }}">
     {{ end }}
-    
+
 	<!-- Page title -->
     <title>{{ if .Page.Title }}{{ .Page.Title }} | {{ .Site.Title }}{{ else }}{{ .Site.Title }}{{ end }}</title>
-    <meta property="og:title" content="{{ if .Page.Title }}{{ .Page.Title }} | {{ .Site.Title }}{{ else }}{{ .Site.Title }}{{ end }}">
-    
+
     <!-- Open Graph and social -->
     <meta property="og:url" content="{{ .Page.Permalink | absURL }}">
+    {{ if .Params.ogTitle }}
+        <meta property="og:title" content="{{ .Params.ogTitle }}">
+    {{ else }}
+        <meta property="og:title" content="{{ if .Page.Title }}{{ .Page.Title }} | {{ .Site.Title }}{{ else }}{{ .Site.Title }}{{ end }}">
+    {{ end }}
     {{ with .Page.Description }}
         <meta name="description" content="{{ . }}">
         <meta property="og:description" content="{{ . }}">

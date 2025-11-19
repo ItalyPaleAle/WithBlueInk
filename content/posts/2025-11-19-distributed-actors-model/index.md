@@ -12,6 +12,8 @@ coverImage:
   linkName: "Unsplash"
   linkURL: "https://unsplash.com/@chiabra"
 slug: "distributed-actors-model"
+params:
+  ogTitle: "Building with Distributed Actors: What and Why"
 ---
 
 I like to describe a distributed actor as *a unit of state with single-threaded compute on top, available to every app in the distributed system*. It's a surprisingly compact definition for a programming model that can feel counter-intuitive if you haven't run into it before.
