@@ -1,6 +1,6 @@
 ---
 title: "Building with Distributed Actors"
-description: "One of my favorite patterns is one you may not have heard of"
+description: "Among my favorite patterns is one you may not have heard of"
 date: 2025-11-19 08:00:00
 author:
   name: "Alessandro Segala"
