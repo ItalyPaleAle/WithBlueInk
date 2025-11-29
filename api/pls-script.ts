@@ -10,11 +10,13 @@ type CachedScript = {
   headers: Record<string, string>
 }
 
-// Handle proxy for Plausible if enabled (if the PLAUSIBLE_ANALYTICS env var contains the URL of the Plausible server, with https prefix)
-// Proxy and cache the script (from /pls/index.*.js to ${PLAUSIBLE_ANALYTICS}/js/plausible.outbound-links.js)
+// Handle proxy for Plausible if enabled (if the PLAUSIBLE_SCRIPT env var contains the URL of the Plausible server, with https prefix)
+// Proxy and cache the script (from /pls/index.js to ${PLAUSIBLE_SCRIPT}, which should be the property-specific URL)
 export default {
   async fetch(request: Request) {
-    if (!process.env.PLAUSIBLE_ANALYTICS) {
+    const upstreamUrl = process.env.PLAUSIBLE_SCRIPT
+
+    if (!upstreamUrl) {
       return new Response('', {
         status: 204,
         headers: {
@@ -22,8 +24,6 @@ export default {
         }
       })
     }
-
-    const upstreamUrl = `${process.env.PLAUSIBLE_ANALYTICS}/js/plausible.outbound-links.js`
 
     let scriptContent: string | undefined
     let headers: Headers | undefined

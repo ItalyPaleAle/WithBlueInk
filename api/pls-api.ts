@@ -1,9 +1,12 @@
-// Handle proxy for Plausible if enabled (if the PLAUSIBLE_ANALYTICS env var contains the URL of the Plausible server, with https prefix)
-// Proxy (no cache) the message sending the request (from /pls/(event|error) to ${PLAUSIBLE_ANALYTICS}/api/(event|error))
+// Handle proxy for Plausible if enabled (if the PLAUSIBLE_API_EVENT env var contains the URL of the Plausible server, with https prefix)
+// Proxy (no cache) the message sending the request (from /pls/api/event to ${PLAUSIBLE_API_EVENT}, which should end with /api/event)
 export default {
   async fetch(request: Request) {
-    const url = new URL(request.url)
-    const newReq = new Request(process.env.PLAUSIBLE_ANALYTICS + url.pathname.slice(4), new Request(request, {}))
+    if (!process.env.PLAUSIBLE_API_EVENT) {
+        return Response.json({ error: 'PLAUSIBLE_API_EVENT analytics not configured' }, { status: 500 })
+    }
+  
+    const newReq = new Request(process.env.PLAUSIBLE_API_EVENT, new Request(request, {}))
 
     // Set the X-Forwarded-For header
     // First, check if the request had an X-Forwarded-For already

@@ -24,8 +24,7 @@ params:
   # Site description
   description: "A blog by Alessandro Segala (@ItalyPaleAle)"
   # Plausible Analytics
-  PlausibleAnalytics:
-    Domain: withblue.ink
+  PlausibleAnalytics: true
 
 # Theme configuration
 theme: "withblueink"
