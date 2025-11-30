@@ -2,7 +2,7 @@
   {{ if .Site.Params.PlausibleAnalytics }}
   {{ $seed := now.UnixNano | string }}
   {{ $randomHex := printf "%.6s" (crypto.SHA256 $seed) }}
-<script async src="/pls/index.{{ $randomHex }}.js"></script>
+<script defer async src="/pls/index.{{ $randomHex }}.js"></script>
 <script>
   window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
   plausible.init({endpoint: '/pls/api/event'})

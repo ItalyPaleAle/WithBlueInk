@@ -11,7 +11,7 @@ type CachedScript = {
 }
 
 // Handle proxy for Plausible if enabled (if the PLAUSIBLE_SCRIPT env var contains the URL of the Plausible server, with https prefix)
-// Proxy and cache the script (from /pls/index.js to ${PLAUSIBLE_SCRIPT}, which should be the property-specific URL)
+// Proxy and cache the script (from /pls/index.js and /pls/index.[random].js to ${PLAUSIBLE_SCRIPT}, which should be the property-specific URL)
 export default {
   async fetch(request: Request) {
     const upstreamUrl = process.env.PLAUSIBLE_SCRIPT
