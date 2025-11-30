@@ -53,7 +53,7 @@ With actors, you define an actor type called `Cart`. Each cart ID corresponds to
 
 When you call `AddItem`, the actor performs the update entirely in memory and then persists the new cart to the database. No transaction required, because all calls are automatically serialized: the actor processes them one at a time. A second `AddItem` call queues behind the first, sees the updated in-memory state, and persists its own change. Reads such as `GetItems` can return data straight from memory without hitting the database at all.
 
-You still persist to the database so the cart isn't lost if the app crashes, but you've eliminated most of the I/O: state is hot and local. only writes require interacting to the databaase, and because there's no need for reads beforehand or transactions, they're complete in a single round-trip (the only time you would read from the database is when an actor is first allocated, to check if there's state to resume from).
+You still persist to the database so the cart isn't lost if the app crashes, but you've eliminated most of the I/O: state is hot and local. only writes require interacting to the database, and because there's no need for reads beforehand or transactions, they're complete in a single round-trip (the only time you would read from the database is when an actor is first allocated, to check if there's state to resume from).
 
 There's more, as you can also move the business logic into the actor itself, helping keep your code organized. For example, let's say your store allows a maximum of 10 items per cart. In the actor model, that enforcement becomes a simple `if` at the top of `AddItem`.
 

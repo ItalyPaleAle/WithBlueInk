@@ -112,7 +112,7 @@ In general, relying on IPFS has delivered some interesting benefits.
 In reality, however, most users don't access this blog through IPFS, but instead they visit it over HTTP(S) through the Cloudflare gateway. This has still worked fairly well:
 
 - Since each document in IPFS is immutable, Cloudflare is caching the website extensively in each edge node around the world. There's no need for the CDN to connect to the upstream server to check for new content for as long as the DNSLink is the same. Latency tests from multiple locations worldwide show consistent, speedy page load times. When your blog's front page fully loads (including images) in around 3 seconds with a fresh cache more or less consistently from every corner of the planet, it's quite impressive.
-- Setting things up is really simple. Besides pointing the CNAME to the Cloudflare gateway and asking them to enable the TLS certificate for my domain, things just work. No need to configure high-availbility, load-balancing, replicating the content across multiple servers, etc.
+- Setting things up is really simple. Besides pointing the CNAME to the Cloudflare gateway and asking them to enable the TLS certificate for my domain, things just work. No need to configure high-availability, load-balancing, replicating the content across multiple servers, etc.
 - The Cloudflare CDN also does amazing things for you, including supporting HTTPS and HTTP/2.0 (SPDY!), gzipping responses, etc.
 
 ### What I learnt / could go better
