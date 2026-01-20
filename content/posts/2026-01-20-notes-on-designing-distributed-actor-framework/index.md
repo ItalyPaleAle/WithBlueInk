@@ -18,19 +18,21 @@ params:
 
 If you're into distributed systems, building a distributed actor framework is one of those projects that sits at the intersection of challenging and deeply satisfying. It forces you to think about concurrency, state management, fault tolerance, and distributed coordination all at once. Even if you're not currently designing one, understanding how these systems work can sharpen your intuition for distributed systems in general.
 
-These notes come from my experiences on multiple sides of the actor framework world. I was a maintainer of Dapr, which includes a distributed actor runtime. As a user, I've worked with actors in Dapr, .NET Orleans, and Cloudflare's Durable Objects. And this past summer, I built my own actor framework in Go, tentatively named "Francis" (_a nod to the legendary Francis Ford Coppola, director of The Godfather_).
+These notes come from my experiences on multiple sides of the actor framework world. I was a maintainer of Dapr, which includes a distributed actor runtime. As a user, I've worked with actors in Dapr, .NET Orleans, and Cloudflare Durable Objects. And this past summer, I built my own actor framework in Go, tentatively named "Francis" (_a nod to the legendary Francis Ford Coppola, director of The Godfather_).
 
-A word of caution before we dive in: this is a collection of notes based on my own experiences. It doesn't necessarily reflect the correct, or even best, practices. Your designs may need to deviate based on your specific requirements. Think of this as a map of the territory I've explored, not a definitive guide.
+A quick disclaimer before we dive in: this is a **collection of notes** based on my own experiences. It doesn't necessarily reflect the correct, or even best, practices. Your designs may need to deviate based on your specific requirements. Think of this as a map of the territory I've explored, not a definitive guide.
 
 ## What is a distributed actor?
 
 If you're already familiar with the distributed actor model, feel free to skip ahead. For everyone else, here's the short version.
 
-A **distributed actor** is a unit of state with single-threaded compute on top, available to every application in a distributed system. Each actor has a **type** (think of it as a class) and an **ID** (the specific instance). Together, the type and ID uniquely identify an actor within the cluster. A ShoppingCart actor with ID `user-123` is distinct from a ShoppingCart with ID `user-456`, and both are distinct from an Inventory actor with ID `warehouse-east`.
+A distributed actor is a **unit of state with single-threaded compute on top**, available to every application in a distributed system.
 
-The "single-threaded" part is crucial. Each actor instance processes one request at a time. If multiple requests arrive simultaneously, they queue up and wait their turn. This eliminates an entire class of concurrency bugs: you never have to worry about **race conditions** within an actor's state.
+Each actor has a **type** (think of it as a class) and an **ID** (the specific instance). Together, the type and ID uniquely identify an actor within the cluster. A ShoppingCart actor with ID `user-123` is distinct from a ShoppingCart with ID `user-456`, and both are distinct from an Inventory actor with ID `warehouse-east`.
 
-The "distributed" part means actors can live on any node in the cluster, and clients don't need to know where. You invoke an actor by its type and ID, and the runtime figures out which host is responsible for it. If that actor isn't currently active, the runtime spins it up transparently.
+The "single-threaded" part is crucial. Each actor instance processes **one request at a time**. If multiple requests arrive simultaneously, they queue up and wait their turn. This eliminates an entire class of concurrency bugs: you never have to worry about race conditions or locks within an actor's state.
+
+The "distributed" part means actors can **live on any node in the cluster**, and clients don't need to know where. You invoke an actor by its type and ID, and the runtime figures out which host is responsible for it. If that actor isn't currently active, the runtime spins it up transparently.
 
 I've written a more thorough explanation of the distributed actor model in a [previous post]({{< ref "2025-11-19-distributed-actors-model" >}}) if you want the deeper dive.
 
@@ -39,29 +41,31 @@ I've written a more thorough explanation of the distributed actor model in a [pr
 Before getting into the design challenges, let's establish a shared vocabulary:
 
 - **Actor type**: The "class" of the actor, defining what methods it supports and what state it manages.
-- **Actor ID**: The unique identifier for a specific instance of an actor type.
+- **Actor ID**: The unique identifier for a specific instance of an actor of the given type.
 - **Actor host**: A node capable of executing actors of a given type.
 - **Cluster**: The set of all actor hosts.
-- **Actor client**: An application that invokes actors but doesn't host them. (A host can also be a client.)
+- **Actor client**: An application that invokes actors but doesn't host them. _Note: A host can also be a client._
 - **Turn-based concurrency**: Each actor instance serves one request at a time. Other requests wait their turn.
 - **Hibernation**: When an actor has been idle for a while, the runtime can remove its state from memory. The actor's persistent state remains, and it can be reactivated later.
 - **Alarms** (or **reminders**): A mechanism for an actor to schedule itself to be invoked at a future point in time, either once or on a repeating schedule.
 
 ## The problems you need to solve
 
-Designing a distributed actor framework means solving a series of interconnected problems. I'll walk through them roughly in order of increasing complexity (as per my subjective evaluation), though in practice you'll be thinking about all of them at once.
+Designing a distributed actor framework means solving a series of interconnected problems. I'll walk through them roughly in order of increasing complexity (as per my subjective evaluation), although in practice you'll be thinking about all of them at once.
 
 ### How to expose methods
 
 At its core, an actor is something that receives messages and does work. The most straightforward way to expose this is as an **HTTP endpoint: `POST /actor/:actorType/:actorId/:method`**.
 
-You want actors to support **multiple methods** so they can perform different operations on their state. A ShoppingCart actor might have `GetItems`, `AddItem`, `RemoveItem`, and `Checkout`. POST is the right HTTP verb here since you're sending messages and expecting the actor to do something. POST requests are also treated as **non-idempotent** in REST conventions, which matches the semantics of actor invocations.
+You want actors to support **multiple methods** so they can perform different operations on their state. A ShoppingCart actor might have `GetItems`, `AddItem`, `RemoveItem`, and `Checkout`.
 
-When designing an actor framework, you'll almost certainly want to **build an SDK** that abstracts away the raw HTTP handling. Developers shouldn't need to manually parse URLs and route requests. The SDK can also provide helpers for state management, which we'll get to later.
+POST is the right HTTP verb here since you're sending messages and expecting the actor to do something. POST requests are also treated as non-idempotent in REST conventions, which matches the semantics of actor invocations.
+
+When designing an actor framework, you'll almost certainly want to build **an SDK that abstracts away the raw HTTP handling**. Developers shouldn't need to manually parse URLs and route requests. The SDK can also provide helpers for state management, which we'll get to later.
 
 HTTP isn't the only option. **gRPC** works well too, with a single method like `InvokeActor(actorType, actorId, method, data)`. The choice depends on your ecosystem and performance requirements.
 
-What about message queues like Kafka, RabbitMQ, NATS, etc? They're generally not a good fit for external actor invocation. The async nature introduces latency that defeats the purpose of synchronous actor calls, and there's no natural way to send responses back to the caller.
+> What about message queues like Kafka, RabbitMQ, NATS, etc? They're generally not a good fit for external actor invocation. The async nature introduces latency that defeats the purpose of synchronous actor calls, and there's no natural way to send responses back to the caller.
 
 ### Turn-based concurrency
 
