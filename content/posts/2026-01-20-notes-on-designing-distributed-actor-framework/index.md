@@ -143,55 +143,59 @@ A few other edge cases to consider:
 
 Distributed systems fail in creative ways. Hosts crash, networks partition, databases become temporarily unavailable. Your actor framework needs a strategy for handling these failures.
 
-For actor invocations, the question is: what happens when a call fails? Some frameworks automatically retry with **exponential backoff**. Others surface the error to the caller and let them decide. The right choice depends on whether the operation is **idempotent** and how your users expect errors to behave.
+For actor invocations, the question is: what happens when a call fails? Some frameworks automatically retry with exponential backoff. Others surface the error to the caller and let them decide. The right choice depends on whether the operation is idempotent and how your users expect errors to behave.
 
-**Host failures** are particularly interesting. If a host crashes while an actor is processing a request, what happens? The client will see a connection error and might retry. But if the actor had partially updated its state before crashing, you could end up with **inconsistent data**. This is where careful state management and idempotency become important.
+Host failures are particularly interesting. If a host crashes while an actor is processing a request, what happens? The client will see a connection error and might retry. But if the actor had partially updated its state before crashing, you could end up with inconsistent data. This is mostly a problem for developers building actors than for the runtime itself, and it's where careful state management and idempotency become important.
 
 ### Communicating between actors
 
 Actors don't exist in isolation. An Order actor might need to call an Inventory actor to reserve items. A Game actor might broadcast state updates to multiple Player actors.
 
-The mechanics of **actor-to-actor communication** are similar to client-to-actor communication: you invoke by type and ID, and the runtime routes the request. But there's a subtle trap waiting for you: **reentrancy**.
+The mechanics of actor-to-actor communication*are similar to client-to-actor communication: you invoke by type and ID, and the runtime routes the request. But there's a subtle trap waiting for you: **reentrancy**.
 
-Consider what happens if Actor A calls Actor B, and Actor B synchronously calls back to Actor A. Under turn-based concurrency, Actor A is blocked waiting for B's response, which means A's queue isn't processing new requests. When B's callback arrives, it joins A's queue behind… A's own pending request. **Deadlock**.
+Consider what happens if Actor A calls Actor B, and Actor B synchronously calls back to Actor A. Under turn-based concurrency, Actor A is blocked waiting for B's response, which means A's queue isn't processing new requests. When B's callback arrives, it joins A's queue behind… A's own pending request. The result is a **deadlock**.
 
-Different frameworks handle this differently. Orleans supports **reentrant grains**: you can mark a grain class with `[Reentrant]`, and Orleans will allow callbacks within a call chain to enter the actor even while it's "busy" waiting. Orleans tracks the call chain via a **correlation ID** in the request context. Other frameworks simply document the footgun and leave it to developers to avoid circular calls.
+Different frameworks handle this differently. Orleans supports reentrant grains (actors are called _grains_ in Orleans): you can mark a grain class with `[Reentrant]`, and Orleans will allow callbacks within a call chain to enter the actor even while it's "busy" waiting. Orleans tracks the call chain via a _correlation ID_ in the request context. Other frameworks simply document the footgun and leave it to developers to avoid circular calls.
 
-Some frameworks also support **"fire-and-forget"** invocations, where the caller sends a message but doesn't wait for a response. This is useful for notifications and events where you don't need acknowledgment. The challenge is error handling: if the message fails, there's no way to tell the caller. One workaround, used by Dapr Workflow internally, is to implement fire-and-forget as an immediately-scheduled alarm. You get the framework's built-in retry logic, at the cost of some additional latency from the persistence round-trip.
+Some frameworks also support **"fire-and-forget"** invocations, where the caller sends a message but doesn't wait for a response. This is useful for notifications and events where you don't need acknowledgment. The challenge is error handling: if the message fails, there's no way to tell the caller. One workaround, used by Dapr Workflow internally, is to implement fire-and-forget as an immediately-scheduled alarm. You get the framework's built-in retry logic, at the cost of some additional latency due to the need to manage persistency and because of the alarm scheduler.
 
 ### Inter-cluster communication
 
 Inside a cluster, all clients need to be able to reach all hosts. Hosts run HTTP or gRPC servers that must accept incoming requests from anywhere in the cluster.
 
-Security matters here. You almost certainly want **TLS** for in-cluster communication, which means generating and distributing certificates. You probably also want **authentication**, either via **mTLS** (where the certificate itself proves identity) or at the application layer with tokens or API keys.
+Security matters here. You almost certainly want TLS for in-cluster communication, which means generating and distributing certificates. You probably also want authentication, either via **mTLS** (where the certificate itself proves identity) or at the application layer with **tokens or API keys**.
 
-If your actors need to communicate across cluster boundaries, perhaps between different regions or environments, the complexity multiplies. You need to handle different network topologies, higher latencies, and potentially different **trust boundaries**.
+If your actors need to communicate across cluster boundaries, perhaps between different regions or environments, the complexity multiplies. You need to handle different network topologies, higher latencies, and potentially different trust boundaries.
 
 ### Placing actors on hosts
 
 This is where distributed actor frameworks get genuinely interesting. When a client invokes an actor, how does the system decide which host should run it?
 
-The most important constraint is that a given actor instance must run on **exactly one host at a time**. If the same actor somehow runs on two hosts simultaneously, you lose the single-threaded guarantee and all the consistency properties that come with it.
+The most important constraint is that a given actor instance must run on **exactly one host at a time**. If the same actor somehow runs on two hosts simultaneously, you lose the single-threaded guarantee and all the consistency properties that come with it. An actor runtime's main job is to prevent this catastrophic possibility.
 
-There are two broad approaches: **centralized placement** and **decentralized placement**.
+There are two broad approaches, centralized or decentralized placement.
 
 #### Centralized placement
 
-In this model, a dedicated **controller service** maintains the mapping from actors to hosts. When a client wants to invoke an actor, it first asks the controller "where does this actor live?" The controller either returns the address of a host that's already running the actor, or picks a host and tells the actor to activate there.
+In this model, a dedicated **controller service** maintains the mapping from actors to hosts.
 
-The advantages are flexibility and **global knowledge**. The controller can make smart placement decisions based on host load, locality, or other factors. It can rebalance actors across hosts as conditions change. It has a complete view of the cluster.
+When a client wants to invoke an actor, it first asks the controller "where does this actor live?" The controller either returns the address of a host that's already running the actor, or picks a host and tells the actor to activate there.
 
-The disadvantages are the extra latency (every invocation needs a controller round-trip) and the controller being a **single point of failure**. If the controller goes down, no new actors can be invoked. You can mitigate this with replication, but then you need to coordinate state across controller replicas.
+- The **advantages** are flexibility and global knowledge.  
+  The controller can make smart placement decisions based on host load, locality, or other factors.  
+  It can rebalance actors across hosts as conditions change, given that it has a complete view of the cluster.
+- The **disadvantages** are the extra latency (every invocation needs a controller round-trip) and the controller being a single point of failure.  
+  If the controller goes down, no new actors can be invoked. You can mitigate this with replication, but then you need to coordinate state across controller replicas.
 
 In my "Francis" framework, the controller stores placement information in a Postgres or SQLite database. This lets the controller itself be replicated for availability, but the database becomes the bottleneck at scale. Orleans takes a different approach, using a distributed hash table to replicate placement information across nodes in memory.
 
-**Caching** helps with the latency problem. After invoking an actor, clients can cache the placement information and skip the controller on subsequent calls. But caching introduces its own challenges: what if the actor moves to a different host, or the original host restarts?
+Caching can help with the latency problem. After invoking an actor, clients can cache the placement information and skip the controller on subsequent calls. But caching introduces its own challenges: what if the actor moves to a different host, or the original host restarts?
 
 Here's a pattern for safe placement caching:
 
-1. Each host generates a random **"host ID"** on startup. If the process restarts, it gets a new ID.
+1. Each host generates a random _host ID_ on startup. If the process/container restarts, it gets a new ID.
 2. Placement responses include `(actorType, actorId, address, port, hostId)`.
-3. Clients cache this tuple, with a **TTL** based on either a configured maximum or the actor's hibernation deadline.
+3. Clients cache this tuple, with a cache TTL based on either a configured maximum or the actor's hibernation deadline.
 4. When invoking an actor, the client includes the cached `hostId` in the request header.
 5. The receiving host compares the request's `hostId` with its own. If they differ, the host was restarted and isn't running that actor anymore. The client must re-query the controller.
 
@@ -199,25 +203,33 @@ This catches the case where a cached address points to a host that has restarted
 
 #### Decentralized placement
 
-The alternative is to eliminate the controller entirely. In this model, clients determine actor placement themselves using a deterministic algorithm, typically **consistent hashing**.
+The alternative is to eliminate the controller entirely. In this model, clients determine actor placement themselves using a deterministic algorithm, typically _consistent hashing_.
 
-Given a list of known hosts and an actor's type and ID, consistent hashing produces the same answer everywhere without any coordination. No controller round-trip, no single point of failure. Clients just need an up-to-date view of which hosts are in the cluster.
+The biggest **advantage** is the reduced latency when invoking actors. Given a list of known hosts and an actor's type and ID, consistent hashing produces the same answer everywhere without any coordination: no controller round-trip, no single point of failure. Clients just need an up-to-date view of which hosts are in the cluster.
 
-The **membership list** can be maintained via a **gossip protocol**, a shared configuration store, or simply by having all hosts register with a service discovery mechanism that clients also read from.
+The membership list can be maintained via a gossip protocol, a shared configuration store, or simply by having all hosts register with a service discovery mechanism that clients also read from.
 
-Consistent hashing also handles host changes gracefully. When a host joins or leaves, only a fraction of actors need to move, proportional to the change in cluster size. This is much better than naive **modulo hashing**, which would shuffle almost everything.
+Consistent hashing also handles host changes gracefully. When a host joins or leaves, only a fraction of actors need to move, proportional to the change in cluster size. This is much better than naive modulo hashing, which would shuffle almost everything.
 
-The downsides are reduced flexibility and more complex failure handling. You can't easily rebalance actors based on load since the hash function determines placement. And if a host fails, actors that hash to it become temporarily unavailable until the membership list updates everywhere. Clients might send requests to a dead host, wait for a timeout, and only then retry with an updated membership list.
+The **downsides** are reduced flexibility and more complex failure handling.  
+You can't easily rebalance actors based on load since the hash function determines placement.  
+And if a host fails, actors that hash to it become temporarily unavailable until the membership list updates everywhere. Clients might send requests to a dead host, wait for a timeout, and only then retry with an updated membership list.  
+
+Finally, every time there's a change in the number of hosts (e.g. a host is added or removed), the placement tables must be disseminated to every node (client or host) in the cluster. While that's happening, the cluster must be in a frozen state: no actor can be invoked until each node has received the updated table. This can be a problem in clusters with lots of nodes. Lots of hosts means changes happen more frequently. Lots of clients means disseminating changes takes longer.
+
+The decentralized placement approach works best when the number of actor hosts is limited and, most importantly, stable.
 
 ### Handling host failures and rebalancing
 
-When a host fails, actors that were running on it need to be activated elsewhere. In the centralized model, the controller detects the failure (via **health checks** or **heartbeats**) and updates its placement information. Subsequent invocations for affected actors get routed to new hosts.
+When a host fails, actors that were running on it need to be activated elsewhere.
 
-In the decentralized model, the membership list updates to remove the failed host, and the consistent hash function naturally routes affected actors to different hosts. The challenge is propagating the membership change quickly enough to minimize disruption.
+In the _centralized model_, the controller detects the failure (via **health checks** or heartbeats) and updates its placement information. Subsequent invocations for affected actors get routed to new hosts.
+
+In the _decentralized model_, the membership list updates to remove the failed host, and the consistent hash function naturally routes affected actors to different hosts. The challenge is propagating the membership change quickly enough to minimize disruption.
 
 Either way, actors activated on a new host start fresh. They load any persisted state, but in-memory state from the failed host is lost. This is why persisting state promptly matters.
 
-**Rebalancing**, moving actors proactively to even out load, is much easier with centralized placement. The controller can decide to move an actor, update its placement information, and let the next invocation activate it on the new host. With decentralized placement, you're mostly stuck with whatever the hash function gives you, unless you introduce **virtual nodes** or other techniques to influence distribution.
+**Rebalancing**, moving actors proactively to even out load, is much easier with centralized placement. The controller can decide to move an actor (asking the current host to shut the actor down before the hibernation deadline), update its placement information, and let the next invocation activate it on the new host. With decentralized placement, you're mostly stuck with whatever the hash function gives you, unless you introduce **virtual nodes** or other techniques to influence distribution.
 
 ## Maintainability and scaling
 
@@ -225,27 +237,28 @@ The problems above cover the basics of a working actor framework. But building s
 
 ### Actor versioning and upgrades
 
-How do you roll out a new version of actor code without downtime? During a **rolling deployment**, some hosts run v1 and others run v2. An actor might be hibernated on a v1 host and later reactivated on a v2 host.
+How do you roll out a new version of actor code without downtime?  
+During a rolling deployment, some hosts run v1 and others run v2. Or, an actor might be hibernated on a v1 host and later reactivated on a v2 host.
 
-If the new code expects a different state shape, say a field was renamed or a nested object was flattened, you need a **migration strategy**. Options include **lazy migration** (the actor transforms old state on activation), explicit migration scripts run during deployment, or **versioned state** with adapters that can read multiple formats.
+If the new code expects a different state shape, say a field was renamed or a nested object was flattened, you need a migration strategy. Options include _lazy migration_ (the actor transforms old state on activation), explicit migration scripts run during deployment, or _versioned state_ with adapters that can read multiple formats.
 
-Some frameworks support **"actor type versioning"** where v1 and v2 are treated as entirely different types. This allows gradual migration but adds complexity to client code that needs to know which version to invoke.
+Some frameworks support **actor type versioning** where v1 and v2 are treated as entirely different types. This allows gradual migration but adds complexity to client code that needs to know which version to invoke.
 
 ### Observability
 
-When something goes wrong in a distributed actor system, you need visibility into what happened. This means **tracing**, **logging**, and **metrics**.
+When something goes wrong in a distributed actor system, you need visibility into what happened. This means tracing, logging, and metrics.
 
 **Distributed tracing** with OpenTelemetry integration is critical for debugging production issues. A single user request might touch dozens of actors across multiple hosts. Without tracing, correlating those interactions is nearly impossible.
 
-Logging should include **trace IDs** so you can connect log entries across actor invocations. This sounds obvious but is surprisingly often overlooked.
+**Logs** should include trace IDs too, so you can connect log entries across actor invocations. OpenTelemetry-enabled logging libraries can often do this automatically.
 
-Metrics should cover actor activation counts, invocation latency, queue depths, state sizes, and hibernation rates. These help you understand system behavior and detect problems before they become outages.
+Finally, **metrics** should cover actor activation counts, invocation latency, queue depths, state sizes, and hibernation rates. These help you understand system behavior and detect problems before they become outages.
 
 ### Garbage collection of actors
 
 What happens to actors that will never be invoked again? Consider a ShoppingCart actor for a session that was abandoned. The actor itself gets hibernated, but its persisted state sits in the database forever, consuming storage.
 
-Two approaches to **state cleanup**:
+Two approaches to state cleanup:
 
 - **Active cleanup via alarms**: Every time an actor is invoked, it sets or resets an alarm for some point in the future (say, 12 hours).  
   If the actor isn't invoked again before the alarm fires, the alarm triggers and the actor deletes its own persisted state. This is a programming pattern; the framework doesn't need special support.
@@ -267,7 +280,7 @@ Finally, **client-side backpressure** also matters. How do clients learn to slow
 
 ### Partitioning and sharding at scale
 
-At very large scale, with millions of actors and hundreds of hosts, even the approaches described above have limits. The placement table or membership list becomes huge. A single controller database or gossip protocol can't keep up. **Network topology** starts to matter as cross-datacenter latency affects every invocation.
+At very large scale, with millions of actors and hundreds of hosts, even the approaches described above have limits: the placement table or membership list becomes huge, a single controller database or gossip protocol can't keep up, network topology starts to matter as cross-datacenter latency affects every invocation.
 
 Partitioning strategies include:
 
@@ -287,4 +300,4 @@ If you're considering building your own framework, I'd encourage you to start sm
 
 If you're evaluating existing frameworks, I hope this gives you a better sense of what questions to ask. How do they handle placement? What happens during host failures? How do they approach versioning and upgrades?
 
-And if you just find distributed systems interesting, I hope these notes have been a useful tour of the territory. There's something deeply satisfying about building systems that coordinate work across many machines while maintaining strong guarantees. Actors are one elegant way to tame that complexity.
+And if you just find distributed systems interesting, I hope these notes have been a useful tool or at least just a fun read. There's something deeply satisfying about building systems that coordinate work across many machines while maintaining strong guarantees. Actors are one elegant way to tame that complexity.
