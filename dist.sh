@@ -2,6 +2,19 @@
 
 set -e
 
+# Parse CLI arguments
+BUILD_FUTURE=false
+for arg in "$@"; do
+  if [ "$arg" = "--buildFuture" ]; then
+    BUILD_FUTURE=true
+  fi
+done
+
+# Check if VERCEL_ENV is preview or development
+if [ "$VERCEL_ENV" = "preview" ] || [ "$VERCEL_ENV" = "development" ]; then
+  BUILD_FUTURE=true
+fi
+
 echo "\033[0;1mBuilding for environment: \033[0;1;35mproduction\033[0;0m"
 
 echo "\033[0;1mHugo version\033[0;0m"
@@ -20,7 +33,11 @@ echo "\033[0;1mRefreshing theme dependencies...\033[0;0m"
 # Compile the code with the "production" environment
 echo "\033[0;1mBuilding...\033[0;0m"
 #hugo --environment=production --buildFuture
-hugo --environment=production --minify
+if [ "$BUILD_FUTURE" = true ]; then
+  hugo --environment=production --minify --buildFuture
+else
+  hugo --environment=production --minify
+fi
 
 # Remove files that shouldn't be published
 echo "\033[0;1mRemoving unnecessary files...\033[0;0m"
