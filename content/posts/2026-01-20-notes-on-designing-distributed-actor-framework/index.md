@@ -1,7 +1,7 @@
 ---
 title: "On Designing a Distributed Actor Framework"
 description: "Notes from my experiences using, maintaining, and designing actor frameworks"
-date: 2025-01-20 00:00:00
+date: 2026-01-20 00:00:00
 author:
   name: "Alessandro Segala"
   handle: "ItalyPaleAle"
