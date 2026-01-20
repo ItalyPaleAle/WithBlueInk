@@ -77,45 +77,73 @@ The implementation typically involves a mutex or similar synchronization primiti
 
 ### Actor lifecycle
 
-One of the elegant properties of the actor model is that actors don't require **explicit activation**. Clients invoke an actor by type and ID, and if it's not currently active, the runtime activates it transparently on a capable host. The client doesn't know or care whether the actor was already running.
+One of the elegant properties of the actor model is that **actors don't require explicit activation**. Clients invoke an actor by type and ID, and if it's not currently active, the runtime activates it transparently on a capable host. The client doesn't know or care whether the actor was already running.
 
-Many frameworks allow actor definitions to include **activation callbacks**. This might be a class constructor, or a dedicated method like Orleans's `OnActivateAsync`. These callbacks let actors initialize state, establish connections, or perform other setup work.
+Many frameworks allow actor definitions to include **activation callbacks**. This might be a class constructor, or a dedicated method like Orleans' `OnActivateAsync`: these callbacks let actors initialize state, establish connections, or perform other setup work.
 
-While active, actors should keep as much state as possible in memory for performance. Thanks to turn-based concurrency, there's no risk of concurrent modifications, so reads can be served directly from memory without synchronization. The exception is actors with very large state, where you might want to offload some data to disk or external storage.
+While active, actors should **keep as much state as possible in memory** for performance. Thanks to turn-based concurrency, there's no risk of concurrent modifications, so reads can be served directly from memory without synchronization. The exception is actors with very large state, where you might want to offload some data to disk or external storage.
 
-When an actor has been idle for a configurable period, the runtime can **hibernate** it. In practice, this means deleting its in-memory state. The **idle timeout** should be configurable per actor type since the right value depends on your access patterns. Longer timeouts mean actors stay warm and responsive, but too long and you risk running out of memory with many idle actors consuming resources.
+When an actor has been idle for a configurable period, the runtime can **hibernate** it. In practice, this means deleting its in-memory state. The _idle timeout_ should be configurable per actor type, since the right value depends on your access patterns. Longer timeouts mean actors stay warm and responsive, but too long and you risk running out of memory with many idle actors consuming resources.
 
-If the framework supports it, hibernation can trigger a **deactivation callback** (like Orleans's `OnDeactivateAsync`) for cleanup work. But here's a critical point: **do not rely on the deactivation callback being invoked**. Actors can disappear without warning if the host process crashes or the server goes down. Any state you care about preserving must be persisted before the deactivation callback, not during it.
+If the framework supports it, hibernation can trigger a **deactivation callback** (like Orleans' `OnDeactivateAsync`) for cleanup work. But here's a critical point: **do not rely on the deactivation callback being invoked**: actors can disappear without warning if the host process crashes or the server goes down. Any state you care about preserving must be persisted before the deactivation callback, not during it.
 
-When a client invokes a hibernated actor, the runtime simply activates it again. The runtime has no special knowledge of whether an actor is "new" or "resuming." Actors themselves don't know either. On activation, the actor fetches any **persisted state** if it exists, and proceeds from there.
+When a client invokes a hibernated actor, the runtime simply activates it again. The runtime has no special knowledge of whether an actor is "new" or "resuming", and actors themselves don't know either. On activation, the actor fetches any persisted state if it exists, and proceeds from there.
 
 ### Managing actor state
 
 Actors need somewhere to store state that survives hibernation and host failures. This is typically an external **datastore** like a relational database, a key-value store, or a document database.
 
-The framework should provide APIs for actors to read and write their state. A common pattern is a **key-value interface** scoped to the actor: `GetState(key)` and `SetState(key, value)`. Some frameworks offer richer abstractions, but key-value gets you surprisingly far.
+The framework should provide APIs for actors to read and write their state. A common pattern is a key-value interface **scoped to the actor**: `GetState(key)` and `SetState(key, value)`. Some frameworks offer richer abstractions, but key-value is very effective on its own.
 
-**Consistency** matters here. When an actor writes state and then reads it back, it must see its own write. This sounds obvious, but it constrains your choice of datastores and replication strategies. **Eventual consistency** is usually not acceptable for actor state.
+Consistency matters here. When an actor writes state and then reads it back, it must see its own write, even if it's been moved to a different host (or datacenter) in the meanwhile: eventual consistency is usually not acceptable for actor state. This often constrains your choice of datastores and replication strategies.
 
-**Serialization format** is another consideration. JSON is human-readable and debuggable. Protocol Buffers or MessagePack are more compact and faster. The choice affects storage costs, serialization overhead, and how painful debugging will be when something goes wrong.
+Another consideration is the serialization format: JSON is human-readable and debuggable, ProtoBuf or MessagePack are more compact and faster. The choice affects storage costs, serialization overhead, debuggability, and the ability to share data between systems written with different technologies.
 
 ### Alarms or reminders
 
 Actors often need to do work at some point in the future. Maybe an Order actor should check if payment has been received after 30 minutes, or a Session actor should expire after an hour of inactivity.
 
-**Alarms** (sometimes called **reminders**) let an actor schedule a future invocation of itself. They can be **one-shot** or **repeating**. The key property is that alarms survive hibernation and even host restarts. If an actor sets an alarm and then hibernates, the runtime will reactivate the actor when the alarm fires.
+**Alarms** (sometimes called **reminders**) let an actor schedule a future invocation of itself. They can be **one-shot** or **repeating** on an interval, optionally with a maximum number of repetitions or a TTL after which the alarm is automatically deleted.
 
-This means alarms need **persistent storage**, separate from the actor state itself. The runtime must track all pending alarms and ensure they fire at approximately the right time. "Approximately" because in a distributed system, you can't guarantee exact timing, but you can get close enough for most use cases.
+When an alarm fires, it's delivered as a regular message to the actor. With turn-based concurrency, alarms wait for the actor to become available, just like any other request. If the actor is hibernated when the alarm's due time comes up, the runtime activates it on a capable host (assuming there's capacity). This means alarms survive hibernation and even host restarts: if an actor sets an alarm and then hibernates, the runtime will reactivate the actor when the alarm fires.
 
-One implementation detail: alarms for a hibernated actor will wake it up. This is usually the desired behavior, but it means an alarm is also a way to keep an actor from ever truly going idle.
+> **Fire-and-forget with alarms**. An interesting case: alarms can be scheduled for "right now" (with a due time in the past or immediate). This enables patterns like _fire-and-forget messaging_, where you want to invoke an actor without waiting for a response. The alarm gets queued for immediate execution, and you get the framework's built-in retry logic for free.
+
+#### Alarm identity and APIs
+
+Each alarm needs a unique identifier: typically a tuple of **`(actorType, actorId, alarmName)`**: the `alarmName` lets a single actor have multiple distinct alarms.
+
+Your framework needs at least two APIs for alarms:
+
+1. Create or update: If an alarm with the same name already exists for that actor, the old one is replaced. This is important for patterns like "reset the session timeout on every user action."
+2. Delete: Cancel a pending alarm.
+
+A design choice: should only the actor itself be allowed to manage its alarms, or can external clients create and delete alarms too? Restricting to the actor itself is safer and simpler to reason about, but external alarm creation can enable useful patterns like scheduled job triggering.
+
+#### Centralized alarm execution
+
+It's generally best to have a **centralized service handle alarm execution**. In Francis, the same controller that handles actor placement also executes alarms. The centralized service watches for alarms that are due, makes a synchronous invocation to the actor, waits for the work to complete, and only then marks the alarm as done (or schedules the next occurrence for repeating alarms).
+
+Alarms need **persistent storage** so they survive controller crashes. The storage tracks the alarm's identity, due time, repeat interval (if any), and any payload to deliver to the actor.
+
+#### Delivery guarantees and edge cases
+
+Like everything in distributed systems, achieving _exactly-once_ delivery for alarms is incredibly hard. Most systems settle for **_at-least-once_ delivery**, which means alarms might occasionally be delivered more than once.
+
+Consider this scenario: the actor receives the alarm, completes the work, sends an acknowledgment back to the controller, but the controller never receives it due to a network failure. The controller will retry, and the actor receives the alarm again. Your actor code needs to handle this gracefully, ideally by making alarm handlers idempotent.
+
+A few other edge cases to consider:
+
+- Alarm controller downtime: if the controller (or all its replicas) is down when an alarm is due, it should execute as soon as possible after coming back online.  
+  However, for repeating alarms, if multiple occurrences were missed (say, a per-minute alarm during a 10-minute outage), execute it only once rather than firing 10 times in rapid succession and overwhelming the actor.
+- No available hosts: if there's no host capable of running the actor (because all hosts for that actor type are down or at capacity), the alarm should be retried later once capacity becomes available, rather than being silently dropped.
+- Failed execution: if an alarm fires but the actor invocation fails, the controller should retry after a delay. However, set cap the retries eventually to avoid infinite loops when an actor is fundamentally broken.
 
 ### Failure handling and retries
 
 Distributed systems fail in creative ways. Hosts crash, networks partition, databases become temporarily unavailable. Your actor framework needs a strategy for handling these failures.
 
 For actor invocations, the question is: what happens when a call fails? Some frameworks automatically retry with **exponential backoff**. Others surface the error to the caller and let them decide. The right choice depends on whether the operation is **idempotent** and how your users expect errors to behave.
-
-Alarms need their own retry logic. If an alarm fires but the actor invocation fails, the alarm should typically retry rather than being lost forever. But you need to cap the retries eventually to avoid infinite loops when an actor is fundamentally broken.
 
 **Host failures** are particularly interesting. If a host crashes while an actor is processing a request, what happens? The client will see a connection error and might retry. But if the actor had partially updated its state before crashing, you could end up with **inconsistent data**. This is where careful state management and idempotency become important.
 
@@ -224,7 +252,7 @@ Two approaches to **state cleanup**:
 - **Passive cleanup via TTL**: When state is persisted, it includes a time-to-live (TTL).  
   Either the datastore supports TTLs natively (some do), or the framework runs a background job that periodically deletes expired state. For Postgres or SQLite, this might be a scheduled query that removes rows past their TTL timestamp.
 
-**Alarms** themselves generally shouldn't be garbage collected, since an alarm for a hibernated actor is supposed to wake it up. But repeating alarms might benefit from a maximum lifetime to prevent runaway actors from consuming resources indefinitely.
+**Alarms** themselves generally should not be garbage collected, since an alarm for a hibernated actor is supposed to wake it up. But repeating alarms might benefit from a maximum lifetime to prevent runaway actors from consuming resources indefinitely.
 
 ### Backpressure
 
