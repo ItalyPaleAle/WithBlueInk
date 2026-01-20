@@ -8,9 +8,9 @@ author:
 comments: yes
 resourceBundle: designing-distributed-actor-framework
 coverImage:
-  author: "Paolo Chiabrando"
+  author: "Gabriel Vasiliu"
   linkName: "Unsplash"
-  linkURL: "https://unsplash.com/@chiabra"
+  linkURL: "https://unsplash.com/@conexspot"
 slug: "notes-on-designing-distributed-actor-framework"
 params:
   ogTitle: "Notes on Designing a Distributed Actor Framework"
