@@ -9,10 +9,8 @@ title: "About"
 noCover: true
 ---
 
-Hi! I'm **Alessandro Segala**, and I'm currently working for Microsoft as a Product Marketing Manager for developer tools and open source software on Azure.
+Hey, I'm Alessandro (or Ale). I like building things, breaking them, and figuring out why they broke. I maintain a few open source projects, and dive way too deep into anything involving networking or distributed systems.
 
-I'm also an author, having published my first book with Packt in September 2020: [**Svelte 3 Up and Running**](https://www.amazon.com/Svelte-Up-Running-practical-production-ready-ebook/dp/B08D6T6BKS).
+These days I'm a Solutions Architect at Vercel. Before that I spent close to a decade at Microsoft working on Azure and developer tools like VS Code. Along the way I've picked up a habit of turning half-finished side projects into open source repos.
 
-Among the products I'm lucky to be working on at Microsoft is Visual Studio Code. I am also helping developers building apps with JavaScript/Node.js and Python on our Azure cloud platform.
-
-I've been writing software, professionally and as a hobby, for over 15 years, using technologies including JavaScript/Node.js, Go, and previously PHP. I have experience building full-stack apps, and even had a stint building apps for iOS and macOS.
+When I'm not working, I'm usually messing around in my homelab, testing hardware I definitely don't need, or planning trips I'll end up documenting just for fun.
