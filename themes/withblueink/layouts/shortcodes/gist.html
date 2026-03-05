@@ -1,0 +1,28 @@
+{{- $username := "" -}}
+{{- $gistID := "" -}}
+{{- $file := "" -}}
+
+{{- if .IsNamedParams -}}
+  {{- $username = .Get "username" | default (.Get "user") -}}
+  {{- $gistID = .Get "id" | default (.Get "gist") -}}
+  {{- $file = .Get "file" | default "" -}}
+{{- else -}}
+  {{- $username = .Get 0 -}}
+  {{- $gistID = .Get 1 -}}
+  {{- if ge (len .Params) 3 -}}
+    {{- $file = .Get 2 -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if or (not $username) (not $gistID) -}}
+  {{- errorf "gist shortcode requires username and gist id: %s" .Position -}}
+{{- end -}}
+
+{{- $src := printf "https://gist.github.com/%s/%s.js" $username $gistID -}}
+{{- if $file -}}
+  {{- $src = printf "%s?file=%s" $src (urlquery $file) -}}
+{{- end -}}
+
+<div class="gist-embed">
+  <script src="{{ $src | safeURL }}"></script>
+</div>
