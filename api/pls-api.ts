@@ -36,6 +36,21 @@ export default {
     }
 
     // Make the request
-    return fetch(newReq)
+    const upstreamResponse = await fetch(newReq)
+
+    // Strip Cloudflare-specific response headers
+    const responseHeaders = new Headers(upstreamResponse.headers)
+    for (const key of responseHeaders.keys()) {
+      if (key.toLowerCase().startsWith('cf-')) {
+        responseHeaders.delete(key)
+      }
+    }
+
+    // Send the response
+    return new Response(upstreamResponse.body, {
+      status: upstreamResponse.status,
+      statusText: upstreamResponse.statusText,
+      headers: responseHeaders,
+    })
   },
 }
