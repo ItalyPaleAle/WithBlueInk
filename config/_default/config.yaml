@@ -8,7 +8,8 @@ ignoreFiles:
   - "Dockerfile"
 
 # Default language
-languageCode: "en-us"
+language:
+  locale: "en-us"
 
 # Basic metadata
 title: "With Blue Ink"

@@ -9,15 +9,15 @@
 @import "basiclightbox/dist/basicLightbox.min.css";
 
 /* Fonts */
-@import "font-cascadia-code.css";
-@import "font-lato.css";
-@import "font-merriweather.css";
+@import "./font-cascadia-code.css";
+@import "./font-lato.css";
+@import "./font-merriweather.css";
 
 /* Chroma themes for syntax highlighting */
-@import "chroma.css";
+@import "./chroma.css";
 
 /* Themes */
-@import "themes.css";
+@import "./themes.css";
 
 /*! purgecss end ignore */
 
